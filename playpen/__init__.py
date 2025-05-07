@@ -1,8 +1,24 @@
+import os
+
+os.environ["CLEM_DISABLE_BANNER"] = "1"
+
+BANNER = \
+    r"""
+.--------------..--------------..--------------..--------------..--------------..--------------..--------------.
+|   ______     ||   _____      ||      __      ||  ____  ____  ||   ______     ||  _________   || ____  _____  |
+|  |_   __ \   ||  |_   _|     ||     /  \     || |_  _||_  _| ||  |_   __ \   || |_   ___  |  |||_   \|_   _| |
+|    | |__) |  ||    | |       ||    / /\ \    ||   \ \  / /   ||    | |__) |  ||   | |_  \_|  ||  |   \ | |   |
+|    |  ___/   ||    | |   _   ||   / ____ \   ||    \ \/ /    ||    |  ___/   ||   |  _|  _   ||  | |\ \| |   |
+|   _| |_      ||   _| |__/ |  || _/ /    \ \_ ||    _|  |_    ||   _| |_      ||  _| |___/ |  || _| |_\   |_  |
+|  |_____|     ||  |________|  |||____|  |____|||   |______|   ||  |_____|     || |_________|  |||_____|\____| |
+'--------------''--------------''--------------''--------------''--------------''--------------''--------------'
+"""  # Blocks font, thanks to http://patorjk.com/software/taag/
+
+if os.getenv("PLAYPEN_DISABLE_BANNER", "0") not in ("1", "true", "yes", "on"):
+    print(BANNER)
+
 from contextlib import contextmanager
 from typing import List
-
-from clemcore.backends import Model
-from clemcore.clemgame import GameSpec, benchmark
 
 from playpen.buffers import RolloutBuffer, BranchingRolloutBuffer, StepRolloutBuffer
 from playpen.callbacks import BaseCallback, GameRecordCallback, RolloutProgressCallback, CallbackList
@@ -26,6 +42,9 @@ __all__ = [
     "make_tree_env",
     "make_env"
 ]
+
+from clemcore.backends import Model
+from clemcore.clemgame import GameSpec, benchmark
 
 
 @contextmanager

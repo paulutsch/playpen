@@ -1,33 +1,30 @@
 import argparse
 import inspect
+import importlib.util as importlib_util
 import os
 
 import clemcore.cli as clem
 from clemcore.backends import ModelSpec, ModelRegistry, BackendRegistry
 from clemcore.clemgame import GameRegistry
-from clemcore.playpen import BasePlayPen
+from playpen import BasePlayPen
 
 
-def train(learner: ModelSpec, teacher: ModelSpec, lookup_name: str):
-    import importlib.util as importlib_util
-
+def train(file_path: str, learner: ModelSpec, teacher: ModelSpec, temperature: float, max_tokens: int):
     def is_playpen(obj):
         return inspect.isclass(obj) and issubclass(obj, BasePlayPen) and obj is not BasePlayPen
 
-    lookup_name = lookup_name if lookup_name.endswith(".py") else lookup_name + ".py"
-    playpen_cls = None
-    for file_name in os.listdir():
-        if file_name == lookup_name:
-            module_path = os.path.join(os.getcwd(), file_name)
-            spec = importlib_util.spec_from_file_location(os.path.splitext(lookup_name)[0], module_path)
-            module = importlib_util.module_from_spec(spec)
-            spec.loader.exec_module(module)
-            playpen_subclasses = inspect.getmembers(module, predicate=is_playpen)
-            _, playpen_cls = playpen_subclasses[0]
-            break
-
-    if playpen_cls is None:
-        raise RuntimeError(f"No playpen trainer found in file '{lookup_name}'")
+    try:
+        file_name = os.path.splitext(file_path)[0]
+        spec = importlib_util.spec_from_file_location(file_name, file_path)
+        module = importlib_util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        playpen_subclasses = inspect.getmembers(module, predicate=is_playpen)
+        if len(playpen_subclasses) == 0:
+            raise ValueError(f"Cannot load playpen trainer, because no BasePlayPen found in {file_path}.\n"
+                             f"Make sure that you have implemented a subclass of BasePlayPen and try again.")
+        _, playpen_cls = playpen_subclasses[0]
+    except Exception as e:
+        raise RuntimeError(f"Cannot load playpen trainer, because {e}")
 
     game_registry = GameRegistry.from_directories_and_cwd_files()
     model_registry = ModelRegistry.from_packaged_and_cwd_files()
@@ -49,13 +46,13 @@ def train(learner: ModelSpec, teacher: ModelSpec, lookup_name: str):
     print(f"Dynamically import backend {learner_spec.backend}")
     backend = backend_registry.get_backend_for(learner_spec.backend)
     learner_model = backend.get_model_for(learner_spec)
-    learner_model.set_gen_args(max_tokens=300, temperature=0.0)
+    learner_model.set_gen_args(max_tokens=max_tokens, temperature=temperature)
     print(f"Successfully loaded {learner_spec.model_name} model")
 
     print(f"Dynamically import backend {teacher_spec.backend}")
     backend = backend_registry.get_backend_for(teacher_spec.backend)
     teacher_model = backend.get_model_for(teacher_spec)
-    teacher_model.set_gen_args(max_tokens=300, temperature=0.0)
+    teacher_model.set_gen_args(max_tokens=max_tokens, temperature=temperature)
     print(f"Successfully loaded {teacher_spec.model_name} model")
 
     playpen_cls(learner_model, teacher_model).learn_interactive(game_registry)
@@ -71,8 +68,9 @@ def cli(args: argparse.Namespace):
             clem.list_backends(args.verbose)
         else:
             print(f"Cannot list {args.mode}. Choose an option documented at 'list -h'.")
-    if args.command_name == "train":
-        train(ModelSpec.from_string(args.learner), ModelSpec.from_string(args.teacher), args.lookup_name)
+    if args.command_name == "run":
+        train(args.file_path, ModelSpec.from_string(args.learner), ModelSpec.from_string(args.teacher),
+              args.temperature, args.max_tokens)
 
 
 def main():
@@ -85,11 +83,15 @@ def main():
     list_parser.add_argument("-v", "--verbose", action="store_true")
     list_parser.add_argument("-s", "--selector", type=str, default="all")
 
-    train_parser = sub_parsers.add_parser("train")
-    train_parser.add_argument("-l", "--learner", type=str)
-    train_parser.add_argument("-t", "--teacher", type=str)
-    train_parser.add_argument("-f", "--lookup_name", type=str, default="trainer", required=False,
-                              help="The name of the trainer file to use for learning (without .py extension)")
+    train_parser = sub_parsers.add_parser("run")
+    train_parser.add_argument("file_path", type=str,
+                              help="The path to the trainer file to use for learning.")
+    train_parser.add_argument("-l", "--learner", type=str,
+                              help="The model name of the learner model (as listed by 'playpen list models').")
+    train_parser.add_argument("-t", "--teacher", type=str,
+                              help="The model name of the partner model (as listed by 'playpen list models').")
+    train_parser.add_argument("-T", "--temperature", type=float, required=False, default=0.0)
+    train_parser.add_argument("-L", "--max_tokens", type=int, required=False, default=300)
 
     cli(parser.parse_args())
 
