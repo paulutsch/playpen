@@ -46,5 +46,5 @@ class BasePlayPen(abc.ABC):
         return player.model is self.teacher
 
     @abc.abstractmethod
-    def learn_interactive(self, game_registry: GameRegistry):
+    def learn(self, game_registry: GameRegistry):
         pass

@@ -55,7 +55,7 @@ def train(file_path: str, learner: ModelSpec, teacher: ModelSpec, temperature: f
     teacher_model.set_gen_args(max_tokens=max_tokens, temperature=temperature)
     print(f"Successfully loaded {teacher_spec.model_name} model")
 
-    playpen_cls(learner_model, teacher_model).learn_interactive(game_registry)
+    playpen_cls(learner_model, teacher_model).learn(game_registry)
 
 
 def cli(args: argparse.Namespace):
