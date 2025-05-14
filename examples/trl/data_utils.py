@@ -7,7 +7,6 @@ from tqdm import tqdm
 from clemcore.clemgame.resources import load_json
 
 
-# todo add episode results to a sample's meta data
 def create_conversational_dataset_for(top_dir):
     interactions_files = glob(f"{top_dir}/**/interactions.json", recursive=True)
     dataset_file = "results.jsonl"
@@ -18,7 +17,7 @@ def create_conversational_dataset_for(top_dir):
         print(f"Collecting {len(interactions_files)} interactions")
         for interactions_file in tqdm(interactions_files):
             interactions = load_json(interactions_file)
-            # the following information should become part of 'meta'
+            # the following information should become part of 'meta' in interactions.json
             if "meta" in interactions:
                 game_name = ...
                 experiment_name = interactions["meta"]["experiment_name"]
@@ -29,6 +28,18 @@ def create_conversational_dataset_for(top_dir):
                 experiment_name = split[-3]
                 game_id = split[-2]
 
+            outcome = None
+            try:
+                scores = load_json(os.path.join(os.path.dirname(interactions_file), "scores.json"))
+                episodes_scores = scores["episode scores"]
+                if episodes_scores["Aborted"]:
+                    outcome = "aborted"
+                if episodes_scores["Success"]:
+                    outcome = "success"
+                if episodes_scores["Lose"]:
+                    outcome = "failure"
+            except Exception as e:  # cannot determine outcome
+                pass
             # We collect each episode from the perspective of all players individually
             # todo: player value's should become a structured entity with name and model
             for player_name, player_details in interactions["players"].items():
@@ -70,17 +81,19 @@ def create_conversational_dataset_for(top_dir):
                             messages.append(dict(role="user", content=event["action"]["content"]))
                         if event["from"] == player_name:  # a message from the player (assistant)
                             messages.append(dict(role="assistant", content=event["action"]["content"]))
-                f.write(json.dumps({
-                    "messages": messages,
-                    "meta": {
-                        "game": game_name,
-                        "experiment": experiment_name,
-                        "game_id": game_id,
-                        "player_name": player_name,
-                        "game_role": game_role,
-                        "model": model_name,
-                    }
-                }) + '\n')
+                if messages:  # ignore episodes where player had no turn because of initial failures of the other
+                    f.write(json.dumps({
+                        "messages": messages,
+                        "meta": {
+                            "game": game_name,
+                            "experiment": experiment_name,
+                            "game_id": game_id,
+                            "player_name": player_name,
+                            "game_role": game_role,
+                            "model": model_name,
+                            "outcome": outcome
+                        }
+                    }) + '\n')
     for ex in exceptions:
         print(ex)
     counter = 0
