@@ -1,4 +1,3 @@
-from clemcore.backends import Model
 from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
 
@@ -10,8 +9,8 @@ from playpen import BasePlayPen
 
 class SimpleSftTrainer(BasePlayPen):
 
-    def __init__(self, learner: HuggingfaceLocalModel, teacher: Model):
-        super().__init__(learner, teacher)
+    def __init__(self, learner: HuggingfaceLocalModel):
+        super().__init__(learner)
         # Note: We configure the proper chat template for the tokenizer already during model loading in the backend
 
     def learn(self, game_registry: GameRegistry):
@@ -33,8 +32,8 @@ class SimpleSftTrainer(BasePlayPen):
 
         # Initialize trainer context
         trainer = trl.SFTTrainer(
-            model=self.model,
-            training_dataset=dataset["train"],
+            model=self.learner.model,
+            train_dataset=dataset["train"],
             eval_dataset=dataset["test"],
             args=config
         )

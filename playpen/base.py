@@ -10,7 +10,7 @@ from playpen.callbacks import CallbackList, BaseCallback
 
 class BasePlayPen(abc.ABC):
 
-    def __init__(self, learner: Model, teacher: Model):
+    def __init__(self, learner: Model, teacher: Model = None):
         self.learner = learner
         self.teacher = teacher
         self.num_timesteps = 0
