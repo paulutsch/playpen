@@ -82,7 +82,8 @@ These messages usually iterate on roles, that is, between a `user` and an `assis
 
 > **Note:** We already prepared a small dataset example. You can find it under `examples/trl/results.jsonl`.
 > Hence, you can skip the code segments in this section if you do not want to overwrite that file.
-> The full dataset is in results.jsonl.zip and you have to unpack it first.
+> The full dataset for v2.0 is given in results.jsonl.zip.
+> The unpacked file is >100MB in size and therefore git-ignored.
 
 We use the interactions already recorded in https://github.com/clembench/clembench-runs.git.
 Hence, we clone the repository (to a place outside of the workspace, because the repository is quite large):
