@@ -17,8 +17,9 @@ class SimpleSftTrainer(BasePlayPen):
         # Load the "raw" conversational dataset, that is, a list of "messages" with iterating roles and text content
         dataset = load_dataset("json", data_files="examples/trl/results.jsonl", split="train")
 
-        # Only use the episodes we are interested to train on: here the ones with successful outcome
-        dataset = dataset.filter(lambda episode: episode["meta"]["outcome"] == "success")
+        # Only use the episodes we are interested to train on: here the llama3-8b ones with successful outcome
+        dataset = dataset.filter(lambda episode: episode["meta"]["outcome"] == "success"
+                                                 and episode["meta"]["model"] == "Meta-Llama-3.1-8B-Instruct")
 
         # We shuffle and split the remaining filtered samples to receive a test split
         dataset = dataset.train_test_split(0.2, shuffle=True, seed=42)
