@@ -1,3 +1,4 @@
+import argparse
 import json
 import os.path
 import random
@@ -10,7 +11,7 @@ from clemcore.clemgame.resources import load_json
 def create_conversational_dataset_for(top_dir):
     interactions_files = glob(f"{top_dir}/**/interactions.json", recursive=True)
     dataset_file = "results.jsonl"
-    dataset_path = os.path.join(top_dir, dataset_file)
+    dataset_path = os.path.join(os.path.abspath(__file__), dataset_file)
     print(f"Writing dataset file to {dataset_path} interactions")
     exceptions = set()
     with open(dataset_path, "w", encoding="utf-8") as f:
@@ -114,5 +115,13 @@ def create_conversational_dataset_for(top_dir):
     print()
 
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("top_dir",
+                        help="The directory containing benchmark results for one or more models")
+    args = parser.parse_args()
+    create_conversational_dataset_for(args.top_dir)
+
+
 if __name__ == "__main__":
-    create_conversational_dataset_for("results")
+    main()
