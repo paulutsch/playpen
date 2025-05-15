@@ -80,13 +80,15 @@ Hence, we convert the interactions recorded in the `interactions.json` into a co
 The main property of such a dataset is that it contains samples which specify a list of `messages`.
 These messages usually iterate on roles, that is, between a `user` and an `assistant`.
 
-> **Note:** We already prepared the dataset. You can find it under `examples/trl/results.jsonl`.
-> Hence, you can skip the code segements in this section if you do not want to overwrite that file.
+> **Note:** We already prepared a small dataset example. You can find it under `examples/trl/results.jsonl`.
+> Hence, you can skip the code segments in this section if you do not want to overwrite that file.
+> The full dataset is in results.jsonl.zip and you have to unpack it first.
 
 We use the interactions already recorded in https://github.com/clembench/clembench-runs.git.
-Hence, we clone the repository:
+Hence, we clone the repository (to a place outside of the workspace, because the repository is quite large):
 
 ```
+# This might take a while since the repository is quite large!
 git clone https://github.com/clembench/clembench-runs.git
 ```
 
@@ -94,7 +96,7 @@ These contain results for each version of the benchmark. We are interested in th
 Therefore, we run the following command:
 
 ```
-python3 examples/trl/data_utils.py clembench-runs/v2.0
+python3 examples/trl/data_utils.py <path-to>/clembench-runs/v2.0
 ```
 
 This will create in `examples/trl/results.jsonl` containing all interactions in form of a conversational dataset.

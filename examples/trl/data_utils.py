@@ -11,7 +11,7 @@ from clemcore.clemgame.resources import load_json
 def create_conversational_dataset_for(top_dir):
     interactions_files = glob(f"{top_dir}/**/interactions.json", recursive=True)
     dataset_file = "results.jsonl"
-    dataset_path = os.path.join(os.path.abspath(__file__), dataset_file)
+    dataset_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), dataset_file)
     print(f"Writing dataset file to {dataset_path} interactions")
     exceptions = set()
     with open(dataset_path, "w", encoding="utf-8") as f:
