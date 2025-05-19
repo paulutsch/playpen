@@ -27,7 +27,7 @@ class SimpleSftTrainer(BasePlayPen):
         # Initialize training configuration
         config = trl.SFTConfig(  # inherits TrainingArguments
             max_length=300,
-            output_dir=f"ckpts/{self.learner.get_name()}",
+            output_dir=f"models/sft/{self.learner.get_name()}",
             eval_strategy="epoch"
         )
 

@@ -25,9 +25,32 @@ Make playpen available via CLI and install TRL enable running the examples.
 pip install '.[trl]'
 ```
 
-Make the clembench games available for learning e.g. taboo.
+Make the clembench games, e.g. taboo, available for learning.
+For this, clone the clembench repository to a directory of your choice. 
 ```bash
 git clone https://github.com/clp-research/clembench
+```
+
+Furthermore, we must install the clembench game requirements in our venv so that all games can be run properly:   
+```bash
+pip install your/path/to/clembench/requirements.txt
+```
+
+
+Then, back in you playpen workspace, copy the `game_registry.json.template` to `game_registry.json` so that the `clem` CLI can find it in the current working directory.
+Set the path to the directory which contains the clembench repository.
+The following command has a similar effect:
+```bash
+echo '[{"benchmark_path": "your/path/to/clembench"}]' > game_registry.json
+```
+
+> **Note:** Adding the game registry file is not necessary, 
+> when you clone the clembench repository directly in your playpen workspace. 
+> In this case the clem CLI can directly find the games by looking into sub-directories.
+ 
+In any case, check that games are available via:
+```bash
+clem list games
 ```
 
 ## Supervised Finetuning
@@ -125,13 +148,41 @@ playpen run examples/trl/sft_trainer_simple.py -l smol-135m
 ```
 
 The `playpen` CLI properly loads the huggingface model and runs the trainer code in the specified file. 
-When the command finished successfully, then there will be a `ckpts/smol-135m` directory containing the trained model.
+When the command finished successfully, then there will be a `models/sft/smol-135m` directory 
+containing a checkpoint folder, e.g. `checkpoint-84` with the updated parameters of the model.
 
-> **Note:** Have a look at the file for implementation details.
+> **Note:** Have a look at `examples/trl/sft_trainer_simple.py` for implementation details.
 
 ### Evaluate the fine-tuned model
 
-tbd
+To evaluate the effectiveness of our SFT approach, we run the trained model again on the clembench.
+For this, we first register our trained model in our local `model_registry.json` 
+by adding an entry that points to the checkpoint folder:
+```json
+{
+  "model_name": "smol-135m-sft",
+  "backend": "huggingface_local",
+  "huggingface_id": "models/sft/smol-135m/checkpoint-84",
+  "release_date": "2024-09-04",
+  "open_weight": true,
+  "parameters": "135M",
+  "languages": ["en"],
+  "context_size": "2048",
+  "license": {
+    "name": "Apache 2.0",
+    "url": "https://www.apache.org/licenses/LICENSE-2.0"
+  },
+  "model_config": {
+    "premade_chat_template": true,
+    "eos_to_cull": "<\\|im_end\\|>"
+  }
+}
+```
+
+Then we can run the benchmark again, but this time with `-m smol-135m-sft`:  
+```bash
+clem run -g "{'benchmark':['2.0']}" -m smol-135m-sft
+```
 
 ### Parameter Efficient Fine-tuning
 
