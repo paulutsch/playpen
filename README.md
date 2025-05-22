@@ -205,14 +205,14 @@ Now we are ready to run the LoRA SFT TRL trainer example with a `llama3-8b` lear
 Since the interactions were already performed by other models, we do not need a teacher model in this case.
 The following commands runs the example training pipeline:
 ```bash
-playpen run examples/trl/sft_trainer_peft.py -l llama3-8b 
+playpen run examples/trl/sft_trainer_lora.py -l llama3-8b 
 ```
 
 The `playpen` CLI properly loads the huggingface model and runs the trainer code in the specified file. 
 When the command finished successfully, then there will be a `models/sft+lora/llama3-8b` directory 
 containing a checkpoint folder, e.g. `checkpoint-78` **containing only the adapter parameters**.
 
-> **Note:** Have a look at `examples/trl/sft_trainer_peft.py` for implementation details.
+> **Note:** Have a look at `examples/trl/sft_trainer_lora.py` for implementation details.
 
 To evaluate the LoRA fine-tuned model we register it in the local `modal_registry.json`, 
 especially pointing to a `peft_model` in the `model_config`, as follows:
@@ -244,9 +244,15 @@ With this addition to the local model registry, `clem` is able to load the peft 
 clem run -g "{'benchmark':['2.0']}" -m llama3-8b-sft
 ```
 
+> **Note:** This essentially evaluates the model on the same instances of gameplay that were seen during training. To properly measure generalization performance, you should use different (or create new) instances.
+
+> **Note:** If you want to train quantized models, then you can simply add `load_in_8bit: True` or `load_in_4bit: True`
+> in the model_config section of the model spec. Alternatively, you can also directly load a quantized model from the
+> huggingface hub by specifying the according huggingface_id.
+
 ## Learning in Interaction (not yet available)
 
-After SFT we can let the model learn more interactively with a teacher policy playing the other role in 2-player games.
+Having an SFT model ready, we can train more interactive training algorithm where a teacher policy plays in 2-player games the partner role.
 
 ### Running the TRL examples with local HF models
 
