@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "playpen"
+version = "2.0.0"
+description = "The Playpen Python package to train LLMs interactively in text-based environments."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = { text = "MIT" }
+authors = [
+    { name = "Philipp Sadler", email = "first.last@uni-potsdam.de" }
+]
+dependencies = [
+    "clemcore>=2.0.0,<3.0.0"
+]
+
+[project.optional-dependencies]
+trl = [
+    "accelerate==1.2.1", # fix version for clemcore[huggingface] compatibility
+    "transformers==4.51.1", # fix version for clemcore[huggingface] compatibility
+    "trl==0.17" # accelerate>=0.34.0 transformers>=4.46.0
+]
+
+[project.scripts]
+playpen = "playpen.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/lm-playpen/playpen"
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["build", "dist", "venv", "examples", "clembench"]
