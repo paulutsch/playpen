@@ -110,16 +110,14 @@ These messages usually iterate on roles, that is, between a `user` and an `assis
 
 We use the interactions already recorded in https://github.com/clembench/clembench-runs.git.
 Hence, we clone the repository (to a place outside of the workspace, because the repository is quite large):
-
-```
+```bash
 # This might take a while since the repository is quite large!
 git clone https://github.com/clembench/clembench-runs.git
 ```
 
 These contain results for each version of the benchmark. We are interested in the model behaviors for version 2.0.
 Therefore, we run the following command:
-
-```
+```bash
 python3 examples/trl/data_utils.py <path-to>/clembench-runs/v2.0
 ```
 
@@ -184,9 +182,67 @@ Then we can run the benchmark again, but this time with `-m smol-135m-sft`:
 clem run -g "{'benchmark':['2.0']}" -m smol-135m-sft
 ```
 
-### Parameter Efficient Fine-tuning
+### Parameter Efficient Fine-tuning (PEFT)
 
-tbd
+More capable models like `llama3-8b` usually do not fit into the RAM of a single GPU during training.
+A common technique to circumvent this, is a technique called low-rank adapters (LoRA) 
+where only a smaller set of parameters (adapters) is trained to improve the model's performance. 
+To make use of the LoRA support in TRL, we have to install the `peft` package 
+and provide the trainer with the following additional configuration argument:
+```python
+trainer = trl.SFTTrainer(
+    peft_config=LoraConfig(
+        r=16, lora_alpha=32,
+        lora_dropout=0.05,
+        target_modules="all-linear",
+        modules_to_save=["lm_head", "embed_token"],
+        task_type="CAUSAL_LM",
+    )
+)
+```
+
+Now we are ready to run the LoRA SFT TRL trainer example with a `llama3-8b` learner (`-l`).
+Since the interactions were already performed by other models, we do not need a teacher model in this case.
+The following commands runs the example training pipeline:
+```bash
+playpen run examples/trl/sft_trainer_peft.py -l llama3-8b 
+```
+
+The `playpen` CLI properly loads the huggingface model and runs the trainer code in the specified file. 
+When the command finished successfully, then there will be a `models/sft+lora/llama3-8b` directory 
+containing a checkpoint folder, e.g. `checkpoint-78` **containing only the adapter parameters**.
+
+> **Note:** Have a look at `examples/trl/sft_trainer_peft.py` for implementation details.
+
+To evaluate the LoRA fine-tuned model we register it in the local `modal_registry.json`, 
+especially pointing to a `peft_model` in the `model_config`, as follows:
+```json
+{
+  "model_name": "llama3-8b-sft",
+  "backend": "huggingface_local",
+  "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+  "release_date": "2024-07-23",
+  "open_weight": true,
+  "parameters": "8B",
+  "languages": ["en", "de", "fr", "it", "pt", "hi", "es", "th"],
+  "context_size": "128k",
+  "license": {
+    "name": "Meta",
+    "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+  },
+  "model_config": {
+    "peft_model": "models/sft+lora/llama3-8b/checkpoint-78",
+    "requires_api_key": true,
+    "premade_chat_template": true,
+    "eos_to_cull": "<\\|eot_id\\|>"
+  }
+}
+```
+
+With this addition to the local model registry, `clem` is able to load the peft model properly, when we run the benchmark:
+```bash
+clem run -g "{'benchmark':['2.0']}" -m llama3-8b-sft
+```
 
 ## Learning in Interaction (not yet available)
 
