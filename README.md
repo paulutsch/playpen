@@ -256,7 +256,45 @@ clem run -g "{'benchmark':['2.0']}" -m llama3-8b-sft
 
 ## Learning in Interaction (not yet available)
 
-Having an SFT model ready, we can train more interactive training algorithm where a teacher policy plays in 2-player games the partner role.
+Having an SFT model ready, we can now turn to more interactive training algorithms.
+
+### Running the GRPO+LoRA TRL example with self-play Llama3-8b (local) 
+
+The [clembench leaderboard](https://clembench.github.io/leaderboard.html) shows that the `Meta-Llama-3.1-8B-Instruct` model plays only 50% of the wordle game instances (v2.0) correctly and achieves only a quality score of 2.
+
+Therefore, in this experiment we are interested in the performance gain of letting the model play the same instances multiple times, so that it eventually reaches better quality scores, but at least adheres more often to the game rules.
+
+Hence, we use GRPO with a group size of 8, that is, we let the model play each instance (target word) of the wordle game `8` times, calculate the final reward for each gameplay and use LoRA to capture this learning signal in adapters: 
+```
+trainer = trl.GRPOTrainer(
+    peft_config=LoraConfig(
+        r=8, lora_alpha=16,
+        lora_dropout=0.05,
+        target_modules=["q_proj", "v_proj"],
+        modules_to_save=["lm_head", "embed_token"],
+        task_type="CAUSAL_LM",
+    )
+)
+```
+
+
+
+### Running the GRPO+LoRA TRL example with Llama3-8b (local) and gpt4o-mini (remote)
+
+Run the GRPO examples for a 2-player game. 
+In 2-player games, a teacher model plays the partner role. 
+In our case we use gpt4o-mini which is only accessible via a remote API.
+Hence, we need to add credentials to the key.json to access the model.
+```bash
+echo '{
+  "openai": {
+    "organisation": "your_organisation",
+    "api_key": "your_api_key"
+  }
+}' > key.json
+```
+> **Note:** An full template of the key.json for all supported remote backends is given in `key.json.template`.
+You can also manually insert the required information there and rename the file to `key.json`.
 
 ## Implement your own playpen trainer
 
@@ -277,39 +315,29 @@ This saves the model checkpoint under a newly created folder at `models/sft+lora
 
 ### Running the GRPO+LoRA TRL example with self-play Llama3-8b (local) 
 
-Run the GRPO+LoRA TRL trainer example with a Llama3-8b learner (`-l`) and
-Llama3-8b teacher (`-t`) model (for 2-player games) using max token length (`-L`) 300.
+Run the GRPO+LoRA TRL trainer example with a Llama3-8b learner (`-l`) 
+using max token length (`-L`) 300 and temperature (`-T`) 0.75.
 
 ```bash
-playpen examples/trl/grpo_trainer_lora_sp.py -l llama3-8b -t llama3-8b -L 300
+playpen examples/trl/grpo_trainer_lora_sp.py -l llama3-8b -L 300 -T 0.75
 ```
 
 This creates a `playpen-records` directory containing the generated interactions 
-and saves the model checkpoint under a newly created folder at `models/grpo+lora/llama3-8b`.
+and saves the model checkpoint under a newly created folder at `models/grpo+lora/llama3-8b/selfplay`.
 
 ### Running the GRPO+LoRA TRL example with Llama3-8b (local) and gpt4o-mini (remote)
 
-Run the GRPO examples for a 2-player game. 
-In 2-player games, a teacher model plays the partner role. 
-In our case we use gpt4o-mini which is only accessible via a remote API.
-Hence, we need to add credentials to the key.json to access the model.
-```bash
-echo '{
-  "openai": {
-    "organisation": "your_organisation",
-    "api_key": "your_api_key"
-  }
-}' > key.json
-```
-> **Note:** An full template of the key.json for all supported remote backends is given in `key.json.template`.
-You can also manually insert the required information there and rename the file to `key.json`.
-
-Run the GRPO+LoRA TRL trainer example with a Llama3-8b learner (`-l`) and a GPT-4 teacher (`-t`) model using temperature (`-T`) 0.75. 
+Run the GRPO+LoRA TRL trainer example with a Llama3-8b learner (`-l`) 
+and a GPT-4 teacher (`-t`) model (for 2-player games) using max token length (`-L`) 300 and temperature (`-T`) 0.75. 
 
 ```bash
 playpen examples/trl/grpo_trainer_lora_mp.py -l llama3-8b -t gpt4o-mini -L 300 -T 0.75
 ```
 
+This creates a `playpen-records` directory containing the generated interactions 
+and saves the model checkpoint under a newly created folder at `models/grpo+lora/llama3-8b/gpt4o-mini`.
+
+> **Note:** This only works when you added the proper `api_key` to the `key.json` for authentication.
 
 ### Using other existing models
 
