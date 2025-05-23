@@ -17,7 +17,7 @@ python -m venv venv --system-site-packages && source venv/bin/activate
 Install the clemcore framework to run games, backends and models. 
 Note: The `huggingface` extra is (only) necessary to train with local hf models.
 ```bash
-pip install clemcore[huggingface]==2.2.1
+pip install clemcore[huggingface]==2.4.0
 ```
 
 Make playpen available via CLI and install TRL enable running the examples.
@@ -52,6 +52,10 @@ In any case, check that games are available via:
 ```bash
 clem list games
 ```
+
+Now having everything set up, you can follow the experiment guide or jump to the [TLDR](#tldr) section for a quick overview.
+
+# Experiment Guide
 
 ## Supervised Finetuning
 
@@ -254,20 +258,41 @@ clem run -g "{'benchmark':['2.0']}" -m llama3-8b-sft
 
 Having an SFT model ready, we can train more interactive training algorithm where a teacher policy plays in 2-player games the partner role.
 
-### Running the TRL examples with local HF models
+## Implement your own playpen trainer
 
-Run the PPO TRL trainer example with a Llama3-8b learner (`-l`) and
-Llama3-8b teacher (`-t`) model (for 2-player games) using max token length (`-L`) 300.
-This creates a _playpen-records_ directory containing the interactions.
+tbd
+
+# TL;DR
+
+### Running the SFT+LoRA TRL example with Llama3-8b (local) 
+
+Run the SFT+LoRA TRL trainer example with a Llama3-8b learner (`-l`). 
+This doesn't require a teacher, because the model is optimized based on the examples given in the dataset (imitation learning).
+
 ```bash
-playpen examples/trl/ppo_trainer.py -l llama3-8b -t llama3-8b -L 300
+playpen examples/trl/sft_trainer_lora.py -l llama3-8b
 ```
 
-### Running the TRL examples with remote API models
+This saves the model checkpoint under a newly created folder at `models/sft+lora/llama3-8b`.
 
-Adding credentials to the key.json for remote API access. 
-Note: An full tempalte for all supported remote backends is given in `key.json.template`. 
-You can also manually insert the required information there and rename the file to `key.json`. 
+### Running the GRPO+LoRA TRL example with self-play Llama3-8b (local) 
+
+Run the GRPO+LoRA TRL trainer example with a Llama3-8b learner (`-l`) and
+Llama3-8b teacher (`-t`) model (for 2-player games) using max token length (`-L`) 300.
+
+```bash
+playpen examples/trl/grpo_trainer_lora_sp.py -l llama3-8b -t llama3-8b -L 300
+```
+
+This creates a `playpen-records` directory containing the generated interactions 
+and saves the model checkpoint under a newly created folder at `models/grpo+lora/llama3-8b`.
+
+### Running the GRPO+LoRA TRL example with Llama3-8b (local) and gpt4o-mini (remote)
+
+Run the GRPO examples for a 2-player game. 
+In 2-player games, a teacher model plays the partner role. 
+In our case we use gpt4o-mini which is only accessible via a remote API.
+Hence, we need to add credentials to the key.json to access the model.
 ```bash
 echo '{
   "openai": {
@@ -276,14 +301,17 @@ echo '{
   }
 }' > key.json
 ```
+> **Note:** An full template of the key.json for all supported remote backends is given in `key.json.template`.
+You can also manually insert the required information there and rename the file to `key.json`.
 
-Run the PPO TRL trainer example with a Llama3-8b learner (`-l`) and a GPT-4 teacher (`-t`) model using temperature (`-T`) 0.7.
+Run the GRPO+LoRA TRL trainer example with a Llama3-8b learner (`-l`) and a GPT-4 teacher (`-t`) model using temperature (`-T`) 0.75. 
 
 ```bash
-playpen examples/trl/ppo_trainer.py -l llama3-8b -t gpt4o-mini -L 300 -T 0.7
+playpen examples/trl/grpo_trainer_lora_mp.py -l llama3-8b -t gpt4o-mini -L 300 -T 0.75
 ```
 
-## Using other existing models
+
+### Using other existing models
 
 Rename an already specified model or use another model by adding a custom model registry to the workspace. 
 
@@ -329,7 +357,3 @@ llama3-8b -> huggingface_local (.../playpen/model_registry.json)
 ```
 
 If you want to make another existing Huggingface model available, then change here the `huggingface_id`, choose an appropriate `model_name` and set other relevant parameters.
-
-## Implement your own playpen trainer
-
-tbd
