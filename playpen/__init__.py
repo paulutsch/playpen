@@ -49,18 +49,19 @@ from clemcore.clemgame import GameSpec, benchmark
 
 @contextmanager
 def make_env(game_spec: GameSpec, players: List[Model],
-             instances_name: str = None, shuffle_instances: bool = False):
+             instances_name: str = None, shuffle_instances: bool = False, task_iterations=None) -> GameEnv:
     with benchmark.load_from_spec(game_spec, do_setup=True, instances_name=instances_name) as game:
         task_iterator = game.create_game_instance_iterator(shuffle_instances)
-        yield GameEnv(game, players, task_iterator)
+        yield GameEnv(game, players, task_iterator, task_iterations=task_iterations)
 
 
 @contextmanager
 def make_tree_env(game_spec: GameSpec, players: List[Model],
-                  instances_name: str = None, shuffle_instances: bool = False,
-                  branching_factor: int = 2, branching_model=None):
+                  instances_name: str = None, shuffle_instances: bool = False, task_iterations: int = None,
+                  branching_factor: int = 2, branching_criteria=None) -> GameBranchingEnv:
     with benchmark.load_from_spec(game_spec, do_setup=True, instances_name=instances_name) as game:
-        assert branching_factor > 1, "The branching factor must be greater than one"
+        assert branching_factor > 1, "The branching factor must be greater than one, otherwise use make_env"
         task_iterator = game.create_game_instance_iterator(shuffle_instances)
-        yield GameBranchingEnv(game, players, task_iterator,
-                               branching_factor=branching_factor, branching_model=branching_model)
+        yield GameBranchingEnv(game, players, task_iterator, task_iterations,
+                               branching_factor=branching_factor,
+                               branching_criteria=branching_criteria)

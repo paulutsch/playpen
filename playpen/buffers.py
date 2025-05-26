@@ -1,9 +1,10 @@
 from typing import List, Dict
 
+import clemcore.backends as cb
 from clemcore.clemgame import Player
 
 from playpen.envs.game_env import GameEnv
-from playpen.envs.branching_env import GameBranchingEnv
+from playpen.envs.branching_env import GameBranchingEnv, GameTree, ResponseTreeNode
 
 
 class RolloutBuffer:
@@ -21,8 +22,13 @@ class RolloutBuffer:
     def reset(self):
         pass
 
-    def get_perspective_of(self, player: Player):
-        pass  # todo
+    def to_conversational_dataset(self, perspective: cb.Model) -> List[Dict]:
+        """
+        Args:
+            perspective: to take in the dataset as specified by the given model
+        Returns: a list of dict (conversations) containing a list of "messages" with alternating "role" and "content"
+        """
+        pass
 
 
 class StepRolloutBuffer(RolloutBuffer):
@@ -54,7 +60,7 @@ class BranchingRolloutBuffer(RolloutBuffer):
     def __init__(self, game_env: GameBranchingEnv):
         assert isinstance(game_env, GameBranchingEnv), "TreeRolloutBuffer can only be used with GameBranchingEnv"
         super().__init__(game_env)
-        self.forest: List = None
+        self.forest: List[GameTree] = None
         self.reset()
 
     def on_done(self):
@@ -63,3 +69,23 @@ class BranchingRolloutBuffer(RolloutBuffer):
 
     def reset(self):
         self.forest = []
+
+    def to_conversational_dataset(self, perspective) -> List[Dict]:
+        def recursive_add_to(_messages: List[Dict], node: ResponseTreeNode):
+            # only collect for given conversational perspective
+            player_model = node.unwrap().master.current_player.model
+            if perspective is player_model:
+                # we reverse later
+                _messages.append(dict(role="assistant", content=node.response))
+                _messages.append(node.context)
+            if isinstance(node.parent, ResponseTreeNode):
+                recursive_add_to(_messages, node.parent)
+            return _messages
+
+        dataset = []
+        for active_tree in self.forest:
+            for leave in active_tree.find_leaves():
+                messages = recursive_add_to([], leave)
+                messages.reverse()
+                dataset.append(dict(messages=messages, reward=leave.info["episode_score"]))
+        return dataset

@@ -11,8 +11,8 @@ from playpen.envs import PlayPenEnv
 
 class GameEnv(PlayPenEnv):
 
-    def __init__(self, game: GameBenchmark, player_models: List[Model], task_iterator: GameInstanceIterator,
-                 reset=True):
+    def __init__(self, game: GameBenchmark, player_models: List[Model],
+                 task_iterator: GameInstanceIterator, task_iterations: int = None, initial_reset=True):
         super().__init__()
         self._game = game
         self._game_name = game.game_name
@@ -25,7 +25,9 @@ class GameEnv(PlayPenEnv):
         self._game_instance: Dict = None
         self._experiment: Dict = None
         self._master: DialogueGameMaster = None
-        if reset:  # if reset, then the game env is fully functional after init
+        self._task_iterations = task_iterations
+        self._current_task_iteration = 0
+        if initial_reset:  # if reset, then the game env is fully functional after init
             self.reset()
 
     def __deepcopy__(self, memo):
@@ -61,7 +63,10 @@ class GameEnv(PlayPenEnv):
                                                             self._game_instance["game_id"],
                                                             self._dialogue_pair_descriptor)
             self.master.setup(**self._game_instance)
-        except StopIteration:
+        except StopIteration as e:
+            self._current_task_iteration += 1
+            if self._task_iterations is not None and self._current_task_iteration >= self._task_iterations:
+                raise e
             self._task_iterator.reset()
             self.reset()
 
