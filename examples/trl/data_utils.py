@@ -63,7 +63,7 @@ def create_conversational_dataset_for(top_dir):
                         "meta": {
                             "game": game_name,
                             "experiment": experiment_name,
-                            "game_id": game_id,
+                            "task_id": game_id,
                             "player_name": player_name,
                             "game_role": game_role,
                             "model": model_name,
