@@ -15,8 +15,13 @@ class PeftSftTrainer(BasePlayPen):
         # Note: We configure the proper chat template for the tokenizer already during model loading in the backend
 
     def learn(self, game_registry: GameRegistry):
-        # Load the "raw" conversational dataset, that is, a list of "messages" with iterating roles and text content
-        dataset = load_dataset("json", data_files="examples/trl/results.jsonl", split="train")
+        # Load a conversational dataset for SFT, that is, a list of "messages" -- basically tuples of role and content.
+        # The role can be "user" or "assistant" and typically alternates within the list.
+        # During training, everything up to the last assistant message becomes the prefix for prediction.
+        # The loss is calculated based on the differences to the last assistant message.
+        # Here we load the canonical training split as available in the huggingface playpen-data repository.
+        # By default, the dataset is stored in ~/.cache/huggingface/datasets/ on your machine. This might take a while.
+        dataset = load_dataset("colab-potsdam/playpen-data", "interactions", split="train")
 
         # Only use the episodes we are interested to train on: here all episodes with successful outcome
         dataset = dataset.filter(lambda episode: episode["meta"]["outcome"] == "success")
