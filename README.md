@@ -100,46 +100,6 @@ This creates a `results.csv` and `results.html` which presents the overall aggre
 > **Note:** We choose `smol-135m` only to showcase the workflow. For real training you should more capable models e.g. `llama3-8b`.
 > You can look up baseline performances of other models on the leaderboard: https://clembench.github.io/leaderboard.html.
 
-### Create the conversational dataset for training
-
-The prepared examples make use of huggingface datasets.
-Hence, we convert the interactions recorded in the `interactions.json` into a conversational dataset.
-The main property of such a dataset is that it contains samples which specify a list of `messages`.
-These messages usually iterate on roles, that is, between a `user` and an `assistant`.
-
-> **Note:** We already prepared a small dataset example. You can find it under `examples/trl/results.jsonl`.
-> Hence, you can skip the code segments in this section if you do not want to overwrite that file.
-> The full dataset for v2.0 is given in results.jsonl.zip.
-> The unpacked file is >100MB in size and therefore git-ignored.
-
-We use the interactions already recorded in https://github.com/clembench/clembench-runs.git.
-Hence, we clone the repository (to a place outside of the workspace, because the repository is quite large):
-```bash
-# This might take a while since the repository is quite large!
-git clone https://github.com/clembench/clembench-runs.git
-```
-
-These contain results for each version of the benchmark. We are interested in the model behaviors for version 2.0.
-Therefore, we run the following command:
-```bash
-python3 examples/trl/data_utils.py <path-to>/clembench-runs/v2.0
-```
-
-This will create in `examples/trl/results.jsonl` containing all interactions in form of a conversational dataset.
-Furthermore, the script adds a `meta` annotation that informs about 
-`game`, `experiment`, `game_id`, `player_name`, `game_role`, `model` and `outcome` 
-which can be used for filtering the samples in the dataset.
-
-Notably, the dataset contains samples of interaction from both perspectives of the 2-player games. 
-For example, for taboo the dataset contains the same episode, once from the perspective of the guesser and 
-once from the perspective of the clue giver.
-
-> **Note:** The default implementation of TRL for SFT only trains the model to predict the last `assistant` messages.
-> All other messages are handled as a prefix or context for the prediction.
-
-> **Note:** You can also collect your own data samples by simply running the benchmark as described before 
-> and then use the output of the `results` directory for you chosen model.
-
 ### Running the SFT example with local HF models
 
 Now we are ready to run the simple SFT TRL trainer example with a `smol-135m` learner (`-l`).
@@ -153,7 +113,8 @@ The `playpen` CLI properly loads the huggingface model and runs the trainer code
 When the command finished successfully, then there will be a `models/sft/smol-135m` directory 
 containing a checkpoint folder, e.g. `checkpoint-84` with the updated parameters of the model.
 
-> **Note:** Have a look at `examples/trl/sft_trainer_simple.py` for implementation details.
+> **Note:** The example trainer will use the interactions of the train split available at the [playpen-data](https://huggingface.co/datasets/colab-potsdam/playpen-data) repository. 
+> Have a look at `examples/trl/sft_trainer_simple.py` for implementation details.
 
 ### Evaluate the fine-tuned model
 
@@ -338,6 +299,37 @@ This creates a `playpen-records` directory containing the generated interactions
 and saves the model checkpoint under a newly created folder at `models/grpo+lora/llama3-8b/gpt4o-mini`.
 
 > **Note:** This only works when you added the proper `api_key` to the `key.json` for authentication.
+
+### Create your own conversational dataset for SFT
+
+The prepared examples make use of the canonical [playpen-data](https://huggingface.co/datasets/colab-potsdam/playpen-data) split
+where we converted the interactions recorded during the v2.0 benchmark runs into a conversational dataset.
+In HF, the main property of a conversational dataset is that it contains samples which specify a list of `messages`.
+These messages usually iterate on roles, that is, between a `user` and an `assistant`, and carry textual content.
+
+When you want to collect your own data samples, then run the benchmark with a model of your choice, for example:
+```bash
+clem run -g "{'benchmark':['2.0']}" -m llama3-8b
+```
+
+This will create a `results` directory with the model's gameplay recorded in `interaction.json` files.
+
+To create a conversational dataset based on these interaction files, run the following command:
+```bash
+python3 examples/trl/data_utils.py <path-to>/results/
+```
+
+This will create in `examples/trl/results.jsonl` containing all interactions in form of a conversational dataset.
+Furthermore, the script adds a `meta` annotation that informs about 
+`game`, `experiment`, `task_id`, `player_name`, `game_role`, `model` and `outcome` 
+which can be used for filtering the samples in the dataset.
+
+Notably, the dataset contains samples of interaction from both perspectives of the 2-player games. 
+For example, for taboo the dataset contains the same episode, once from the perspective of the guesser and 
+once from the perspective of the clue giver.
+
+> **Note:** The default implementation of TRL for SFT only trains the model to predict the last `assistant` messages.
+> All other messages are handled as a prefix or context for the prediction.
 
 ### Using other existing models
 
