@@ -55,50 +55,28 @@ clem list games
 
 Now having everything set up, you can follow the experiment guide or jump to the [TLDR](#tldr) section for a quick overview.
 
-# Experiment Guide
+## Evaluate a model
+
+To evaluate a model's gameplay performance on the `playpen-data` validation split, run the following command:
+
+```bash
+playpen eval <model-name>
+```
+
+where `<model-name>` should match your model's name as specified in the model registry.
+
+This will produce a `<model-name>.val.json` file which contains two numbers:
+
+1. **clemscore**: the average gameplay performance on the interactive benchmark games
+2. **statscore**: the average performance on the static benchmark datasets
+
+# Examples
 
 ## Supervised Finetuning
 
 Supervised fine-tuning (SFT) is known to help learning in interaction as it shifts the model's distribution towards the interactive data it will operate on.
 
 In the context of clembench this means to let the model observe patterns of interaction which occur in various dialogue games. 
-
-### Determine model performance before training
-
-First, we want to know how well the model we want to fine-tune already performs on the benchmark.
-For this we let the model play the games in the benchmark. 
-
-
-The following command runs the `smol-135m` model on the games that were selected for version `2.0` of the benchmark: 
-```bash
-clem run -g "{'benchmark':['2.0']}" -m smol-135m 
-```
-
-Alternatively, you can also use `-g all` to run all games or, for example, `-g taboo` to run just a specific game.
-
-When the `run` command finished, a `results` folder should appear which contains the recorded interaction in the game.
-We score the interactions with the following command:
-
-```bash
-clem score # Note: -r option defaults to 'results' 
-```
-
-Alternatively, you can also use, for example, `-g taboo` to score just a specific game.
-
-The score command creates `score.json` in each episode directory which we use for the overall evaluation.
-The evaluation runs with the following command:
-
-```bash
-clem eval # Note: -r option defaults to 'results'
-```
-
-This creates a `results.csv` and `results.html` which presents the overall aggregated result and for each game individually. 
-
-> **Note:** The `clem` CLI has become available during workspace setup when we installed `clemcore`. In addition, we checked out the `clembench` repository that contains the games.
-> 
-
-> **Note:** We choose `smol-135m` only to showcase the workflow. For real training you should more capable models e.g. `llama3-8b`.
-> You can look up baseline performances of other models on the leaderboard: https://clembench.github.io/leaderboard.html.
 
 ### Running the SFT example with local HF models
 
@@ -146,6 +124,9 @@ Then we can run the benchmark again, but this time with `-m smol-135m-sft`:
 ```bash
 clem run -g "{'benchmark':['2.0']}" -m smol-135m-sft
 ```
+
+> **Note:** We choose `smol-135m` only to showcase the workflow. For real training you should more capable models e.g. `llama3-8b`.
+> You can look up baseline performances of other models on the leaderboard: https://clembench.github.io/leaderboard.html.
 
 ### Parameter Efficient Fine-tuning (PEFT)
 
@@ -255,7 +236,7 @@ echo '{
 }' > key.json
 ```
 > **Note:** An full template of the key.json for all supported remote backends is given in `key.json.template`.
-You can also manually insert the required information there and rename the file to `key.json`.
+> You can also manually insert the required information there and rename the file to `key.json`.
 
 ## Implement your own playpen trainer
 
