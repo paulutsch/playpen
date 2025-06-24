@@ -29,7 +29,16 @@ class SimpleSftTrainer(BasePlayPen):
         # We shuffle and split the remaining filtered samples to receive a dev split
         # For evaluation on the actual games performance use the validation split
         # load_dataset("json", data_files="examples/trl/results.jsonl", split="validation")
-        dataset = dataset.train_test_split(0.2, shuffle=True, seed=42)
+        #dataset = dataset.train_test_split(0.2, shuffle=True, seed=42)
+        playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
+
+        # adding the tulu
+        tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train[:1%]") 
+        #tulu3 uses seed 8 for SFT, add later since it does not work with this kind of demo :1% train split
+
+        combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_dataset])
+
+        
 
         # Initialize training configuration
         config = trl.SFTConfig(  # inherits TrainingArguments
@@ -41,8 +50,8 @@ class SimpleSftTrainer(BasePlayPen):
         # Initialize trainer context
         trainer = trl.SFTTrainer(
             model=self.learner.model,
-            train_dataset=dataset["train"],
-            eval_dataset=dataset["test"],  # Note: we use a subset of train as dev
+            train_dataset=combined_dataset,
+            eval_dataset=playpen_dataset["test"], # only validate on the playpen data to get clem/stat-score
             args=config
         )
 
