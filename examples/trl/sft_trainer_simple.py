@@ -2,7 +2,7 @@ from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
 
 import trl
-from datasets import load_dataset
+from datasets import load_dataset, concatenate_datasets
 
 from playpen import BasePlayPen
 
@@ -33,10 +33,15 @@ class SimpleSftTrainer(BasePlayPen):
         playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
 
         # adding the tulu
-        tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train[:1%]") 
+        tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train")
+        tulu_sub_ratio = len(playpen_dataset["train"]) / len(tulu_dataset)
+        tulu_sub_dataset, _ = tulu_dataset.train_test_split(tulu_sub_ratio, stratify_by_column="source")
+        print("length of tulu_sub_dataset", len(tulu_sub_dataset))
+        print("length of clembench dataset", len(playpen_dataset))
+
         #tulu3 uses seed 8 for SFT, add later since it does not work with this kind of demo :1% train split
 
-        combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_dataset])
+        combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_sub_dataset])
 
         
 
