@@ -2,7 +2,7 @@ from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
 
 import trl
-from datasets import load_dataset
+from datasets import load_dataset, concatenate_datasets
 
 from playpen import BasePlayPen
 
