@@ -3,7 +3,7 @@ from clemcore.clemgame import GameRegistry
 
 import trl
 from peft import LoraConfig
-from datasets import load_dataset
+from datasets import load_dataset, concatenate_datasets
 
 from playpen import BasePlayPen
 
@@ -21,14 +21,23 @@ class PeftSftTrainer(BasePlayPen):
         # The loss is calculated based on the differences to the last assistant message.
         # Here we load the canonical training split as available in the huggingface playpen-data repository.
         # By default, the dataset is stored in ~/.cache/huggingface/datasets/ on your machine. This might take a while.
-        dataset = load_dataset("colab-potsdam/playpen-data", "interactions", split="train")
+        playpen_dataset = load_dataset("colab-potsdam/playpen-data", "interactions", split="train")
 
         # Only use the episodes we are interested to train on: here all episodes with successful outcome
-        dataset = dataset.filter(lambda episode: episode["meta"]["outcome"] == "success")
+        playpen_dataset = playpen_dataset.filter(lambda episode: episode["meta"]["outcome"] == "success")
 
-        # We shuffle and split the remaining filtered samples to receive a test split
-        dataset = dataset.train_test_split(0.2, shuffle=True, seed=42)
+        # We shuffle and split the remaining filtered samples to receive a dev split
+        # For evaluation on the actual games performance use the validation split
+        # load_dataset("json", data_files="examples/trl/results.jsonl", split="validation")
+        #dataset = dataset.train_test_split(0.2, shuffle=True, seed=42)
+        playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
 
+        # adding the tulu
+        tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train[:1%]") 
+        #tulu3 uses seed 8 for SFT, add later since it does not work with this kind of demo :1% train split
+
+        combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_dataset])
+        
         # Initialize training configuration
         config = trl.SFTConfig(  # inherits TrainingArguments
             max_length=300,
@@ -39,8 +48,8 @@ class PeftSftTrainer(BasePlayPen):
         # Initialize trainer context
         trainer = trl.SFTTrainer(
             model=self.learner.model,
-            train_dataset=dataset["train"],
-            eval_dataset=dataset["test"],
+            train_dataset=combined_dataset,
+            eval_dataset=playpen_dataset["test"], # only validate on the playpen data to get clem/stat-score
             args=config,
             # see https://huggingface.co/docs/trl/sft_trainer#training-adapters
             peft_config=LoraConfig(
