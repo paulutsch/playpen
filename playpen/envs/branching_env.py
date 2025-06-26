@@ -49,15 +49,16 @@ class GameBranchingEnv(PlayPenEnv):
     This allows to collect at each step multiple responses for the same context.
     """
 
-    def __init__(self, game: GameBenchmark, player_models: List[Model], task_iterator: GameInstanceIterator,
-                 branching_factor: int, branching_model=None):
+    def __init__(self, game: GameBenchmark, player_models: List[Model],
+                 task_iterator: GameInstanceIterator, task_iterations: int = None,
+                 branching_factor: int = 2, branching_criteria=None):
         super().__init__()
         assert branching_factor > 0, "The branching factor must be greater than zero"
-        self._root: GameEnv = GameEnv(game, player_models, task_iterator)
+        self._root: GameEnv = GameEnv(game, player_models, task_iterator, task_iterations)
         self._game_tree = GameTree(GameTreeNode(self._root))
         self._active_envs: List[GameEnv] = [self._root]
         self._branching_factor: int = branching_factor
-        self._branching_model = branching_model
+        self._branching_criteria = branching_criteria
 
     @property
     def initial_prompts(self):
@@ -77,7 +78,7 @@ class GameBranchingEnv(PlayPenEnv):
             contexts.append(context)
         # GameBranchingPlayer assumes that (parent_env, parent_context) can be re-assembled by zipping (using the order)
         branching_player = GameBranchingPlayer(self._active_envs, players,
-                                               self._branching_factor, self._branching_model)
+                                               self._branching_factor, self._branching_criteria)
         return branching_player, contexts
 
     def step(self, responses: Union[str, List]) -> Tuple[Union[bool, List], Union[Dict, List]]:
@@ -146,24 +147,12 @@ class GameBranchingPlayer(Callable):
     """    Applies a player to a given context as many times as determined by the branching factor. """
 
     def __init__(self, current_envs: List[GameEnv], current_players: List[Player],
-                 branching_factor: int = 1, branching_model=None):
+                 branching_factor: int = 1, branching_criteria: Callable[[GameEnv], bool] = None):
         assert branching_factor > 0, "The branching factor must be greater than zero"
         self._branching_factor = branching_factor
-        self._branching_model = branching_model
+        self._do_branch = branching_criteria or (lambda parent_env: True)  # always
         self._current_envs = current_envs
         self._current_players = current_players
-
-    @property
-    def model(self):
-        if not self._current_players:
-            return None
-        # for now, we assume that all current player share the same model
-        return self._current_players[0].model
-
-    def _is_branching_model(self):
-        if self._branching_model is None:
-            return True  # by default always branch
-        return self.model is self._branching_model
 
     def __call__(self, contexts: List[str]) -> List[List[BranchingResponse]]:
         """
@@ -176,7 +165,7 @@ class GameBranchingPlayer(Callable):
         context_responses = []
         for parent_env, parent_context in zip(self._current_envs, contexts):
             branch_responses = []
-            branching_factor = self._branching_factor if self._is_branching_model() else 1
+            branching_factor = self._branching_factor if self._do_branch(parent_env) else 1
             for _ in range(branching_factor):
                 # We need to copy the env even with factor=1 (for the teacher) b.c. otherwise we run into problems
                 # when adding the response to the tree, since we use the env identity as an id. If we do not copy,
@@ -208,6 +197,10 @@ class GameTreeNode:
     @property
     def parent(self):
         return self._parent
+
+    @property
+    def tags(self):
+        return self._tags
 
     def untag(self, tag: str):
         self._tags.remove(tag)

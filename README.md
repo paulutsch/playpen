@@ -19,7 +19,7 @@ python -m venv venv --system-site-packages && source venv/bin/activate
 Install the clemcore framework to run games, backends and models. 
 Note: The `huggingface` extra is (only) necessary to train with local hf models.
 ```bash
-pip install clemcore[huggingface]==2.2.1
+pip install clemcore[huggingface]==2.4.0
 ```
 
 Make playpen available via CLI and install TRL enable running the examples.
@@ -55,90 +55,30 @@ In any case, check that games are available via:
 clem list games
 ```
 
+Now having everything set up, you can follow the experiment guide or jump to the [TLDR](#tldr) section for a quick overview.
+
+## Evaluate a model
+
+To evaluate a model's gameplay performance on the `playpen-data` validation split, run the following command:
+
+```bash
+playpen eval <model-name>
+```
+
+where `<model-name>` should match your model's name as specified in the model registry.
+
+This will produce a `<model-name>.val.json` file which contains two numbers:
+
+1. **clemscore**: the average gameplay performance on the interactive benchmark games
+2. **statscore**: the average performance on the static benchmark datasets
+
+# Examples
+
 ## Supervised Finetuning
 
 Supervised fine-tuning (SFT) is known to help learning in interaction as it shifts the model's distribution towards the interactive data it will operate on.
 
 In the context of clembench this means to let the model observe patterns of interaction which occur in various dialogue games. 
-
-### Determine model performance before training
-
-First, we want to know how well the model we want to fine-tune already performs on the benchmark.
-For this we let the model play the games in the benchmark. 
-
-
-The following command runs the `smol-135m` model on the games that were selected for version `2.0` of the benchmark: 
-```bash
-clem run -g "{'benchmark':['2.0']}" -m smol-135m 
-```
-
-Alternatively, you can also use `-g all` to run all games or, for example, `-g taboo` to run just a specific game.
-
-When the `run` command finished, a `results` folder should appear which contains the recorded interaction in the game.
-We score the interactions with the following command:
-
-```bash
-clem score # Note: -r option defaults to 'results' 
-```
-
-Alternatively, you can also use, for example, `-g taboo` to score just a specific game.
-
-The score command creates `score.json` in each episode directory which we use for the overall evaluation.
-The evaluation runs with the following command:
-
-```bash
-clem eval # Note: -r option defaults to 'results'
-```
-
-This creates a `results.csv` and `results.html` which presents the overall aggregated result and for each game individually. 
-
-> **Note:** The `clem` CLI has become available during workspace setup when we installed `clemcore`. In addition, we checked out the `clembench` repository that contains the games.
-> 
-
-> **Note:** We choose `smol-135m` only to showcase the workflow. For real training you should more capable models e.g. `llama3-8b`.
-> You can look up baseline performances of other models on the leaderboard: https://clembench.github.io/leaderboard.html.
-
-### Create the conversational dataset for training
-
-The prepared examples make use of huggingface datasets.
-Hence, we convert the interactions recorded in the `interactions.json` into a conversational dataset.
-The main property of such a dataset is that it contains samples which specify a list of `messages`.
-These messages usually iterate on roles, that is, between a `user` and an `assistant`.
-
-> **Note:** We already prepared a small dataset example. You can find it under `examples/trl/results.jsonl`.
-> Hence, you can skip the code segments in this section if you do not want to overwrite that file.
-> The full dataset for v2.0 is given in results.jsonl.zip.
-> The unpacked file is >100MB in size and therefore git-ignored.
-
-We use the interactions already recorded in https://github.com/clembench/clembench-runs.git.
-Hence, we clone the repository (to a place outside of the workspace, because the repository is quite large):
-
-```
-# This might take a while since the repository is quite large!
-git clone https://github.com/clembench/clembench-runs.git
-```
-
-These contain results for each version of the benchmark. We are interested in the model behaviors for version 2.0.
-Therefore, we run the following command:
-
-```
-python3 examples/trl/data_utils.py <path-to>/clembench-runs/v2.0
-```
-
-This will create in `examples/trl/results.jsonl` containing all interactions in form of a conversational dataset.
-Furthermore, the script adds a `meta` annotation that informs about 
-`game`, `experiment`, `game_id`, `player_name`, `game_role`, `model` and `outcome` 
-which can be used for filtering the samples in the dataset.
-
-Notably, the dataset contains samples of interaction from both perspectives of the 2-player games. 
-For example, for taboo the dataset contains the same episode, once from the perspective of the guesser and 
-once from the perspective of the clue giver.
-
-> **Note:** The default implementation of TRL for SFT only trains the model to predict the last `assistant` messages.
-> All other messages are handled as a prefix or context for the prediction.
-
-> **Note:** You can also collect your own data samples by simply running the benchmark as described before 
-> and then use the output of the `results` directory for you chosen model.
 
 ### Running the SFT example with local HF models
 
@@ -153,7 +93,8 @@ The `playpen` CLI properly loads the huggingface model and runs the trainer code
 When the command finished successfully, then there will be a `models/sft/smol-135m` directory 
 containing a checkpoint folder, e.g. `checkpoint-84` with the updated parameters of the model.
 
-> **Note:** Have a look at `examples/trl/sft_trainer_simple.py` for implementation details.
+> **Note:** The example trainer will use the interactions of the train split available at the [playpen-data](https://huggingface.co/datasets/colab-potsdam/playpen-data) repository. 
+> Have a look at `examples/trl/sft_trainer_simple.py` for implementation details.
 
 ### Evaluate the fine-tuned model
 
@@ -186,28 +127,108 @@ Then we can run the benchmark again, but this time with `-m smol-135m-sft`:
 clem run -g "{'benchmark':['2.0']}" -m smol-135m-sft
 ```
 
-### Parameter Efficient Fine-tuning
+> **Note:** We choose `smol-135m` only to showcase the workflow. For real training you should more capable models e.g. `llama3-8b`.
+> You can look up baseline performances of other models on the leaderboard: https://clembench.github.io/leaderboard.html.
 
-tbd
+### Parameter Efficient Fine-tuning (PEFT)
+
+More capable models like `llama3-8b` usually do not fit into the RAM of a single GPU during training.
+A common technique to circumvent this, is a technique called low-rank adapters (LoRA) 
+where only a smaller set of parameters (adapters) is trained to improve the model's performance. 
+To make use of the LoRA support in TRL, we have to install the `peft` package 
+and provide the trainer with the following additional configuration argument:
+```python
+trainer = trl.SFTTrainer(
+    peft_config=LoraConfig(
+        r=16, lora_alpha=32,
+        lora_dropout=0.05,
+        target_modules="all-linear",
+        modules_to_save=["lm_head", "embed_token"],
+        task_type="CAUSAL_LM",
+    )
+)
+```
+
+Now we are ready to run the LoRA SFT TRL trainer example with a `llama3-8b` learner (`-l`).
+Since the interactions were already performed by other models, we do not need a teacher model in this case.
+The following commands runs the example training pipeline:
+```bash
+playpen run examples/trl/sft_trainer_lora.py -l llama3-8b 
+```
+
+The `playpen` CLI properly loads the huggingface model and runs the trainer code in the specified file. 
+When the command finished successfully, then there will be a `models/sft+lora/llama3-8b` directory 
+containing a checkpoint folder, e.g. `checkpoint-78` **containing only the adapter parameters**.
+
+> **Note:** Have a look at `examples/trl/sft_trainer_lora.py` for implementation details.
+
+To evaluate the LoRA fine-tuned model we register it in the local `modal_registry.json`, 
+especially pointing to a `peft_model` in the `model_config`, as follows:
+```json
+{
+  "model_name": "llama3-8b-sft",
+  "backend": "huggingface_local",
+  "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+  "release_date": "2024-07-23",
+  "open_weight": true,
+  "parameters": "8B",
+  "languages": ["en", "de", "fr", "it", "pt", "hi", "es", "th"],
+  "context_size": "128k",
+  "license": {
+    "name": "Meta",
+    "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+  },
+  "model_config": {
+    "peft_model": "models/sft+lora/llama3-8b/checkpoint-78",
+    "requires_api_key": true,
+    "premade_chat_template": true,
+    "eos_to_cull": "<\\|eot_id\\|>"
+  }
+}
+```
+
+With this addition to the local model registry, `clem` is able to load the peft model properly, when we run the benchmark:
+```bash
+clem run -g "{'benchmark':['2.0']}" -m llama3-8b-sft
+```
+
+> **Note:** This essentially evaluates the model on the same instances of gameplay that were seen during training. To properly measure generalization performance, you should use different (or create new) instances.
+
+> **Note:** If you want to train quantized models, then you can simply add `load_in_8bit: True` or `load_in_4bit: True`
+> in the model_config section of the model spec. Alternatively, you can also directly load a quantized model from the
+> huggingface hub by specifying the according huggingface_id.
 
 ## Learning in Interaction (not yet available)
 
-After SFT we can let the model learn more interactively with a teacher policy playing the other role in 2-player games.
+Having an SFT model ready, we can now turn to more interactive training algorithms.
 
-### Running the TRL examples with local HF models
+### Running the GRPO+LoRA TRL example with self-play Llama3-8b (local) 
 
-Run the PPO TRL trainer example with a Llama3-8b learner (`-l`) and
-Llama3-8b teacher (`-t`) model (for 2-player games) using max token length (`-L`) 300.
-This creates a _playpen-records_ directory containing the interactions.
-```bash
-playpen examples/trl/ppo_trainer.py -l llama3-8b -t llama3-8b -L 300
+The [clembench leaderboard](https://clembench.github.io/leaderboard.html) shows that the `Meta-Llama-3.1-8B-Instruct` model plays only 50% of the wordle game instances (v2.0) correctly and achieves only a quality score of 2.
+
+Therefore, in this experiment we are interested in the performance gain of letting the model play the same instances multiple times, so that it eventually reaches better quality scores, but at least adheres more often to the game rules.
+
+Hence, we use GRPO with a group size of 8, that is, we let the model play each instance (target word) of the wordle game `8` times, calculate the final reward for each gameplay and use LoRA to capture this learning signal in adapters: 
+```
+trainer = trl.GRPOTrainer(
+    peft_config=LoraConfig(
+        r=8, lora_alpha=16,
+        lora_dropout=0.05,
+        target_modules=["q_proj", "v_proj"],
+        modules_to_save=["lm_head", "embed_token"],
+        task_type="CAUSAL_LM",
+    )
+)
 ```
 
-### Running the TRL examples with remote API models
 
-Adding credentials to the key.json for remote API access. 
-Note: An full tempalte for all supported remote backends is given in `key.json.template`. 
-You can also manually insert the required information there and rename the file to `key.json`. 
+
+### Running the GRPO+LoRA TRL example with Llama3-8b (local) and gpt4o-mini (remote)
+
+Run the GRPO examples for a 2-player game. 
+In 2-player games, a teacher model plays the partner role. 
+In our case we use gpt4o-mini which is only accessible via a remote API.
+Hence, we need to add credentials to the key.json to access the model.
 ```bash
 echo '{
   "openai": {
@@ -216,14 +237,84 @@ echo '{
   }
 }' > key.json
 ```
+> **Note:** An full template of the key.json for all supported remote backends is given in `key.json.template`.
+> You can also manually insert the required information there and rename the file to `key.json`.
 
-Run the PPO TRL trainer example with a Llama3-8b learner (`-l`) and a GPT-4 teacher (`-t`) model using temperature (`-T`) 0.7.
+## Implement your own playpen trainer
+
+tbd
+
+# TL;DR
+
+### Running the SFT+LoRA TRL example with Llama3-8b (local) 
+
+Run the SFT+LoRA TRL trainer example with a Llama3-8b learner (`-l`). 
+This doesn't require a teacher, because the model is optimized based on the examples given in the dataset (imitation learning).
 
 ```bash
-playpen examples/trl/ppo_trainer.py -l llama3-8b -t gpt4o-mini -L 300 -T 0.7
+playpen examples/trl/sft_trainer_lora.py -l llama3-8b
 ```
 
-## Using other existing models
+This saves the model checkpoint under a newly created folder at `models/sft+lora/llama3-8b`.
+
+### Running the GRPO+LoRA TRL example with self-play Llama3-8b (local) 
+
+Run the GRPO+LoRA TRL trainer example with a Llama3-8b learner (`-l`) 
+using max token length (`-L`) 300 and temperature (`-T`) 0.75.
+
+```bash
+playpen examples/trl/grpo_trainer_lora_sp.py -l llama3-8b -L 300 -T 0.75
+```
+
+This creates a `playpen-records` directory containing the generated interactions 
+and saves the model checkpoint under a newly created folder at `models/grpo+lora/llama3-8b/selfplay`.
+
+### Running the GRPO+LoRA TRL example with Llama3-8b (local) and gpt4o-mini (remote)
+
+Run the GRPO+LoRA TRL trainer example with a Llama3-8b learner (`-l`) 
+and a GPT-4 teacher (`-t`) model (for 2-player games) using max token length (`-L`) 300 and temperature (`-T`) 0.75. 
+
+```bash
+playpen examples/trl/grpo_trainer_lora_mp.py -l llama3-8b -t gpt4o-mini -L 300 -T 0.75
+```
+
+This creates a `playpen-records` directory containing the generated interactions 
+and saves the model checkpoint under a newly created folder at `models/grpo+lora/llama3-8b/gpt4o-mini`.
+
+> **Note:** This only works when you added the proper `api_key` to the `key.json` for authentication.
+
+### Create your own conversational dataset for SFT
+
+The prepared examples make use of the canonical [playpen-data](https://huggingface.co/datasets/colab-potsdam/playpen-data) split
+where we converted the interactions recorded during the v2.0 benchmark runs into a conversational dataset.
+In HF, the main property of a conversational dataset is that it contains samples which specify a list of `messages`.
+These messages usually iterate on roles, that is, between a `user` and an `assistant`, and carry textual content.
+
+When you want to collect your own data samples, then run the benchmark with a model of your choice, for example:
+```bash
+clem run -g "{'benchmark':['2.0']}" -m llama3-8b
+```
+
+This will create a `results` directory with the model's gameplay recorded in `interaction.json` files.
+
+To create a conversational dataset based on these interaction files, run the following command:
+```bash
+python3 examples/trl/data_utils.py <path-to>/results/
+```
+
+This will create in `examples/trl/results.jsonl` containing all interactions in form of a conversational dataset.
+Furthermore, the script adds a `meta` annotation that informs about 
+`game`, `experiment`, `task_id`, `player_name`, `game_role`, `model` and `outcome` 
+which can be used for filtering the samples in the dataset.
+
+Notably, the dataset contains samples of interaction from both perspectives of the 2-player games. 
+For example, for taboo the dataset contains the same episode, once from the perspective of the guesser and 
+once from the perspective of the clue giver.
+
+> **Note:** The default implementation of TRL for SFT only trains the model to predict the last `assistant` messages.
+> All other messages are handled as a prefix or context for the prediction.
+
+### Using other existing models
 
 Rename an already specified model or use another model by adding a custom model registry to the workspace. 
 
@@ -269,7 +360,3 @@ llama3-8b -> huggingface_local (.../playpen/model_registry.json)
 ```
 
 If you want to make another existing Huggingface model available, then change here the `huggingface_id`, choose an appropriate `model_name` and set other relevant parameters.
-
-## Implement your own playpen trainer
-
-tbd
