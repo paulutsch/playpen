@@ -2,7 +2,7 @@ from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
 
 import trl
-from datasets import load_dataset, concatenate_datasets
+from datasets import load_dataset, concatenate_datasets, ClassLabel
 
 from playpen import BasePlayPen
 
@@ -35,17 +35,25 @@ class SimpleSftTrainer(BasePlayPen):
         # adding the tulu
         tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train")
         tulu_sub_ratio = len(playpen_dataset["train"]) / len(tulu_dataset)
-        tulu_sub_dataset, _ = tulu_dataset.train_test_split(
-            tulu_sub_ratio,
-            stratify_by_column="source",
-            seed=8 # TULU also uses this seed
+
+        # Use only the same number of examples from TÜLU as in the clem dataset, while maintaining the original SFT source distribution.
+        unique_sources = tulu_dataset.unique("source")
+        source_classlabel = ClassLabel(names=unique_sources) # needed for stratified split
+        tulu_dataset = tulu_dataset.cast_column("source", source_classlabel)
+        
+        tulu_split, _ = tulu_dataset.train_test_split(
+            train_size=tulu_sub_ratio,
+            stratify_by_column="source", 
+            seed=8 #tulu3 uses seed 8 for SFT too
             )
-        print("length of tulu_sub_dataset", len(tulu_sub_dataset))
-        print("length of clembench dataset", len(playpen_dataset))
+        
+        tulu_sub_dataset = tulu_split["train"]
+
+        assert len(tulu_sub_dataset) == len(playpen_dataset), \
+            f"Length mismatch: tulu_sub_dataset={len(tulu_sub_dataset)}, clembench dataset={len(playpen_dataset)}"
 
         combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_sub_dataset])
-
-        
+        print(f"Size of the train set: {len(combined_dataset)}")
 
         # Initialize training configuration
         config = trl.SFTConfig(  # inherits TrainingArguments
