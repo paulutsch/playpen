@@ -30,7 +30,7 @@ class SimpleSftTrainer(BasePlayPen):
         # For evaluation on the actual games performance use the validation split
         # load_dataset("json", data_files="examples/trl/results.jsonl", split="validation")
         #dataset = dataset.train_test_split(0.2, shuffle=True, seed=42)
-        playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
+        playpen_dataset = dataset.train_test_split(0.2, shuffle=True, seed=42)
 
         # adding the tulu
         tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train")
