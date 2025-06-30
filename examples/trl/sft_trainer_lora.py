@@ -50,8 +50,9 @@ class PeftSftTrainer(BasePlayPen):
         
         tulu_sub_dataset = tulu_split["train"]
 
-        assert len(tulu_sub_dataset) == len(playpen_dataset), \
-            f"Length mismatch: tulu_sub_dataset={len(tulu_sub_dataset)}, clembench dataset={len(playpen_dataset["train"])}"
+        assert len(tulu_sub_dataset) == len(playpen_dataset["train"]), \
+            f"Length mismatch: tulu_sub_dataset={len(tulu_sub_dataset)}, clembench dataset={len(playpen_dataset['train'])}"
+
 
         combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_sub_dataset])
         print(f"Size of the train set: {len(combined_dataset)}")
