@@ -32,10 +32,12 @@ class PeftSftTrainer(BasePlayPen):
         #dataset = dataset.train_test_split(0.2, shuffle=True, seed=42)
         playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
 
-        # adding the tulu
-        tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train[:1%]") 
-        #tulu3 uses seed 8 for SFT, add later since it does not work with this kind of demo :1% train split
-
+        tulu_sub_dataset, _ = tulu_dataset.train_test_split(
+            tulu_sub_ratio,
+            stratify_by_column="source", 
+            seed=8 #tulu3 uses seed 8 for SFT too
+            )
+        
         combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_dataset])
         
         # Initialize training configuration
