@@ -61,7 +61,7 @@ class PeftSftTrainer(BasePlayPen):
         config = trl.SFTConfig(  # inherits TrainingArguments
             max_length=300,
             #output_dir=f"models/sft+lora/{self.learner.get_name()}",
-            output_dir=f"models/sft+lora/llama-8b", #temporarily hardcoding the name
+            output_dir=f"models/sft+lora/llama3-8b", #temporarily hardcoding the name
             eval_strategy="epoch"
         )
 
@@ -87,5 +87,5 @@ class PeftSftTrainer(BasePlayPen):
         #Optional: Uncomment these lines to merge and save directly
         merged_model = trainer.model.merge_and_unload()
         #merged_model.save_pretrained(f"models/sft+lora/{self.learner.get_name()}")
-        merged_model.save_pretrained(f"models/sft+lora/llama-8b")
+        merged_model.save_pretrained(f"models/sft+lora/llama3-8b")
         
