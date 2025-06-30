@@ -3,7 +3,7 @@ from clemcore.clemgame import GameRegistry
 
 import trl
 from peft import LoraConfig
-from datasets import load_dataset, concatenate_datasets
+from datasets import load_dataset, concatenate_datasets, ClassLabel
 
 from playpen import BasePlayPen
 
@@ -35,6 +35,11 @@ class PeftSftTrainer(BasePlayPen):
         # adding the tulu
         tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train")
         tulu_sub_ratio = len(playpen_dataset["train"]) / len(tulu_dataset)
+
+        unique_sources = tulu_dataset.unique("source")
+        source_classlabel = ClassLabel(names=unique_sources) # needed for stratified split
+        tulu_dataset = tulu_dataset.cast_column("source", source_classlabel)
+        
         tulu_sub_dataset, _ = tulu_dataset.train_test_split(
             tulu_sub_ratio,
             stratify_by_column="source", 
@@ -44,7 +49,7 @@ class PeftSftTrainer(BasePlayPen):
         print("length of tulu_sub_dataset", len(tulu_sub_dataset))
         print("length of clembench dataset", len(playpen_dataset))
         
-        combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_dataset])
+        combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_sub_dataset])
         
         # Initialize training configuration
         config = trl.SFTConfig(  # inherits TrainingArguments
