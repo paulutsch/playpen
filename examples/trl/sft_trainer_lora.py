@@ -60,7 +60,8 @@ class PeftSftTrainer(BasePlayPen):
         # Initialize training configuration
         config = trl.SFTConfig(  # inherits TrainingArguments
             max_length=300,
-            output_dir=f"models/sft+lora/{self.learner.get_name()}",
+            #output_dir=f"models/sft+lora/{self.learner.get_name()}",
+            output_dir=f"models/sft+lora/llama-8b", #temporarily hardcoding the name
             eval_strategy="epoch"
         )
 
@@ -83,6 +84,8 @@ class PeftSftTrainer(BasePlayPen):
         # Train on the dataset; this will save only the adapters to the checkpoints directory
         trainer.train()
 
-        # Optional: Uncomment these lines to merge and save directly
-        # merged_model = trainer.model.merge_and_unload()
-        # merged_model.save_pretrained(f"models/sft+lora/{self.learner.get_name()}")
+        #Optional: Uncomment these lines to merge and save directly
+        merged_model = trainer.model.merge_and_unload()
+        #merged_model.save_pretrained(f"models/sft+lora/{self.learner.get_name()}")
+        merged_model.save_pretrained(f"models/sft+lora/llama-8b")
+        
