@@ -35,11 +35,13 @@ class SimpleSftTrainer(BasePlayPen):
         # adding the tulu
         tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train")
         tulu_sub_ratio = len(playpen_dataset["train"]) / len(tulu_dataset)
-        tulu_sub_dataset, _ = tulu_dataset.train_test_split(tulu_sub_ratio, stratify_by_column="source")
+        tulu_sub_dataset, _ = tulu_dataset.train_test_split(
+            tulu_sub_ratio,
+            stratify_by_column="source",
+            seed=8 # TULU also uses this seed
+            )
         print("length of tulu_sub_dataset", len(tulu_sub_dataset))
         print("length of clembench dataset", len(playpen_dataset))
-
-        #tulu3 uses seed 8 for SFT, add later since it does not work with this kind of demo :1% train split
 
         combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_sub_dataset])
 
