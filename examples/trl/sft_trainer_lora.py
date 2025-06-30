@@ -22,6 +22,7 @@ class PeftSftTrainer(BasePlayPen):
         # Here we load the canonical training split as available in the huggingface playpen-data repository.
         # By default, the dataset is stored in ~/.cache/huggingface/datasets/ on your machine. This might take a while.
         playpen_dataset = load_dataset("colab-potsdam/playpen-data", "interactions", split="train")
+        # try this one later too: clembench-playpen/SFT-Final-Dataset
 
         # Only use the episodes we are interested to train on: here all episodes with successful outcome
         playpen_dataset = playpen_dataset.filter(lambda episode: episode["meta"]["outcome"] == "success")
@@ -36,20 +37,24 @@ class PeftSftTrainer(BasePlayPen):
         tulu_dataset = load_dataset("allenai/tulu-3-sft-mixture", split="train")
         tulu_sub_ratio = len(playpen_dataset["train"]) / len(tulu_dataset)
 
+        # Use only the same number of examples from TÜLU as in the clem dataset, while maintaining the original SFT source distribution.
         unique_sources = tulu_dataset.unique("source")
         source_classlabel = ClassLabel(names=unique_sources) # needed for stratified split
         tulu_dataset = tulu_dataset.cast_column("source", source_classlabel)
         
-        tulu_sub_dataset, _ = tulu_dataset.train_test_split(
-            tulu_sub_ratio,
+        tulu_split, _ = tulu_dataset.train_test_split(
+            train_size=tulu_sub_ratio,
             stratify_by_column="source", 
             seed=8 #tulu3 uses seed 8 for SFT too
             )
-
-        print("length of tulu_sub_dataset", len(tulu_sub_dataset))
-        print("length of clembench dataset", len(playpen_dataset))
         
+        tulu_sub_dataset = tulu_split["train"]
+
+        assert len(tulu_sub_dataset) == len(playpen_dataset), \
+            f"Length mismatch: tulu_sub_dataset={len(tulu_sub_dataset)}, clembench dataset={len(playpen_dataset)}"
+
         combined_dataset = concatenate_datasets([playpen_dataset["train"], tulu_sub_dataset])
+        print(f"Size of the train set: {len(combined_dataset)}")
         
         # Initialize training configuration
         config = trl.SFTConfig(  # inherits TrainingArguments
