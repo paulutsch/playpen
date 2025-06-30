@@ -42,7 +42,7 @@ class PeftSftTrainer(BasePlayPen):
         source_classlabel = ClassLabel(names=unique_sources) # needed for stratified split
         tulu_dataset = tulu_dataset.cast_column("source", source_classlabel)
         
-        tulu_split, _ = tulu_dataset.train_test_split(
+        tulu_split = tulu_dataset.train_test_split(
             train_size=tulu_sub_ratio,
             stratify_by_column="source", 
             seed=8 #tulu3 uses seed 8 for SFT too
