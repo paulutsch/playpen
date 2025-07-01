@@ -57,6 +57,7 @@ class PeftDpoTrainer(BasePlayPen):
             train_dataset=preference_dataset["train"],
             eval_dataset=preference_dataset["test"],
             args=config,
+            processing_class=self.learner.tokenizer,
             # see https://huggingface.co/docs/trl/dpo_trainer#training-adapters
             peft_config=LoraConfig(
                 r=16,
@@ -66,8 +67,6 @@ class PeftDpoTrainer(BasePlayPen):
                 modules_to_save=["lm_head", "embed_token"],
                 task_type="CAUSAL_LM",
             ),
-            # DPO-specific parameters
-            tokenizer=self.learner.tokenizer,
         )
 
         # Train on the dataset; this will save only the adapters to the checkpoints directory
