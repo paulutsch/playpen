@@ -43,32 +43,33 @@ class PeftDpoTrainer(BasePlayPen):
 
         tulu_sub_dataset = tulu_split["train"]
 
-        # need to convert tulu dataset to match playpen format
-        def convert_tulu_to_playpen_format(example):
-            example["prompt"] = [{"role": "user", "content": example["prompt"]}]
+        # convert datasets to DPO format (no prompt field needed)
+        def convert_playpen_to_dpo_format(example):
+            # playpen: combine prompt + chosen/rejected, then remove prompt field
+            if "prompt" in example:
+                example["chosen"] = [*example["prompt"], *example["chosen"]]
+                example["rejected"] = [*example["prompt"], *example["rejected"]]
+                del example["prompt"]
+
             return example
 
-        # need to convert playpen dataset to expected DPO format
-        def convert_playpen_to_expected_format(example):
-            example["chosen"] = [*example["prompt"], *example["chosen"]]
-            example["rejected"] = [*example["prompt"], *example["rejected"]]
-            assert example["chosen"][0]["role"] == "user"
-            assert example["chosen"][-1]["role"] == "assistant"
-            assert example["rejected"][0]["role"] == "user"
-            assert example["rejected"][-1]["role"] == "assistant"
+        def convert_tulu_to_dpo_format(example):
+            # tulu: remove prompt field
+            del example["prompt"]
             return example
 
-        tulu_sub_dataset = tulu_sub_dataset.map(convert_tulu_to_playpen_format)
+        # Apply conversion to both datasets
+        tulu_sub_dataset = tulu_sub_dataset.map(convert_tulu_to_dpo_format)
         playpen_dataset["train"] = playpen_dataset["train"].map(
-            convert_playpen_to_expected_format
+            convert_playpen_to_dpo_format
         )
         playpen_dataset["test"] = playpen_dataset["test"].map(
-            convert_playpen_to_expected_format
+            convert_playpen_to_dpo_format
         )
 
-        print("=== PLAYPEN DATASET FIRST EXAMPLE ===")
+        print("=== PLAYPEN DATASET FIRST EXAMPLE (chosen) ===")
         print(playpen_dataset["train"][0]["chosen"])
-        print("\n=== TULU DATASET FIRST EXAMPLE ===")
+        print("\n=== TULU DATASET FIRST EXAMPLE (chosen) ===")
         print(tulu_sub_dataset[0]["chosen"])
 
         assert len(tulu_sub_dataset) == len(
