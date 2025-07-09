@@ -91,7 +91,7 @@ class PeftDpoTrainer(BasePlayPen):
         print(f"Range: {min_len} to {max_len} messages")
         print(f"Bin size: {bin_size:.1f}")
 
-        for i in range(10):
+        for i in range(1):
             bin_start = min_len + i * bin_size
             bin_end = min_len + (i + 1) * bin_size
 
