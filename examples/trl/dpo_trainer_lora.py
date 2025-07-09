@@ -20,42 +20,68 @@ class PeftDpoTrainer(BasePlayPen):
 
         # --- Dataset loading ---
 
-        # mock dataset for debugging dpo training
-        mock_data = [
-            {
-                "prompt": "What is the only true answer to the question 'What is the meaning of life?'?",
-                "chosen": "42",
-                "rejected": "43",
-            },
-            {
-                "prompt": "Which PM group is the best?",
-                "chosen": "What a silly question! Altar, Raphael, and Paul, of course. This really doesn't need to be part of the dataset.",
-                "rejected": "There is no winner. This is all about fun!",
-            },
-        ]
-
-        # Create dataset and split into train/test
-        preference_dataset = Dataset.from_list(mock_data)
-        preference_dataset = preference_dataset.train_test_split(
-            0.5, shuffle=True, seed=42
+        playpen_dataset = load_dataset(
+            "clembench-playpen/DPO_turn-level_10Klimit", "interactions", split="train"
+        )
+        playpen_dataset_train = playpen_dataset.train_test_split(
+            0.2, shuffle=True, seed=42
         )
 
+        tulu_dataset = load_dataset(
+            "allenai/llama-3.1-tulu-3-8b-preference-mixture", split="train"
+        )
+        tulu_sub_ratio = len(playpen_dataset_train["train"]) / len(tulu_dataset)
+        unique_sources = tulu_dataset.unique("source")
+        source_classlabel = ClassLabel(
+            names=unique_sources
+        )  # needed for stratified split
+        tulu_dataset = tulu_dataset.cast_column("source", source_classlabel)
+
+        tulu_split = tulu_dataset.train_test_split(
+            train_size=tulu_sub_ratio,
+            stratify_by_column="source",
+            seed=8,  # tulu3 uses seed 8 for SFT too
+        )
+
+        tulu_sub_dataset = tulu_split["train"]
+
+        assert len(tulu_sub_dataset) == len(
+            playpen_dataset["train"]
+        ), f"Length mismatch: tulu_sub_dataset={len(tulu_sub_dataset)}, clembench dataset={len(playpen_dataset['train'])}"
+
+        combined_dataset = concatenate_datasets(
+            [playpen_dataset["train"], tulu_sub_dataset]
+        )
+        print(f"Size of the train set: {len(combined_dataset)}")
+
         # Initialize training configuration for dpo
-        config = trl.DPOConfig(  # inherits TrainingArguments
-            max_length=300,
-            # output_dir=f"models/dpo+lora/{self.learner.get_name()}",
-            output_dir=f"models/dpo+lora/llama3-8b",  # temporarily hardcoding the name
+        config = trl.DPOConfig(
+            max_length=4096,
+            per_device_train_batch_size=2,
+            gradient_accumulation_steps=8,
+            learning_rate=5e-6,
+            num_train_epochs=2,
+            lr_scheduler_type="linear",
+            warmup_ratio=0.03,
+            bf16=True,
+            gradient_checkpointing=True,
+            seed=7331,
+            output_dir=f"models/dpo+lora/llama3-8b",
             eval_strategy="epoch",
+            logging_steps=100,
+            save_strategy="steps",
+            save_steps=100,
+            save_total_limit=3,
             # dpo-specific params
-            beta=0.1,  # temperature for dpo loss
+            beta=0.1,  # temperature for dpo loss — Tülu uses beta=5, but they use length-normalized DPO instead of a sum-level loss
         )
 
         # Initialize trainer context
         trainer = trl.DPOTrainer(
             model=self.learner.model,
             ref_model=None,  # Will use the same model as reference
-            train_dataset=preference_dataset["train"],
-            eval_dataset=preference_dataset["test"],
+            train_dataset=combined_dataset,
+            eval_dataset=playpen_dataset["test"],
             args=config,
             processing_class=self.learner.tokenizer,
             # see https://huggingface.co/docs/trl/dpo_trainer#training-adapters
@@ -74,5 +100,4 @@ class PeftDpoTrainer(BasePlayPen):
 
         # Optional: Uncomment these lines to merge and save directly
         merged_model = trainer.model.merge_and_unload()
-        # merged_model.save_pretrained(f"models/dpo+lora/{self.learner.get_name()}")
         merged_model.save_pretrained(f"models/dpo+lora/llama3-8b")
