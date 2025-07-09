@@ -1,3 +1,5 @@
+import json
+
 import trl
 from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
@@ -73,9 +75,9 @@ class PeftDpoTrainer(BasePlayPen):
         )
 
         print("=== PLAYPEN DATASET FIRST EXAMPLE (chosen) ===")
-        print(playpen_dataset["train"][0]["chosen"])
+        print(json.dumps(playpen_dataset["train"][0]["chosen"], indent=2))
         print("\n=== TULU DATASET FIRST EXAMPLE (chosen) ===")
-        print(tulu_sub_dataset[0]["chosen"])
+        print(json.dumps(tulu_sub_dataset[0]["chosen"], indent=2))
 
         assert len(tulu_sub_dataset) == len(
             playpen_dataset["train"]
