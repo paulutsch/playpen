@@ -72,6 +72,19 @@ This will produce a `<model-name>.val.json` file which contains two numbers:
 1. **clemscore**: the average gameplay performance on the interactive benchmark games
 2. **statscore**: the average performance on the static benchmark datasets
 
+The file is by default located in a `playpen-eval/<timestamp>` folder.
+If you need to run the evaluation again for specific games, e.g., for wordle, you can use the `-g` and `-r` options of the eval command, as follows:
+```bash
+playpen eval llama3-8b -g wordle_withcritic -r playpen-eval/2025-07-04T09-37-23/
+```
+This will replace the results for the game in the already existing timestamp folder and re-compute the scores.
+
+You can also skip the gameplay and only re-compute the scores, if needed, by using `--skip_gameplay`, so that:
+
+```bash
+playpen eval llama3-8b --skip_gameplay -r playpen-eval/2025-07-04T09-37-23/
+```
+
 # Examples
 
 ## Supervised Finetuning
