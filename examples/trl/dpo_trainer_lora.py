@@ -1,7 +1,7 @@
 import json
 
-import matplotlib.pyplot as plt
 import trl
+import wandb
 from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
 from datasets import ClassLabel, Dataset, concatenate_datasets, load_dataset
@@ -82,26 +82,31 @@ class PeftDpoTrainer(BasePlayPen):
             len(example["rejected"]) for example in playpen_dataset["train"]
         ]
 
-        plt.figure(figsize=(10, 5))
-        plt.hist(
-            chosen_lengths,
-            bins=range(min(chosen_lengths), max(chosen_lengths) + 2),
-            alpha=0.5,
-            label="chosen",
+        # Create 10 bins for distribution analysis
+        min_len = min(min(chosen_lengths), min(rejected_lengths))
+        max_len = max(max(chosen_lengths), max(rejected_lengths))
+        bin_size = (max_len - min_len) / 10
+
+        print(f"\n=== MESSAGE COUNT DISTRIBUTION (10 bins) ===")
+        print(f"Range: {min_len} to {max_len} messages")
+        print(f"Bin size: {bin_size:.1f}")
+
+        for i in range(10):
+            bin_start = min_len + i * bin_size
+            bin_end = min_len + (i + 1) * bin_size
+
+            chosen_in_bin = sum(1 for l in chosen_lengths if bin_start <= l < bin_end)
+            rejected_in_bin = sum(
+                1 for l in rejected_lengths if bin_start <= l < bin_end
+            )
+
+            print(
+                f"Bin {i+1:2d}: [{bin_start:3.0f}, {bin_end:3.0f}) - Chosen: {chosen_in_bin:3d}, Rejected: {rejected_in_bin:3d}"
+            )
+
+        print(
+            f"\nTotal samples - Chosen: {len(chosen_lengths)}, Rejected: {len(rejected_lengths)}"
         )
-        plt.hist(
-            rejected_lengths,
-            bins=range(min(rejected_lengths), max(rejected_lengths) + 2),
-            alpha=0.5,
-            label="rejected",
-        )
-        plt.xlabel("Number of messages")
-        plt.ylabel("Frequency")
-        plt.title(
-            "Distribution of message counts in chosen and rejected (playpen train)"
-        )
-        plt.legend()
-        plt.show()
 
         print("=== PLAYPEN DATASET FIRST 5 EXAMPLES (chosen) ===")
         for i in range(5):
@@ -121,6 +126,24 @@ class PeftDpoTrainer(BasePlayPen):
             [playpen_dataset["train"], tulu_sub_dataset]
         )
         print(f"Size of the train set: {len(combined_dataset)}")
+
+        wandb.init(
+            project="playpen-dpo-training",
+            name="dpo-lora-llama3-8b",
+            config={
+                "model": "llama3-8b",
+                "training_method": "DPO",
+                "peft_method": "LoRA",
+                "beta": 0.1,
+                "learning_rate": 5e-6,
+                "batch_size": 2,
+                "gradient_accumulation_steps": 8,
+                "max_length": 4096,
+                "num_epochs": 2,
+                "dataset": "playpen+tulu",
+                "train_samples": len(combined_dataset),
+            },
+        )
 
         # Initialize training configuration for dpo
         config = trl.DPOConfig(
@@ -142,6 +165,8 @@ class PeftDpoTrainer(BasePlayPen):
             save_total_limit=3,
             # dpo-specific params
             beta=0.1,  # temperature for dpo loss — Tülu uses beta=5, but they use length-normalized DPO instead of a sum-level loss
+            # wandb logging
+            report_to=["wandb"],
         )
 
         # Initialize trainer context
@@ -166,6 +191,21 @@ class PeftDpoTrainer(BasePlayPen):
         # Train on the dataset; this will save only the adapters to the checkpoints directory
         trainer.train()
 
+        # Log final metrics
+        wandb.log(
+            {
+                "final_train_loss": (
+                    trainer.state.log_history[-1]["train_loss"]
+                    if trainer.state.log_history
+                    else None
+                ),
+                "training_completed": True,
+            }
+        )
+
         # Optional: Uncomment these lines to merge and save directly
         merged_model = trainer.model.merge_and_unload()
         merged_model.save_pretrained(f"models/dpo+lora/llama3-8b")
+
+        # Finish wandb run
+        wandb.finish()
