@@ -61,9 +61,9 @@ class PeftDpoTrainer(BasePlayPen):
         )
 
         print("=== PLAYPEN DATASET FIRST EXAMPLE ===")
-        print(playpen_dataset["train"][0])
+        print(playpen_dataset["train"][0]["chosen"])
         print("\n=== TULU DATASET FIRST EXAMPLE ===")
-        print(tulu_sub_dataset[0])
+        print(tulu_sub_dataset[0]["chosen"])
 
         assert len(tulu_sub_dataset) == len(
             playpen_dataset["train"]
