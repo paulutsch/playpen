@@ -21,7 +21,7 @@ class PeftDpoTrainer(BasePlayPen):
         # --- Dataset loading ---
 
         playpen_dataset = load_dataset(
-            "clembench-playpen/DPO_turn-level_10Klimit", "interactions", split="train"
+            "clembench-playpen/DPO_turn-level_10Klimit", split="train"
         )
         playpen_dataset_train = playpen_dataset.train_test_split(
             0.2, shuffle=True, seed=42
