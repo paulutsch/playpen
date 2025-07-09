@@ -47,10 +47,10 @@ class PeftDpoTrainer(BasePlayPen):
         def convert_playpen_to_tulu_format(example):
             example["prompt"] = [{"role": "user", "content": example["prompt"]}]
 
-            example["chosen"] = [{"role": "assistant", "content": example["chosen"]}]
-            example["rejected"] = [
-                {"role": "assistant", "content": example["rejected"]}
-            ]
+            # example["chosen"] = [{"role": "assistant", "content": example["chosen"]}]
+            # example["rejected"] = [
+            #     {"role": "assistant", "content": example["rejected"]}
+            # ]
 
             return example
 
