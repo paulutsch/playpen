@@ -44,22 +44,12 @@ class PeftDpoTrainer(BasePlayPen):
         tulu_sub_dataset = tulu_split["train"]
 
         # need to convert playpen dataset to match tulu format
-        def convert_playpen_to_tulu_format(example):
-            example["prompt"] = [{"role": "user", "content": example["prompt"]}]
-
-            # example["chosen"] = [{"role": "assistant", "content": example["chosen"]}]
-            # example["rejected"] = [
-            #     {"role": "assistant", "content": example["rejected"]}
-            # ]
+        def convert_tulu_to_playpen_format(example):
+            example["prompt"] = {"role": "user", "content": example["prompt"]}
 
             return example
 
-        playpen_dataset["train"] = playpen_dataset["train"].map(
-            convert_playpen_to_tulu_format
-        )
-        playpen_dataset["test"] = playpen_dataset["test"].map(
-            convert_playpen_to_tulu_format
-        )
+        tulu_sub_dataset = tulu_sub_dataset.map(convert_tulu_to_playpen_format)
 
         assert len(tulu_sub_dataset) == len(
             playpen_dataset["train"]
