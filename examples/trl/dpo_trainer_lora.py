@@ -51,6 +51,11 @@ class PeftDpoTrainer(BasePlayPen):
 
         tulu_sub_dataset = tulu_sub_dataset.map(convert_tulu_to_playpen_format)
 
+        print("=== PLAYPEN DATASET FIRST EXAMPLE ===")
+        print(playpen_dataset["train"][0])
+        print("\n=== TULU DATASET FIRST EXAMPLE ===")
+        print(tulu_sub_dataset[0])
+
         assert len(tulu_sub_dataset) == len(
             playpen_dataset["train"]
         ), f"Length mismatch: tulu_sub_dataset={len(tulu_sub_dataset)}, clembench dataset={len(playpen_dataset['train'])}"
