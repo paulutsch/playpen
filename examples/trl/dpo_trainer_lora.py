@@ -43,7 +43,12 @@ class PeftDpoTrainer(BasePlayPen):
 
         tulu_sub_dataset = tulu_split["train"]
 
-        # need to convert playpen dataset to match expected DPO format
+        # need to convert tulu dataset to match playpen format
+        def convert_tulu_to_playpen_format(example):
+            example["prompt"] = [{"role": "user", "content": example["prompt"]}]
+            return example
+
+        # need to convert playpen dataset to expected DPO format
         def convert_playpen_to_expected_format(example):
             example["chosen"] = [*example["prompt"], *example["chosen"]]
             example["rejected"] = [*example["prompt"], *example["rejected"]]
@@ -53,6 +58,7 @@ class PeftDpoTrainer(BasePlayPen):
             assert example["rejected"][-1]["role"] == "assistant"
             return example
 
+        tulu_sub_dataset = tulu_sub_dataset.map(convert_tulu_to_playpen_format)
         playpen_dataset["train"] = playpen_dataset["train"].map(
             convert_playpen_to_expected_format
         )
