@@ -98,7 +98,7 @@ def evaluate(suite: str, model_spec: ModelSpec, gen_args: Dict, results_dir: str
             dataset = load_dataset("colab-potsdam/playpen-data", "instances", split="validation")
             task_selector = to_task_selector(dataset)
             clem.run(game_selector, [model_spec], gen_args=gen_args, results_dir=results_dir,
-                     instances_filename="instances", task_selector=task_selector)
+                     task_selector=task_selector)
         # clem.score(game_selector, results_dir) # already done during run in clemcore 2.x
         clem.transcripts("all", results_dir)  # these will contain only the played games anyway
         df = clem.clemeval.perform_evaluation(results_dir, return_dataframe=True)
