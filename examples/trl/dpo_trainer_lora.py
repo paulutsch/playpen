@@ -23,14 +23,14 @@ class PeftDpoTrainer(BasePlayPen):
         playpen_dataset = load_dataset(
             "clembench-playpen/DPO_turn-level_10Klimit", split="train"
         )
-        playpen_dataset_train = playpen_dataset.train_test_split(
+        playpen_dataset = playpen_dataset.train_test_split(
             0.2, shuffle=True, seed=42
         )
 
         tulu_dataset = load_dataset(
             "allenai/llama-3.1-tulu-3-8b-preference-mixture", split="train"
         )
-        tulu_sub_ratio = len(playpen_dataset_train["train"]) / len(tulu_dataset)
+        tulu_sub_ratio = len(playpen_dataset["train"]) / len(tulu_dataset)
         unique_sources = tulu_dataset.unique("source")
         source_classlabel = ClassLabel(
             names=unique_sources
