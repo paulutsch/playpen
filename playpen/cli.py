@@ -3,11 +3,13 @@ import inspect
 import importlib.util as importlib_util
 import json
 import os
+from pathlib import Path
 from typing import Dict, Callable, List
+from datetime import datetime
 
 import clemcore.cli as clem
 from clemcore.backends import ModelSpec, ModelRegistry, BackendRegistry
-from clemcore.clemgame import GameRegistry
+from clemcore.clemgame import GameRegistry, GameSpec
 from playpen import BasePlayPen
 
 
@@ -65,7 +67,7 @@ def train(file_path: str, learner: ModelSpec, teacher: ModelSpec, temperature: f
         playpen_cls(learner_model, teacher_model).learn(game_registry)
 
 
-def store_eval_score(file_path, name, value):
+def store_eval_score(file_path: Path, name: str, value):
     try:  # first, try to load file to not overwrite already written eval scores
         with open(file_path, "r", encoding="utf-8") as f:
             scores = json.load(f)
@@ -89,23 +91,43 @@ def to_task_selector(dataset) -> Callable[[str, str], List[int]]:
     return lambda game, experiment: tasks_by_group[(game, experiment)]
 
 
-def evaluate(suite: str, model_spec: ModelSpec, gen_args: Dict, results_dir: str, game_selector: str,
+def get_default_results_dir():
+    timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+    results_dir = Path("playpen-eval") / timestamp
+    return results_dir
+
+
+def evaluate_suite(suite: str, model_spec: ModelSpec, gen_args: Dict, results_dir: Path, game_selector: str,
+                   dataset_name: str):
+    suite_results_dir = str(results_dir / suite)
+    if dataset_name is not None:
+        from datasets import load_dataset
+        dataset = load_dataset("colab-potsdam/playpen-data", dataset_name, split="validation")
+        task_selector = to_task_selector(dataset)
+        clem.run(game_selector, [model_spec],
+                 gen_args=gen_args, results_dir=suite_results_dir, task_selector=task_selector)
+    # clem.score(game_selector, results_dir) # already done during run in clemcore 2.x
+    clem.transcripts("all", suite_results_dir)  # these will contain only the played games anyway
+    df = clem.clemeval.perform_evaluation(suite_results_dir, return_dataframe=True)
+    clem_score = df["-, clemscore"][0]
+    return clem_score
+
+
+def evaluate(suite: str, model_spec: ModelSpec, gen_args: Dict, results_dir: Path, game_selector: str,
              skip_gameplay: bool):
-    results_file = os.path.join(results_dir, f"{model_spec.model_name}.val.json")
+    overall_results_file = results_dir / f"{model_spec.model_name}.val.json"
     if suite in ["all", "clem"]:
-        if not skip_gameplay:
-            from datasets import load_dataset
-            dataset = load_dataset("colab-potsdam/playpen-data", "instances", split="validation")
-            task_selector = to_task_selector(dataset)
-            clem.run(game_selector, [model_spec], gen_args=gen_args, results_dir=results_dir,
-                     task_selector=task_selector)
-        # clem.score(game_selector, results_dir) # already done during run in clemcore 2.x
-        clem.transcripts("all", results_dir)  # these will contain only the played games anyway
-        df = clem.clemeval.perform_evaluation(results_dir, return_dataframe=True)
-        clem_score = df["-, clemscore"][0]
-        store_eval_score(results_file, "clemscore", clem_score)
-    if suite in ["all", "stat"]:
-        ...#todo: continue here with FMs
+        dataset_name = None if skip_gameplay else "instances"
+        game_selector = GameSpec.from_dict({"benchmark": ["2.0"]}, allow_underspecified=True) \
+            if game_selector is None else game_selector
+        clem_score = evaluate_suite("clem", model_spec, gen_args, results_dir, game_selector, dataset_name)
+        store_eval_score(overall_results_file, "clemscore", clem_score)
+    if suite in ["all", "static"]:
+        dataset_name = None if skip_gameplay else "instances-static"
+        game_selector = GameSpec.from_dict({"benchmark": ["static_1.0"]}, allow_underspecified=True) \
+            if game_selector is None else game_selector
+        stat_score = evaluate_suite("static", model_spec, gen_args, results_dir, game_selector, dataset_name)
+        store_eval_score(overall_results_file, "statscore", stat_score)
 
 
 def cli(args: argparse.Namespace):
@@ -126,12 +148,7 @@ def cli(args: argparse.Namespace):
     if args.command_name == "eval":
         model_spec = ModelSpec.from_string(args.model)
         gen_args = dict(temperature=args.temperature, max_tokens=args.max_tokens)
-        results_dir = args.results_dir
-        if results_dir is None:  # default
-            from datetime import datetime
-            timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
-            results_dir = f"playpen-eval/{timestamp}"
-        evaluate(args.suite, model_spec, gen_args, results_dir, args.game, args.skip_gameplay)
+        evaluate(args.suite, model_spec, gen_args, args.results_dir, args.game, args.skip_gameplay)
 
 
 def main():
@@ -165,15 +182,15 @@ def main():
                                          description="Run the playpen eval pipelines to compute clem- and statscore.")
     eval_parser.add_argument("model", type=str,
                              help="The model name of the model to be evaluated (as listed by 'playpen list models').")
-    eval_parser.add_argument("--suite", choices=["clem", "static", "all"],
-                             default="all", nargs="?", type=str,
+    eval_parser.add_argument("--suite", choices=["clem", "static", "all"], default="all",
+                             nargs="?", type=str,
                              help="Choose which eval suites to run. Default: all")
-    eval_parser.add_argument("-g", "--game", type=str, default="{'benchmark':['2.0']}",
-                             help="A game selector e.g. a game name or a GameSpec-like JSON object given as a string."
-                                  "Default: \"{'benchmark':['2.0']}\". Only relevant for 'clem'.")
-    eval_parser.add_argument("-r", "--results_dir", type=str, default=None,
-                             help="A relative or absolute path to a results directory. "
-                                  "Default: playpen-eval/<timestamp>. Only relevant for 'clem'.")
+    eval_parser.add_argument("-g", "--game", type=str,
+                             help="A game selector e.g. a game name or a GameSpec-like JSON object given as a string.")
+    eval_parser.add_argument("-r", "--results_dir", type=Path, default=get_default_results_dir(),
+                             help="A relative or absolute path to a playpen-eval results directory. "
+                                  "This is expected to be one level above 'clem' or 'static' results."
+                                  "Default: playpen-eval/<timestamp>.")
     eval_parser.add_argument("--skip_gameplay", action="store_true",
                              help="Flag to skip gameplay and only calculate the clemscore for a given 'results_dir'."
                                   "Default: False. Only relevant for 'clem'.")
