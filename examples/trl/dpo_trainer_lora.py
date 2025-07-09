@@ -43,6 +43,11 @@ class PeftDpoTrainer(BasePlayPen):
 
         tulu_sub_dataset = tulu_split["train"]
 
+        # for debugging: limit to 100 samples each
+        playpen_dataset["train"] = playpen_dataset["train"].select(range(100))
+        playpen_dataset["test"] = playpen_dataset["test"].select(range(100))
+        tulu_sub_dataset = tulu_sub_dataset.select(range(100))
+
         # convert datasets to DPO format (no prompt field needed)
         def convert_playpen_to_dpo_format(example):
             # playpen: combine prompt + chosen/rejected, then remove prompt field
