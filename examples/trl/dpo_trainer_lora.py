@@ -74,10 +74,15 @@ class PeftDpoTrainer(BasePlayPen):
             convert_playpen_to_dpo_format
         )
 
-        print("=== PLAYPEN DATASET FIRST EXAMPLE (chosen) ===")
-        print(json.dumps(playpen_dataset["train"][0]["chosen"], indent=2))
-        print("\n=== TULU DATASET FIRST EXAMPLE (chosen) ===")
-        print(json.dumps(tulu_sub_dataset[0]["chosen"], indent=2))
+        print("=== PLAYPEN DATASET FIRST 5 EXAMPLES (chosen) ===")
+        for i in range(5):
+            print(f"\nExample {i+1}:")
+            print(json.dumps(playpen_dataset["train"][i]["chosen"], indent=2))
+
+        print("\n=== TULU DATASET FIRST 5 EXAMPLES (chosen) ===")
+        for i in range(5):
+            print(f"\nExample {i+1}:")
+            print(json.dumps(tulu_sub_dataset[i]["chosen"], indent=2))
 
         assert len(tulu_sub_dataset) == len(
             playpen_dataset["train"]
