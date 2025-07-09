@@ -1,5 +1,6 @@
 import json
 
+import matplotlib.pyplot as plt
 import trl
 from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
@@ -73,6 +74,34 @@ class PeftDpoTrainer(BasePlayPen):
         playpen_dataset["test"] = playpen_dataset["test"].map(
             convert_playpen_to_dpo_format
         )
+
+        chosen_lengths = [
+            len(example["chosen"]) for example in playpen_dataset["train"]
+        ]
+        rejected_lengths = [
+            len(example["rejected"]) for example in playpen_dataset["train"]
+        ]
+
+        plt.figure(figsize=(10, 5))
+        plt.hist(
+            chosen_lengths,
+            bins=range(min(chosen_lengths), max(chosen_lengths) + 2),
+            alpha=0.5,
+            label="chosen",
+        )
+        plt.hist(
+            rejected_lengths,
+            bins=range(min(rejected_lengths), max(rejected_lengths) + 2),
+            alpha=0.5,
+            label="rejected",
+        )
+        plt.xlabel("Number of messages")
+        plt.ylabel("Frequency")
+        plt.title(
+            "Distribution of message counts in chosen and rejected (playpen train)"
+        )
+        plt.legend()
+        plt.show()
 
         print("=== PLAYPEN DATASET FIRST 5 EXAMPLES (chosen) ===")
         for i in range(5):
