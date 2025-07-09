@@ -23,9 +23,7 @@ class PeftDpoTrainer(BasePlayPen):
         playpen_dataset = load_dataset(
             "clembench-playpen/DPO_turn-level_10Klimit", split="train"
         )
-        playpen_dataset = playpen_dataset.train_test_split(
-            0.2, shuffle=True, seed=42
-        )
+        playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
 
         tulu_dataset = load_dataset(
             "allenai/llama-3.1-tulu-3-8b-preference-mixture", split="train"
@@ -44,6 +42,24 @@ class PeftDpoTrainer(BasePlayPen):
         )
 
         tulu_sub_dataset = tulu_split["train"]
+
+        # need to convert playpen dataset to match tulu format
+        def convert_playpen_to_tulu_format(example):
+            example["prompt"] = [{"role": "user", "content": example["prompt"]}]
+
+            example["chosen"] = [{"role": "assistant", "content": example["chosen"]}]
+            example["rejected"] = [
+                {"role": "assistant", "content": example["rejected"]}
+            ]
+
+            return example
+
+        playpen_dataset["train"] = playpen_dataset["train"].map(
+            convert_playpen_to_tulu_format
+        )
+        playpen_dataset["test"] = playpen_dataset["test"].map(
+            convert_playpen_to_tulu_format
+        )
 
         assert len(tulu_sub_dataset) == len(
             playpen_dataset["train"]
