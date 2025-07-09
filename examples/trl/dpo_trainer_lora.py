@@ -45,7 +45,7 @@ class PeftDpoTrainer(BasePlayPen):
 
         # need to convert playpen dataset to match tulu format
         def convert_tulu_to_playpen_format(example):
-            example["prompt"] = {"role": "user", "content": example["prompt"]}
+            example["prompt"] = [{"role": "user", "content": example["prompt"]}]
 
             return example
 
