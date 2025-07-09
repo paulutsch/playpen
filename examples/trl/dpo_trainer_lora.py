@@ -166,7 +166,7 @@ class PeftDpoTrainer(BasePlayPen):
             # dpo-specific params
             beta=0.1,  # temperature for dpo loss — Tülu uses beta=5, but they use length-normalized DPO instead of a sum-level loss
             # wandb logging
-            report_to=["wandb"],
+            report_to="wandb",
         )
 
         # Initialize trainer context
