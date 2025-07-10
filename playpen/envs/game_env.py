@@ -5,6 +5,7 @@ from typing import List, Tuple, Dict, Callable, Union
 from clemcore.backends import Model
 from clemcore.clemgame import GameBenchmark, DialogueGameMaster, GameInstanceIterator, DefaultGameRecorder, Player
 from clemcore.clemgame.resources import store_file
+from clemcore.clemgame.benchmark import to_model_results_folder, to_player_model_infos
 
 from playpen.envs import PlayPenEnv
 
@@ -17,7 +18,7 @@ class GameEnv(PlayPenEnv):
         self._game = game
         self._game_name = game.game_name
         self._player_models = player_models
-        self._dialogue_pair_descriptor = game.get_dialogue_pair_descriptor(player_models)
+        self._model_results_folder = to_model_results_folder(player_models)
         self._task_iterator = task_iterator
         if len(self._task_iterator) < 1:
             raise RuntimeError(f"No game instances given for the game: '{self._game_name}'")
@@ -61,7 +62,8 @@ class GameEnv(PlayPenEnv):
             self.master.game_recorder = DefaultGameRecorder(self._game_name,
                                                             self._experiment["name"],
                                                             self._game_instance["game_id"],
-                                                            self._dialogue_pair_descriptor)
+                                                            self._model_results_folder,
+                                                            to_player_model_infos(self._player_models))
             self.master.setup(**self._game_instance)
         except StopIteration as e:
             self._current_task_iteration += 1
@@ -70,19 +72,19 @@ class GameEnv(PlayPenEnv):
             self._task_iterator.reset()
             self.reset()
 
-    def observe(self) -> Tuple[Union[Player, Callable], Union[Dict, List[Dict]]]:
-        player = self.master.get_current_player()
+    def observe(self) -> Tuple[Player | Callable, Dict | List[Dict]]:
+        player = self.master.current_player
         context = self.master.get_context_for(player)
         return player, context
 
-    def step(self, response: Union[str, List]) -> Tuple[Union[bool, List], Union[Dict, List]]:
+    def step(self, response: str | List) -> Tuple[bool | List, Dict | List]:
         self._done, info = self.master.step(response)
         return self._done, info
 
     def store_records(self, top_dir: str, rollout_dir: str, episode_dir: str):
         experiment_dir = f"{self.experiment['index']}_{self.experiment['name']}"
         experiment_path = os.path.join(top_dir,
-                                       self._dialogue_pair_descriptor,
+                                       self._model_results_folder,
                                        rollout_dir,
                                        self._game_name,
                                        experiment_dir)
