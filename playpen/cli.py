@@ -106,8 +106,8 @@ def evaluate_suite(suite: str, model_spec: ModelSpec, gen_args: Dict, results_di
         task_selector = to_task_selector(dataset)
         clem.run(game_selector, [model_spec],
                  gen_args=gen_args, results_dir=suite_results_dir, task_selector=task_selector)
-    # clem.score(game_selector, results_dir) # already done during run in clemcore 2.x
-    clem.transcripts("all", suite_results_dir)  # these will contain only the played games anyway
+    clem.score(game_selector, suite_results_dir)
+    clem.transcripts(game_selector, suite_results_dir)
     df = clem.clemeval.perform_evaluation(suite_results_dir, return_dataframe=True)
     clem_score = df["-, clemscore"][0]
     return clem_score

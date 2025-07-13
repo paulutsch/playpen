@@ -21,11 +21,11 @@ class PlayPenEnv(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def observe(self) -> Tuple[Union[Player, Callable], Union[Dict, List[Dict]]]:
+    def observe(self) -> Tuple[Player | Callable, Dict | List[Dict]]:
         pass
 
     @abc.abstractmethod
-    def step(self, responses: Union[str, List]) -> Tuple[Union[bool, List], Union[Dict, List]]:
+    def step(self, response: str | List) -> Tuple[bool | List, Dict | List]:
         pass
 
     @abc.abstractmethod
