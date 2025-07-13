@@ -1,8 +1,8 @@
 import json
 import os
+from collections import Counter
 
 import trl
-import wandb
 from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
 from datasets import ClassLabel, Dataset, concatenate_datasets, load_dataset
@@ -53,11 +53,6 @@ class PeftDpoTrainer(BasePlayPen):
         )
 
         tulu_sub_dataset = tulu_split["train"]
-
-        # for debugging: limit to 100 samples each
-        playpen_dataset["train"] = playpen_dataset["train"].select(range(100))
-        playpen_dataset["test"] = playpen_dataset["test"].select(range(100))
-        tulu_sub_dataset = tulu_sub_dataset.select(range(100))
 
         # convert datasets to DPO format (no prompt field needed)
         def convert_playpen_to_dpo_format(example):
@@ -116,19 +111,86 @@ class PeftDpoTrainer(BasePlayPen):
             f"\nTotal samples - Chosen: {len(chosen_lengths)}, Rejected: {len(rejected_lengths)}"
         )
 
-        print("=== PLAYPEN DATASET FIRST 5 EXAMPLES (chosen) ===")
-        for i in range(5):
-            print(f"\nExample {i+1}:")
+        print("=== PLAYPEN DATASET EXAMPLES ===")
+        for i in range(2):
+            print(f"\nExample {i+1} (chosen):")
             print(json.dumps(playpen_dataset["train"][i]["chosen"], indent=2))
+            print(f"\nExample {i+1} (chosen):")
+            print(json.dumps(playpen_dataset["train"][i]["rejected"], indent=2))
 
-        print("\n=== TULU DATASET FIRST 5 EXAMPLES (chosen) ===")
-        for i in range(5):
-            print(f"\nExample {i+1}:")
+        print("\n=== TULU DATASET EXAMPLES ===")
+        for i in range(2):
+            print(f"\nExample {i+1} (chosen):")
             print(json.dumps(tulu_sub_dataset[i]["chosen"], indent=2))
+            print(f"\nExample {i+1} (rejected):")
+            print(json.dumps(tulu_sub_dataset[i]["rejected"], indent=2))
 
         assert len(tulu_sub_dataset) == len(
             playpen_dataset["train"]
         ), f"Length mismatch: tulu_sub_dataset={len(tulu_sub_dataset)}, clembench dataset={len(playpen_dataset['train'])}"
+
+        def audit_prefix_integrity(dataset, name="dataset", max_print=5):
+            """
+            Scan every preference pair and bucket failures into three categories:
+              A. length mismatch
+              B. divergent prefix (i.e., chosen[:-1] != rejected[:-1])
+              C. identical final assistant message (chosen[-1] == rejected[-1])
+            Prints a short crime report and returns a Counter with the tallies.
+            """
+
+            crimes = Counter()  # keeps score so we can surface totals
+            first_offenders = {  # store the first few indices for each crime
+                "length": [],
+                "prefix": [],
+                "final_id": [],
+            }
+
+            for idx, row in enumerate(dataset):
+                chosen, rejected = row["chosen"], row["rejected"]
+
+                # A · Same length?
+                if len(chosen) != len(rejected):
+                    crimes["length"] += 1
+                    if len(first_offenders["length"]) < max_print:
+                        first_offenders["length"].append(idx)
+                    continue  # no point in deeper checks—structure already broken
+
+                # B · Identical prefix?
+                if chosen[:-1] != rejected[:-1]:
+                    crimes["prefix"] += 1
+                    if len(first_offenders["prefix"]) < max_print:
+                        first_offenders["prefix"].append(idx)
+                    continue
+
+                # C · Final answers must differ
+                if chosen[-1] == rejected[-1]:
+                    crimes["final_id"] += 1
+                    if len(first_offenders["final_id"]) < max_print:
+                        first_offenders["final_id"].append(idx)
+
+            clean = len(dataset) - sum(crimes.values())
+
+            # ── Crime Scene Report ────────────────────────────────────────────────
+            print(f"\n🚨 Integrity audit for '{name}'")
+            print("──────────────────────────────────────────")
+            print(f"Total rows examined : {len(dataset):>6}")
+            print(f"Perfectly clean     : {clean:>6}")
+            print(f"Length mismatch     : {crimes['length']:>6}")
+            print(f"Divergent prefix    : {crimes['prefix']:>6}")
+            print(f"Identical finals    : {crimes['final_id']:>6}")
+            print("──────────────────────────────────────────")
+
+            # show a few IDs per crime so you can peek
+            for crime, ids in first_offenders.items():
+                if ids:
+                    print(f" ⚠️  Sample indices w/ {crime.replace('_',' ')}: {ids}")
+
+            return crimes
+
+        # Example usage BEFORE concatenating or training
+        audit_prefix_integrity(tulu_sub_dataset, name="tulu-sub")
+        audit_prefix_integrity(playpen_dataset["train"], name="playpen-train")
+        audit_prefix_integrity(playpen_dataset["test"], name="playpen-test")
 
         combined_dataset = concatenate_datasets(
             [playpen_dataset["train"], tulu_sub_dataset]
@@ -183,21 +245,6 @@ class PeftDpoTrainer(BasePlayPen):
         # Train on the dataset; this will save only the adapters to the checkpoints directory
         trainer.train()
 
-        # Log final metrics
-        wandb.log(
-            {
-                "final_train_loss": (
-                    trainer.state.log_history[-1]["train_loss"]
-                    if trainer.state.log_history
-                    else None
-                ),
-                "training_completed": True,
-            }
-        )
-
         # Optional: Uncomment these lines to merge and save directly
         merged_model = trainer.model.merge_and_unload()
         merged_model.save_pretrained(f"models/dpo+lora/llama3-8b")
-
-        # Finish wandb run
-        wandb.finish()
