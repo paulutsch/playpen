@@ -12,7 +12,7 @@ import json
 import ast
 
 # For wandb api-key
-with open("key.json", "r") as f:
+with open("../../key.json", "r") as f:
     keys = json.load(f)
 
 os.environ["WANDB_API_KEY"] = keys["wandb"]["api_key"]
