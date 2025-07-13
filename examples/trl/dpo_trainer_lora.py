@@ -1,4 +1,5 @@
 import json
+import os
 
 import trl
 import wandb
@@ -8,6 +9,13 @@ from datasets import ClassLabel, Dataset, concatenate_datasets, load_dataset
 from peft import LoraConfig
 
 from playpen import BasePlayPen
+
+# For wandb api-key
+with open("../../key.json", "r") as f:
+    keys = json.load(f)
+
+os.environ["WANDB_API_KEY"] = keys["wandb"]["api_key"]
+os.environ["WANDB_PROJECT"] = "llama3-dpo"
 
 
 class PeftDpoTrainer(BasePlayPen):
@@ -127,24 +135,6 @@ class PeftDpoTrainer(BasePlayPen):
         )
         print(f"Size of the train set: {len(combined_dataset)}")
 
-        wandb.init(
-            project="playpen-dpo-training",
-            name="dpo-lora-llama3-8b",
-            config={
-                "model": "llama3-8b",
-                "training_method": "DPO",
-                "peft_method": "LoRA",
-                "beta": 0.1,
-                "learning_rate": 5e-6,
-                "batch_size": 2,
-                "gradient_accumulation_steps": 8,
-                "max_length": 4096,
-                "num_epochs": 2,
-                "dataset": "playpen+tulu",
-                "train_samples": len(combined_dataset),
-            },
-        )
-
         # Initialize training configuration for dpo
         config = trl.DPOConfig(
             max_length=4096,
@@ -167,6 +157,8 @@ class PeftDpoTrainer(BasePlayPen):
             beta=0.1,  # temperature for dpo loss — Tülu uses beta=5, but they use length-normalized DPO instead of a sum-level loss
             # wandb logging
             report_to="wandb",
+            run_name="llama3-8b-dpo",
+            logging_dir="./logs",
         )
 
         # Initialize trainer context
