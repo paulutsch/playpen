@@ -118,15 +118,15 @@ def evaluate(suite: str, model_spec: ModelSpec, gen_args: Dict, results_dir: Pat
     overall_results_file = results_dir / f"{model_spec.model_name}.val.json"
     if suite in ["all", "clem"]:
         dataset_name = None if skip_gameplay else "instances"
-        game_selector = GameSpec.from_dict({"benchmark": ["2.0"]}, allow_underspecified=True) \
+        _game_selector = GameSpec.from_dict({"benchmark": ["2.0"]}, allow_underspecified=True) \
             if game_selector is None else game_selector
-        clem_score = evaluate_suite("clem", model_spec, gen_args, results_dir, game_selector, dataset_name)
+        clem_score = evaluate_suite("clem", model_spec, gen_args, results_dir, _game_selector, dataset_name)
         store_eval_score(overall_results_file, "clemscore", clem_score)
     if suite in ["all", "static"]:
         dataset_name = None if skip_gameplay else "instances-static"
-        game_selector = GameSpec.from_dict({"benchmark": ["static_1.0"]}, allow_underspecified=True) \
+        _game_selector = GameSpec.from_dict({"benchmark": ["static_1.0"]}, allow_underspecified=True) \
             if game_selector is None else game_selector
-        stat_score = evaluate_suite("static", model_spec, gen_args, results_dir, game_selector, dataset_name)
+        stat_score = evaluate_suite("static", model_spec, gen_args, results_dir, _game_selector, dataset_name)
         store_eval_score(overall_results_file, "statscore", stat_score)
 
 
