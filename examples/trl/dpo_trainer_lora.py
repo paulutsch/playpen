@@ -1,6 +1,7 @@
 import json
 import os
-from collections import Counter
+import random
+from collections import Counter, defaultdict
 
 import trl
 from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
@@ -11,11 +12,16 @@ from peft import LoraConfig
 from playpen import BasePlayPen
 
 # For wandb api-key
-with open("../../key.json", "r") as f:
+with open("key.json", "r") as f:
     keys = json.load(f)
 
 os.environ["WANDB_API_KEY"] = keys["wandb"]["api_key"]
 os.environ["WANDB_PROJECT"] = "llama3-dpo"
+
+
+def as_key(prompt):
+    # Canonical JSON → stable, hashable string
+    return json.dumps(prompt, sort_keys=True, ensure_ascii=False)
 
 
 class PeftDpoTrainer(BasePlayPen):
@@ -36,6 +42,21 @@ class PeftDpoTrainer(BasePlayPen):
         )
         playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
 
+        def balanced_subsample(ds, max_per_prompt=100):
+            keys = defaultdict(list)
+            for i, ex in enumerate(ds):
+                keys[as_key(ex["prompt"])].append(i)
+            keep = [
+                idx
+                for indices in keys.values()
+                for idx in random.sample(indices, min(len(indices), max_per_prompt))
+            ]
+            return ds.select(keep)
+
+        playpen_dataset["train"] = balanced_subsample(
+            playpen_dataset["train"], max_per_prompt=20
+        )
+
         tulu_dataset = load_dataset(
             "allenai/llama-3.1-tulu-3-8b-preference-mixture", split="train"
         )
@@ -54,6 +75,41 @@ class PeftDpoTrainer(BasePlayPen):
 
         tulu_sub_dataset = tulu_split["train"]
 
+        def report_unique_prompts(playpen_ds, label="playpen"):
+            """
+            Count distinct `prompt` fields *before* they get merged into chosen/rejected.
+            Also report the total number of samples in each split.
+            """
+
+            # Unique-prompt sets
+            train_keys = {as_key(ex["prompt"]) for ex in playpen_ds["train"]}
+            test_keys = {as_key(ex["prompt"]) for ex in playpen_ds["test"]}
+            all_keys = train_keys | test_keys
+
+            # Raw sample totals
+            n_train = len(playpen_ds["train"])
+            n_test = len(playpen_ds["test"])
+            n_total = n_train + n_test
+
+            print(f"\n🔍  Prompt census for '{label}':")
+            print("──────────────────────────────────────────")
+            print(
+                f"  • train split : {len(train_keys):>6} unique  | {n_train:>6} total"
+            )
+            print(f"  • test  split : {len(test_keys):>6} unique  | {n_test:>6} total")
+            print("  ────────────────────────────────────────")
+            print(
+                f"  • overall     : {len(all_keys):>6} unique  | {n_total:>6} total\n"
+            )
+
+            # Return everything in case downstream code wants it
+            return {
+                "unique": {"train": train_keys, "test": test_keys, "total": all_keys},
+                "counts": {"train": n_train, "test": n_test, "total": n_total},
+            }
+
+        report_unique_prompts(playpen_dataset, label="playpen (pre-conversion)")
+
         # convert datasets to DPO format (no prompt field needed)
         def convert_playpen_to_dpo_format(example):
             # playpen: combine prompt + chosen/rejected, then remove prompt field
@@ -69,6 +125,15 @@ class PeftDpoTrainer(BasePlayPen):
             del example["prompt"]
             return example
 
+        print("=== PLAYPEN DATASET EXAMPLES (before conversion) ===")
+        for i in range(2):
+            print(f"\nExample {i+1} (chosen):")
+            print(json.dumps(playpen_dataset["train"][i]["prompt"], indent=2))
+            print(json.dumps(playpen_dataset["train"][i]["chosen"], indent=2))
+            print(f"\nExample {i+1} (rejected):")
+            print(json.dumps(playpen_dataset["train"][i]["prompt"], indent=2))
+            print(json.dumps(playpen_dataset["train"][i]["rejected"], indent=2))
+
         # Apply conversion to both datasets
         tulu_sub_dataset = tulu_sub_dataset.map(convert_tulu_to_dpo_format)
         playpen_dataset["train"] = playpen_dataset["train"].map(
@@ -77,6 +142,36 @@ class PeftDpoTrainer(BasePlayPen):
         playpen_dataset["test"] = playpen_dataset["test"].map(
             convert_playpen_to_dpo_format
         )
+
+        def show_multi_turn_example(
+            dataset, label="playpen-train", min_len=3, scan_limit=2_000
+        ):
+            """
+            Print the first row whose `chosen` list length >= `min_len`.
+            Stops after `scan_limit` rows to avoid a pilgrimage through the entire set.
+            """
+            for idx, row in enumerate(dataset):
+                if idx >= scan_limit:
+                    break
+                if len(row["chosen"]) >= min_len:
+                    print(
+                        f"\n=== {label.upper()} MULTI-TURN EXAMPLE #{idx} "
+                        f"(messages per side: {len(row['chosen'])}) ==="
+                    )
+
+                    print("\n👁️  CHOSEN:")
+                    print(json.dumps(row["chosen"], indent=2, ensure_ascii=False))
+
+                    print("\n💔  REJECTED:")
+                    print(json.dumps(row["rejected"], indent=2, ensure_ascii=False))
+                    return
+
+            print(
+                f"\n🤷  Couldn’t find an example with ≥{min_len} messages "
+                f"in the first {scan_limit} rows of '{label}'."
+            )
+
+        show_multi_turn_example(playpen_dataset["train"], label="playpen-train")
 
         chosen_lengths = [
             len(example["chosen"]) for example in playpen_dataset["train"]
@@ -115,7 +210,7 @@ class PeftDpoTrainer(BasePlayPen):
         for i in range(2):
             print(f"\nExample {i+1} (chosen):")
             print(json.dumps(playpen_dataset["train"][i]["chosen"], indent=2))
-            print(f"\nExample {i+1} (chosen):")
+            print(f"\nExample {i+1} (rejected):")
             print(json.dumps(playpen_dataset["train"][i]["rejected"], indent=2))
 
         print("\n=== TULU DATASET EXAMPLES ===")
@@ -170,7 +265,6 @@ class PeftDpoTrainer(BasePlayPen):
 
             clean = len(dataset) - sum(crimes.values())
 
-            # ── Crime Scene Report ────────────────────────────────────────────────
             print(f"\n🚨 Integrity audit for '{name}'")
             print("──────────────────────────────────────────")
             print(f"Total rows examined : {len(dataset):>6}")
@@ -180,14 +274,8 @@ class PeftDpoTrainer(BasePlayPen):
             print(f"Identical finals    : {crimes['final_id']:>6}")
             print("──────────────────────────────────────────")
 
-            # show a few IDs per crime so you can peek
-            for crime, ids in first_offenders.items():
-                if ids:
-                    print(f" ⚠️  Sample indices w/ {crime.replace('_',' ')}: {ids}")
-
             return crimes
 
-        # Example usage BEFORE concatenating or training
         audit_prefix_integrity(tulu_sub_dataset, name="tulu-sub")
         audit_prefix_integrity(playpen_dataset["train"], name="playpen-train")
         audit_prefix_integrity(playpen_dataset["test"], name="playpen-test")
@@ -210,8 +298,8 @@ class PeftDpoTrainer(BasePlayPen):
             gradient_checkpointing=True,
             seed=7331,
             output_dir=f"models/dpo+lora/llama3-8b",
-            eval_strategy="epoch",
-            logging_steps=100,
+            logging_steps=10,
+            logging_first_step=True,
             save_strategy="steps",
             save_steps=100,
             save_total_limit=3,
@@ -226,12 +314,10 @@ class PeftDpoTrainer(BasePlayPen):
         # Initialize trainer context
         trainer = trl.DPOTrainer(
             model=self.learner.model,
-            ref_model=None,  # Will use the same model as reference
             train_dataset=combined_dataset,
             eval_dataset=playpen_dataset["test"],
             args=config,
             processing_class=self.learner.tokenizer,
-            # see https://huggingface.co/docs/trl/dpo_trainer#training-adapters
             peft_config=LoraConfig(
                 r=16,
                 lora_alpha=32,
