@@ -44,17 +44,34 @@ class BranchingCandidate:
 
 class GameBranchingEnv(PlayPenEnv):
     """
-    A game benchmark environment that branches after each step, that is,
-    the games states multiply as determined by the branching factor.
-    This allows to collect at each step multiple responses for the same context.
+    Create an env that evolves in a tree-like structure, that is,
+    the env allows to create at certain steps of the conversation
+    independently ongoing branches. This allows to collect at each
+    step multiple responses for the same context.
+
+    :param game: The game to be played
+    :param player_models: The models to play the game. Order is important for role assignment.
+        See the "roles" attribute in the game spec.
+    :param task_iterator: The iterator that returns the sequence of instances to be played.
+    :param task_iterations: A number that specified how often all instances should be played.
+        This is useful, when all instances should be played exactly N times, like epochs.
+        Default: Unlimited iterations.
+    :param branching_factor: The number of branches at each step when the branching_criteria is fulfilled.
+    :param branching_criteria: A criteria to determine, when to branch at a step. Default: At every step.
+    :return: The GameBranchingEnv
     """
 
-    def __init__(self, game: GameBenchmark, player_models: List[Model],
-                 task_iterator: GameInstanceIterator, task_iterations: int = None,
-                 branching_factor: int = 2, branching_criteria=None):
+    def __init__(self,
+                 game: GameBenchmark,
+                 player_models: List[Model],
+                 *,
+                 task_iterator: GameInstanceIterator,
+                 task_iterations: int = None,
+                 branching_factor: int = 2,
+                 branching_criteria: Callable[[GameEnv], bool] = None):
         super().__init__()
         assert branching_factor > 0, "The branching factor must be greater than zero"
-        self._root: GameEnv = GameEnv(game, player_models, task_iterator, task_iterations)
+        self._root: GameEnv = GameEnv(game, player_models, task_iterator=task_iterator, task_iterations=task_iterations)
         self._game_tree = GameTree(GameTreeNode(self._root))
         self._active_envs: List[GameEnv] = [self._root]
         self._branching_factor: int = branching_factor

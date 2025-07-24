@@ -11,9 +11,29 @@ from playpen.envs import PlayPenEnv
 
 
 class GameEnv(PlayPenEnv):
+    """
+    Create an env that allows to collect conversations by letting the player model's
+    play the game instances as specified by the games' instance file.
 
-    def __init__(self, game: GameBenchmark, player_models: List[Model],
-                 task_iterator: GameInstanceIterator, task_iterations: int = None, initial_reset=True):
+    :param game: The game to be played
+    :param player_models: The models to play the game. Order is important for role assignment.
+        See the "roles" attribute in the game spec.
+    :param task_iterations: A number that specified how often all instances should be played.
+        This is useful, when all instances should be played exactly N times, like epochs.
+        Default: Unlimited iterations.
+    :param initial_reset: Whether to set up everything already on __init__ so that the game env is ready to run.
+        If False, you have to call reset() manually before using the game env.
+        Default: True.
+    :return: The GameEnv
+    """
+
+    def __init__(self,
+                 game: GameBenchmark,
+                 player_models: List[Model],
+                 *,
+                 task_iterator: GameInstanceIterator,
+                 task_iterations: int = None,
+                 initial_reset: bool = True):
         super().__init__()
         self._game = game
         self._game_name = game.game_name

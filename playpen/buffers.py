@@ -1,7 +1,9 @@
 from typing import List, Dict
+from datasets import Dataset
 
 import clemcore.backends as cb
 from clemcore.clemgame import Player
+from clemcore.backends import Model
 
 from playpen.envs.game_env import GameEnv
 from playpen.envs.branching_env import GameBranchingEnv, GameTree, ResponseTreeNode
@@ -22,11 +24,24 @@ class RolloutBuffer:
     def reset(self):
         pass
 
-    def to_conversational_dataset(self, perspective: cb.Model) -> List[Dict]:
+    def to_conversational_dataset(self, perspective: cb.Model) -> Dataset:
         """
+        Converts the data collected in the buffer into a dataset where each row represents a conversation.
+
+        A conversation is basically a dict where the "messages" entry points to a list of dicts where each
+        of these contain alternating entries of "role" (assistant or user) and "content" depending on the perspective.
+        For example:
+
+        {"messages" = [
+            {"role": "user", "content": "Hello, how are you?"},\n
+            {"role": "assistant", "content": "I'm doing great. How can I help you today?"},\n
+            {"role": "user", "content": "I'd like to show off how chat templating works!"}\n
+            ]}
+
+        See also https://huggingface.co/docs/trl/dataset_formats#conversational
         Args:
             perspective: to take in the dataset as specified by the given model
-        Returns: a list of dict (conversations) containing a list of "messages" with alternating "role" and "content"
+        Returns: the Dataset
         """
         pass
 
@@ -70,7 +85,7 @@ class BranchingRolloutBuffer(RolloutBuffer):
     def reset(self):
         self.forest = []
 
-    def to_conversational_dataset(self, perspective) -> List[Dict]:
+    def to_conversational_dataset(self, perspective: Model) -> Dataset:
         def recursive_add_to(_messages: List[Dict], node: ResponseTreeNode):
             # only collect for given conversational perspective
             player_model = node.unwrap().master.current_player.model
@@ -88,4 +103,4 @@ class BranchingRolloutBuffer(RolloutBuffer):
                 messages = recursive_add_to([], leave)
                 messages.reverse()
                 dataset.append(dict(messages=messages, reward=leave.info["episode_score"]))
-        return dataset
+        return Dataset.from_list(dataset)
