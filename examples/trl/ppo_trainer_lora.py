@@ -1,6 +1,7 @@
 import ast
 import json
 import os
+import random
 
 import torch
 import trl
@@ -8,7 +9,7 @@ from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
 from datasets import ClassLabel, Dataset, concatenate_datasets, load_dataset
 from peft import LoraConfig, TaskType
-from transformers import BitsAndBytesConfig
+from transformers import BitsAndBytesConfig, GenerationConfig
 
 from playpen import BasePlayPen
 
@@ -28,16 +29,93 @@ class PeftPpoTrainer(BasePlayPen):
 
     def learn(self, game_registry: GameRegistry):
         ### TODO: create PPO data
-        # sft_final_dataset = load_dataset("clembench-playpen/SFT-Final-Dataset", split="train")
+        ppo_dataset = load_dataset("chenhegu/RLVR-advbench", split="train")
+        ppo_dataset_eval = load_dataset("chenhegu/RLVR-advbench", split="test")
 
-        # this is just a mock! not used during training.
+        # like the value model, this is a minimal reward model compatible with TRL's get_reward()
         class RewardModel(torch.nn.Module):
-            def forward(self, input_ids, **kwargs):
-                texts = tokenizer.batch_decode(input_ids, skip_special_tokens=True)
-                scores = [1.0 for t in texts]
-                return torch.tensor(scores, device=input_ids.device)
+            """
+            Minimal reward model compatible with TRL's get_reward().
+            It must:
+              • expose `base_model_prefix`
+              • hold an attribute with that name that is a transformer backbone
+              • implement `.score(hidden_states)` returning (batch, seq_len) or (batch,) rewards
+            """
 
-        reward_model = RewardModel()
+            base_model_prefix = "model"
+
+            def __init__(self, backbone):
+                super().__init__()
+                # share the backbone of the policy to derive the output later — yes, it's inconvenient and so is life
+                self.model = backbone
+                hidden_size = backbone.config.hidden_size
+
+                # match dtype & device to backbone parameters
+                ref_param = next(backbone.parameters())
+                self.reward_head = torch.nn.Linear(
+                    hidden_size,
+                    1,
+                    bias=False,
+                    device=ref_param.device,
+                    dtype=ref_param.dtype,
+                )
+
+            def score(self, hidden_states, **kwargs):
+                # take the hidden state of all tokens and project to a scalar reward
+                rewards = self.reward_head(
+                    hidden_states.to(self.reward_head.weight.dtype)
+                ).squeeze(
+                    -1
+                )  # (batch, seq_len)
+                return rewards
+
+            # forward → score for convenience (i.e., alias)
+            def forward(self, hidden_states, **kwargs):
+                return self.score(hidden_states, **kwargs)
+
+        reward_model = RewardModel(self.learner.model)
+
+        # based on trl's ppo_trainer.py and utils.py — let's see if at least the architecture works
+        class ValueModel(torch.nn.Module):
+            """Wraps the policy backbone and projects hidden states to scalar values."""
+
+            base_model_prefix = "model"  # so PPOTrainer can locate the backbone
+
+            def __init__(self, backbone):
+                super().__init__()
+                # re-use the policy’s transformer stack to avoid duplicating weights
+                self.model = backbone  # e.g. LlamaForCausalLM
+                hidden_size = backbone.config.hidden_size
+
+                # match dtype & device of the backbone to avoid BF16/FP32 mismatch
+                ref_param = next(backbone.parameters())
+                self.value_head = torch.nn.Linear(
+                    hidden_size,
+                    1,
+                    bias=False,
+                    device=ref_param.device,
+                    dtype=ref_param.dtype,
+                )
+
+            def score(self, hidden_states, **kwargs):
+                # hidden_states: (batch, seq_len, hidden_size)
+                # return self.value_head(hidden_states).squeeze(-1)  # (batch, seq_len)
+                return self.value_head(
+                    hidden_states.to(self.value_head.weight.dtype)
+                ).squeeze(
+                    -1
+                )  # (batch, seq_len)
+
+            def forward(self, input_ids=None, attention_mask=None, **kwargs):
+                # running backbone with hidden-state outputs
+                return self.model(
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
+                    output_hidden_states=True,
+                    **kwargs,
+                )
+
+        value_model = ValueModel(self.learner.model)
 
         # Initialize training configuration
         config = trl.PPOConfig(
@@ -62,18 +140,46 @@ class PeftPpoTrainer(BasePlayPen):
             save_total_limit=3,
         )
 
-        mock_prompts = [
-            "Tell me a joke about entropy.",
-            "How do I steal socks from laundromats?",
-        ]
-        mock_dataset = Dataset.from_dict({"query": mock_prompts})
+        # i guess PPO expects tokenised prompts with `input_ids`?!
+        # see: https://huggingface.co/docs/trl/v0.7.4/en/ppo_trainer
+        def tokenize(sample):
+            text = sample["messages"][0]["content"]
+            tok = self.learner.tokenizer(
+                text,
+                truncation=True,
+                padding=False,
+                return_attention_mask=True,
+            )
+            return {
+                "input_ids": tok["input_ids"],
+                "attention_mask": tok["attention_mask"],
+            }
 
-        # Initialize trainer context
+        ppo_dataset = ppo_dataset.map(tokenize, batched=False)
+        ppo_dataset_eval = ppo_dataset_eval.map(tokenize, batched=False)
+
+        cols_to_drop = [
+            col
+            for col in ppo_dataset.column_names
+            if col not in ("input_ids", "attention_mask")
+        ]
+        if cols_to_drop:
+            ppo_dataset = ppo_dataset.remove_columns(cols_to_drop)
+            ppo_dataset_eval = ppo_dataset_eval.remove_columns(cols_to_drop)
+
+        # policy must expose `.generation_config`?! (missing in TRL ≤ 0.12 wrappers)
+        if not hasattr(self.learner.model, "generation_config"):
+            self.learner.model.generation_config = GenerationConfig.from_pretrained(
+                self.learner.model.config._name_or_path
+            )
+
         trainer = trl.PPOTrainer(
             model=self.learner.model,
             ref_model=trl.create_reference_model(self.learner.model),
-            reward_model=reward_model,  # this will not be used — we have our own loop, kind of bypassing trl (see below)
-            train_dataset=mock_dataset,  # this will not be used — we have our own loop, kind of bypassing trl (see below)
+            reward_model=reward_model,
+            value_model=value_model,
+            train_dataset=ppo_dataset,
+            eval_dataset=ppo_dataset_eval,
             args=config,
             processing_class=self.learner.tokenizer,
             peft_config=LoraConfig(
@@ -86,29 +192,8 @@ class PeftPpoTrainer(BasePlayPen):
             ),
         )
 
-        # train model for one step with ppo
-        # see: https://medium.com/@chnwsw01/rlhf-with-trl-ppotrainer-6567f3e073a5
-        # TODO: make the loop "batcheable"
-        for i in range(1):
-            # encode a query (this will be the game prompt, taken from the dataset)
-            query_txt = "This morning I went to the "
-            query_tensor = self.learner.tokenizer.encode(query_txt, return_tensors="pt")
+        trainer.train()
 
-            # get model response (replaced the deprecated respond_to_batch with PPOTrainer.generate)
-            # see: https://github.com/huggingface/trl/issues/698
-            response_tensor = trainer.generate(self.learner.model, query_tensor)
-
-            # TODO: define a reward for response
-            # in here, we check the player response to get the reward (we'll have to access the GameMaster somehow)
-            reward = [torch.tensor(1.0)]
-
-            train_stats = trainer.step([query_tensor[0]], [response_tensor[0]], reward)
-
-            print(f"train_stats: {train_stats}")
-            print(f"query_tensor: {query_tensor}")
-            print(f"query_tensor[0]: {query_tensor[0]}")
-            print(f"response_tensor[0]: {response_tensor[0]}")
-
-        # Optional: Uncomment these lines to merge and save directly
-        merged_model = trainer.model.merge_and_unload()
-        merged_model.save_pretrained(f"models/ppo+lora/llama3-8b")
+        # save the underlying model (model.policy)
+        merged_model = trainer.model.policy.merge_and_unload()
+        merged_model.save_pretrained("models/ppo+lora/llama3-8b")
