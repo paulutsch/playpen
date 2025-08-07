@@ -9,9 +9,13 @@ from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
 from clemcore.clemgame import GameRegistry
 from datasets import ClassLabel, Dataset, concatenate_datasets, load_dataset
 from peft import LoraConfig, TaskType
-from transformers import BitsAndBytesConfig, GenerationConfig
+from transformers import BitsAndBytesConfig, DataCollatorWithPadding, GenerationConfig
 
 from playpen import BasePlayPen
+from playpen.examples.trl.ppo_trainer_lora.ppo_trainer import (
+    DataCollatorWithGame,
+    PPOTrainer,
+)
 
 # For wandb api-key
 with open("key.json", "r") as f:
@@ -29,8 +33,10 @@ class PeftPpoTrainer(BasePlayPen):
 
     def learn(self, game_registry: GameRegistry):
         ### TODO: create PPO data
-        ppo_dataset = load_dataset("chenhegu/RLVR-advbench", split="train")
-        ppo_dataset_eval = load_dataset("chenhegu/RLVR-advbench", split="test")
+        ppo_dataset = load_dataset("pm-25/clembench-rlvr-dataset", split="train")
+        ppo_dataset_train, ppo_dataset_eval = ppo_dataset.train_test_split(
+            test_size=0.1
+        )
 
         # like the value model, this is a minimal reward model compatible with TRL's get_reward()
         class RewardModel(torch.nn.Module):
@@ -52,15 +58,10 @@ class PeftPpoTrainer(BasePlayPen):
 
                 # match dtype & device to backbone parameters
                 ref_param = next(backbone.parameters())
-                self.reward_head = torch.nn.Linear(
-                    hidden_size,
-                    1,
-                    bias=False,
-                    device=ref_param.device,
-                    dtype=ref_param.dtype,
-                )
+                self.scorer = WordleScorer()
 
-            def score(self, hidden_states, **kwargs):
+            def score(self, hidden_states, games, input_ids, **kwargs):
+                # games : list[str]  length == batch
                 # take the hidden state of all tokens and project to a scalar reward
                 rewards = self.reward_head(
                     hidden_states.to(self.reward_head.weight.dtype)
@@ -83,11 +84,10 @@ class PeftPpoTrainer(BasePlayPen):
 
             def __init__(self, backbone):
                 super().__init__()
-                # re-use the policy’s transformer stack to avoid duplicating weights
-                self.model = backbone  # e.g. LlamaForCausalLM
+                self.model = backbone
                 hidden_size = backbone.config.hidden_size
 
-                # match dtype & device of the backbone to avoid BF16/FP32 mismatch
+                # match dtype & device of the backbone
                 ref_param = next(backbone.parameters())
                 self.value_head = torch.nn.Linear(
                     hidden_size,
@@ -99,7 +99,6 @@ class PeftPpoTrainer(BasePlayPen):
 
             def score(self, hidden_states, **kwargs):
                 # hidden_states: (batch, seq_len, hidden_size)
-                # return self.value_head(hidden_states).squeeze(-1)  # (batch, seq_len)
                 return self.value_head(
                     hidden_states.to(self.value_head.weight.dtype)
                 ).squeeze(
@@ -107,7 +106,7 @@ class PeftPpoTrainer(BasePlayPen):
                 )  # (batch, seq_len)
 
             def forward(self, input_ids=None, attention_mask=None, **kwargs):
-                # running backbone with hidden-state outputs
+                # running backbone with hidden-state outputs in returned.hidden_states
                 return self.model(
                     input_ids=input_ids,
                     attention_mask=attention_mask,
@@ -143,9 +142,10 @@ class PeftPpoTrainer(BasePlayPen):
         # i guess PPO expects tokenised prompts with `input_ids`?!
         # see: https://huggingface.co/docs/trl/v0.7.4/en/ppo_trainer
         def tokenize(sample):
-            text = sample["messages"][0]["content"]
+            prefix = sample["query"]
+            game = sample["game"]
             tok = self.learner.tokenizer(
-                text,
+                prefix,
                 truncation=True,
                 padding=False,
                 return_attention_mask=True,
@@ -153,18 +153,19 @@ class PeftPpoTrainer(BasePlayPen):
             return {
                 "input_ids": tok["input_ids"],
                 "attention_mask": tok["attention_mask"],
+                "game": game,
             }
 
-        ppo_dataset = ppo_dataset.map(tokenize, batched=False)
+        ppo_dataset_train = ppo_dataset_train.map(tokenize, batched=False)
         ppo_dataset_eval = ppo_dataset_eval.map(tokenize, batched=False)
 
         cols_to_drop = [
             col
-            for col in ppo_dataset.column_names
-            if col not in ("input_ids", "attention_mask")
+            for col in ppo_dataset_train.column_names
+            if col not in ("input_ids", "attention_mask", "game")
         ]
         if cols_to_drop:
-            ppo_dataset = ppo_dataset.remove_columns(cols_to_drop)
+            ppo_dataset_train = ppo_dataset_train.remove_columns(cols_to_drop)
             ppo_dataset_eval = ppo_dataset_eval.remove_columns(cols_to_drop)
 
         # policy must expose `.generation_config`?! (missing in TRL ≤ 0.12 wrappers)
@@ -173,14 +174,15 @@ class PeftPpoTrainer(BasePlayPen):
                 self.learner.model.config._name_or_path
             )
 
-        trainer = trl.PPOTrainer(
+        trainer = PPOTrainer(
             model=self.learner.model,
             ref_model=trl.create_reference_model(self.learner.model),
             reward_model=reward_model,
             value_model=value_model,
-            train_dataset=ppo_dataset,
+            train_dataset=ppo_dataset_train,
             eval_dataset=ppo_dataset_eval,
             args=config,
+            data_collator=DataCollatorWithGame(self.learner.tokenizer),
             processing_class=self.learner.tokenizer,
             peft_config=LoraConfig(
                 r=16,
