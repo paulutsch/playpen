@@ -2,6 +2,7 @@ import ast
 import json
 import os
 import random
+import sys
 
 import torch
 import trl
@@ -11,11 +12,9 @@ from datasets import ClassLabel, Dataset, concatenate_datasets, load_dataset
 from peft import LoraConfig, TaskType
 from transformers import BitsAndBytesConfig, DataCollatorWithPadding, GenerationConfig
 
+from examples.trl.ppo_trainer_lora.ppo_trainer import DataCollatorWithGame, PPOTrainer
+from examples.trl.ppo_trainer_lora.scorers import DefaultScorer
 from playpen import BasePlayPen
-from playpen.examples.trl.ppo_trainer_lora.ppo_trainer import (
-    DataCollatorWithGame,
-    PPOTrainer,
-)
 
 # For wandb api-key
 with open("key.json", "r") as f:
@@ -33,7 +32,11 @@ class PeftPpoTrainer(BasePlayPen):
 
     def learn(self, game_registry: GameRegistry):
         ### TODO: create PPO data
-        ppo_dataset = load_dataset("pm-25/clembench-rlvr-dataset", split="train")
+        ppo_dataset = load_dataset(
+            "parquet",
+            data_files="examples/trl/ppo_trainer_lora/data.parquet",
+            split="train",
+        )
         ppo_dataset_train, ppo_dataset_eval = ppo_dataset.train_test_split(
             test_size=0.1
         )
@@ -50,31 +53,55 @@ class PeftPpoTrainer(BasePlayPen):
 
             base_model_prefix = "model"
 
-            def __init__(self, backbone):
+            def __init__(self, backbone, tokenizer):
                 super().__init__()
                 # share the backbone of the policy to derive the output later — yes, it's inconvenient and so is life
                 self.model = backbone
+                self.tokenizer = tokenizer
                 hidden_size = backbone.config.hidden_size
 
                 # match dtype & device to backbone parameters
                 ref_param = next(backbone.parameters())
-                self.scorer = WordleScorer()
+                # self.scorers = {
+                #     "wordle": WordleScorer(),
+                #     # …
+                # }
+                self.scorer = DefaultScorer()
+                hidden_size = backbone.config.hidden_size
+                ref = next(backbone.parameters())
+                self.reward_head = torch.nn.Linear(
+                    hidden_size, 1, bias=False, device=ref.device, dtype=ref.dtype
+                )
 
             def score(self, hidden_states, games, input_ids, **kwargs):
-                # games : list[str]  length == batch
-                # take the hidden state of all tokens and project to a scalar reward
-                rewards = self.reward_head(
-                    hidden_states.to(self.reward_head.weight.dtype)
-                ).squeeze(
-                    -1
-                )  # (batch, seq_len)
-                return rewards
+                """Return (B, T) reward tensor broadcast per response token."""
+                texts = self.tokenizer.batch_decode(input_ids, skip_special_tokens=True)
+                batch_rewards = []
 
-            # forward → score for convenience (i.e., alias)
-            def forward(self, hidden_states, **kwargs):
-                return self.score(hidden_states, **kwargs)
+                with torch.no_grad():
+                    logits = self.model.lm_head(
+                        hidden_states
+                    )  # (batch, seq_len, vocab)
+                    token_ids = logits.argmax(-1)  # TODO: sample?
+                    texts = self.tokenizer.batch_decode(
+                        token_ids,
+                        # skip_special_tokens=True
+                    )
 
-        reward_model = RewardModel(self.learner.model)
+                for txt, game in zip(texts, games):
+                    prefix_messages, response = txt.rsplit("<|assistant|>", 1)
+
+                    # scorer = self.scorers[game]
+                    scorer = self.scorer
+                    reward_scalar = scorer.score_turn(prefix_messages, response)
+                    batch_rewards.append(reward_scalar)
+
+                # (B,)  →  (B, 1)  →  (B, seq_len) to keep PPOTrainer happy
+                reward_vec = torch.tensor(batch_rewards, device=hidden_states.device)
+                reward_vec = reward_vec.unsqueeze(1).expand_as(hidden_states[..., 0])
+                return reward_vec
+
+        reward_model = RewardModel(self.learner.model, self.learner.tokenizer)
 
         # based on trl's ppo_trainer.py and utils.py — let's see if at least the architecture works
         class ValueModel(torch.nn.Module):
