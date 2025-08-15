@@ -37,9 +37,7 @@ class PeftDpoTrainer(BasePlayPen):
 
         # --- Dataset loading ---
 
-        playpen_dataset = load_dataset(
-            "clembench-playpen/DPO_turn", split="train"
-        )
+        playpen_dataset = load_dataset("clembench-playpen/DPO_turn", split="train")
         playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
 
         SYSTEM_PROMPT = "You are a helpful assistant."
@@ -53,21 +51,18 @@ class PeftDpoTrainer(BasePlayPen):
                 ],
             }
             # drop all other fields
-            new_sample.update(
-                {k: v for k, v in sample.items() if k not in new_sample}
-            )
+            new_sample.update({k: v for k, v in sample.items() if k not in new_sample})
             return new_sample
 
         playpen_dataset = playpen_dataset.map(make_conversation)
 
-        print(playpen_dataset[0])
+        print(playpen_dataset["train"][0])
 
         def reward_len(completions, **kwargs):
             return [-abs(20 - len(completion)) for completion in completions]
 
         # Initialize training configuration for grpo
         config = trl.GRPOConfig(
-            max_length=4096,
             per_device_train_batch_size=2,
             gradient_accumulation_steps=8,
             learning_rate=5e-6,
@@ -93,6 +88,7 @@ class PeftDpoTrainer(BasePlayPen):
         trainer = trl.GRPOTrainer(
             model=self.learner.model,
             train_dataset=playpen_dataset["train"],
+            eval_dataset=playpen_dataset["test"],
             reward_funcs=reward_len,
             args=config,
             processing_class=self.learner.tokenizer,
