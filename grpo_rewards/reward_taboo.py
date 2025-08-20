@@ -1,7 +1,4 @@
-import logging
 import re
-
-logger = logging.getLogger(__name__)
 
 
 def reward_taboo(completion: str, prefix: list[dict[str, str]]) -> float:
@@ -20,7 +17,7 @@ def reward_taboo(completion: str, prefix: list[dict[str, str]]) -> float:
     related_words = []
 
     prompt = prefix[0].get("content", "")
-    logger.debug(f"Extracted prompt: {prompt[:200]}...")
+    print(f"Extracted prompt: {prompt[:200]}...")
 
     target_match = re.search(
         r"This is the target word that you need to describe and that the other player needs to guess:\s*\n\s*(\w+)",
@@ -29,7 +26,7 @@ def reward_taboo(completion: str, prefix: list[dict[str, str]]) -> float:
     )
     if target_match:
         target_word = target_match.group(1).lower().strip()
-        logger.debug(f"Extracted target word: {target_word}")
+        print(f"Extracted target word: {target_word}")
 
     related_section = re.search(
         r"Related words are:\s*\n(.*?)(?:\n\n|Important:)", prompt, re.DOTALL
@@ -39,33 +36,31 @@ def reward_taboo(completion: str, prefix: list[dict[str, str]]) -> float:
         related_words = [
             word.strip().lower() for word in re.findall(r"-\s*(\w+)", related_text)
         ]
-        logger.debug(f"Extracted related words: {related_words}")
+        print(f"Extracted related words: {related_words}")
 
     if not re.match(r"^CLUE:\s+.+", completion.strip(), re.IGNORECASE):
-        logger.debug("Format compliance check failed")
+        print("Format compliance check failed")
         return 0.0
 
     reward = 0.5
-    logger.debug(f"Format compliance passed, base reward: {reward}")
+    print(f"Format compliance passed, base reward: {reward}")
 
     completion_lower = completion.lower()
-    logger.debug(f"Completion converted to lowercase: {completion_lower[:100]}...")
+    print(f"Completion converted to lowercase: {completion_lower[:100]}...")
 
     if target_word and target_word not in completion_lower:
         reward += 0.3
-        logger.debug(
-            f"Target word '{target_word}' not used, bonus added, reward: {reward}"
-        )
+        print(f"Target word '{target_word}' not used, bonus added, reward: {reward}")
     else:
-        logger.debug(f"Target word '{target_word}' was used or not found, no bonus")
+        print(f"Target word '{target_word}' was used or not found, no bonus")
 
     if related_words and not any(
         related_word in completion_lower for related_word in related_words
     ):
         reward += 0.2
-        logger.debug(f"No related words used, bonus added, reward: {reward}")
+        print(f"No related words used, bonus added, reward: {reward}")
     else:
-        logger.debug(f"Related words were used or not found, no bonus")
+        print(f"Related words were used or not found, no bonus")
 
-    logger.debug(f"Final reward: {reward}")
+    print(f"Final reward: {reward}")
     return reward

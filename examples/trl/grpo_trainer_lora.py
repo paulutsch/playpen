@@ -16,7 +16,6 @@ from grpo_rewards import (
     reward_referencegame,
     reward_taboo,
     reward_wordle,
-    reward_wordle_withclue,
     reward_wordle_withcritic,
 )
 from playpen import BasePlayPen
@@ -49,15 +48,16 @@ def calculate_reward(completions, **kwargs):
 
     scores = []
     for i, (completion, game, prompt) in enumerate(zip(completions, games, prompts)):
-        print("====== GAME, COMPLETION, first and last message in prefix ===========")
-        print("------------- GAME -------------------")
-        print(game)
-        print("------------- COMPLETION -------------------")
-        print(completion)
-        print("------------- FIRST MESSAGE IN PREFIX -------------------")
-        print(prompt[0])
-        print("------------- LAST MESSAGE IN PREFIX -------------------")
-        print(prompt[-1])
+        # I double and triple checked these, and they are correct
+        # print("====== GAME, COMPLETION, first and last message in prefix ===========")
+        # print("------------- GAME -------------------")
+        # print(game)
+        # print("------------- COMPLETION -------------------")
+        # print(completion)
+        # print("------------- FIRST MESSAGE IN PREFIX -------------------")
+        # print(prompt[0])
+        # print("------------- LAST MESSAGE IN PREFIX -------------------")
+        # print(prompt[-1])
 
         completion = completion[0]["content"]
 
@@ -67,10 +67,8 @@ def calculate_reward(completions, **kwargs):
             score = reward_referencegame(completion, prompt)
         elif game == "taboo":
             score = reward_taboo(completion, prompt)
-        elif game == "wordle":
-            score = reward_wordle(completion, prompt)
-        elif game == "wordle_withclue":
-            score = reward_wordle_withclue(completion, prompt)
+        # elif game == "wordle":
+        #     score = reward_wordle(completion, prompt)
         elif game == "wordle_withcritic":
             score = reward_wordle_withcritic(completion, prompt)
         else:
@@ -91,6 +89,7 @@ class PeftGrpoTrainer(BasePlayPen):
         # --- Dataset loading ---
 
         playpen_dataset = load_dataset("clembench-playpen/DPO_turn", split="train")
+        playpen_dataset = playpen_dataset.shuffle(seed=42)
 
         # wordle and wordle with clue are broken, so we exclude them (check the samples, you'll see)
         def _exclude_broken_games(example):
