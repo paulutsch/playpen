@@ -19,7 +19,6 @@ from grpo_rewards import (
     reward_wordle_withclue,
     reward_wordle_withcritic,
 )
-
 from playpen import BasePlayPen
 
 # For wandb api-key
@@ -46,27 +45,34 @@ def calculate_reward(completions, **kwargs):
     print(", ".join(k for k, _ in kwargs.items()))
 
     games = kwargs["game"]
+    prompts = kwargs["prompts"]
 
     scores = []
-    for i, (completion, game) in enumerate(zip(completions, games)):
-        print("-------------- GAME, COMPLETION ------------------")
+    for i, (completion, game, prompt) in enumerate(zip(completions, games, prompts)):
+        print("====== GAME, COMPLETION, first and last message in prefix ===========")
+        print("------------- GAME -------------------")
         print(game)
+        print("------------- COMPLETION -------------------")
         print(completion)
+        print("------------- FIRST MESSAGE IN PREFIX -------------------")
+        print(prompt[0])
+        print("------------- LAST MESSAGE IN PREFIX -------------------")
+        print(prompt[-1])
 
-        prefix = kwargs["prompts"][i]
+        completion = completion[0]["content"]
 
         if game == "imagegame":
-            score = reward_imagegame(completion, prefix)
+            score = reward_imagegame(completion, prompt)
         elif game == "referencegame":
-            score = reward_referencegame(completion, prefix)
+            score = reward_referencegame(completion, prompt)
         elif game == "taboo":
-            score = reward_taboo(completion, prefix)
+            score = reward_taboo(completion, prompt)
         elif game == "wordle":
-            score = reward_wordle(completion, prefix)
+            score = reward_wordle(completion, prompt)
         elif game == "wordle_withclue":
-            score = reward_wordle_withclue(completion, prefix)
+            score = reward_wordle_withclue(completion, prompt)
         elif game == "wordle_withcritic":
-            score = reward_wordle_withcritic(completion, prefix)
+            score = reward_wordle_withcritic(completion, prompt)
         else:
             raise ValueError(f"Unknown game '{game}'")
 
@@ -85,15 +91,19 @@ class PeftGrpoTrainer(BasePlayPen):
         # --- Dataset loading ---
 
         playpen_dataset = load_dataset("clembench-playpen/DPO_turn", split="train")
-        playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
 
-        SYSTEM_PROMPT = "You are a helpful assistant."
+        # wordle and wordle with clue are broken, so we exclude them (check the samples, you'll see)
+        def _exclude_broken_games(example):
+            return example.get("game") not in {"wordle", "wordle_withclue"}
+
+        playpen_dataset = playpen_dataset.filter(_exclude_broken_games)
+
+        playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
 
         # assuming sample to have a "prompt" field in the form of [{"role": "user", "content": "..."}, ...]
         def make_conversation(sample):
             new_sample = {
                 "prompt": [
-                    {"role": "system", "content": SYSTEM_PROMPT},
                     *sample["prompt"],
                 ],
             }
