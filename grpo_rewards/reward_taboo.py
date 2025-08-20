@@ -12,7 +12,8 @@ def reward_taboo(completion: str, prefix: list[dict[str, str]]) -> float:
     Returns:
         Float reward in range [0, 1]
     """
-    # Extract target word and related words from the initial message
+    reward = 1.0
+
     target_word = None
     related_words = []
 
@@ -40,27 +41,24 @@ def reward_taboo(completion: str, prefix: list[dict[str, str]]) -> float:
 
     if not re.match(r"^CLUE:\s+.+", completion.strip(), re.IGNORECASE):
         print("Format compliance check failed")
-        return 0.0
-
-    reward = 0.5
-    print(f"Format compliance passed, base reward: {reward}")
+        reward = 0.0
 
     completion_lower = completion.lower()
     print(f"Completion converted to lowercase: {completion_lower[:100]}...")
 
     if target_word and target_word not in completion_lower:
-        reward += 0.3
         print(f"Target word '{target_word}' not used, bonus added, reward: {reward}")
     else:
         print(f"Target word '{target_word}' was used or not found, no bonus")
+        reward = 0.0
 
     if related_words and not any(
         related_word in completion_lower for related_word in related_words
     ):
-        reward += 0.2
         print(f"No related words used, bonus added, reward: {reward}")
     else:
         print(f"Related words were used or not found, no bonus")
+        reward = 0.0
 
     print(f"Final reward: {reward}")
     return reward
