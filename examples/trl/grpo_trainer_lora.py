@@ -15,6 +15,7 @@ from grpo_rewards import (
     reward_imagegame,
     reward_referencegame,
     reward_taboo,
+    reward_wordle,
     reward_wordle_withcritic,
 )
 from playpen import BasePlayPen
@@ -68,8 +69,10 @@ def calculate_reward(completions, **kwargs):
             score = reward_taboo(completion, prompt)
         # elif game == "wordle":
         #     score = reward_wordle(completion, prompt)
-        elif game == "wordle_withcritic":
-            score = reward_wordle_withcritic(completion, prompt)
+        elif (
+            game == "wordle_withcritic"
+        ):  # for some reason, the samples in wordle_withcritic are samples from wordle
+            score = reward_wordle(completion, prompt)
         else:
             raise ValueError(f"Unknown game '{game}'")
 
