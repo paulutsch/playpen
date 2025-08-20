@@ -74,14 +74,18 @@ from trl.trainer.utils import (
 class DataCollatorWithGame(DataCollatorWithPadding):
     """
     Extends HuggingFace's padding collator by preserving the string column
-    `game`. All other non-tensor fields are removed exactly as the vanilla
-    collator would do.
+    `game` and the context_length field. All other non-tensor fields are removed
+    exactly as the vanilla collator would do.
     """
 
     def __call__(self, features, *args, **kwargs):
         games = [feature.pop("game") for feature in features]  # strip & stash
+        context_lengths = [
+            feature.pop("context_length") for feature in features
+        ]  # strip & stash
         batch = super().__call__(features, *args, **kwargs)  # pad tensors
         batch["game"] = games  # re-attach
+        batch["context_length"] = context_lengths  # re-attach
         return batch
 
 
@@ -90,7 +94,7 @@ def get_reward(
     query_responses: torch.Tensor,
     games,
     pad_token_id: int,
-    context_length: int,
+    context_length: Union[int, list],
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     """
     Computes the reward logits and the rewards for a given model and query responses.
@@ -126,12 +130,31 @@ def get_reward(
         output_hidden_states=True,
         use_cache=False,  # otherwise mistral-based RM would error out
     )
-    reward_logits = model.score(output.hidden_states[-1], games)
-    sequence_lengths = (
-        first_true_indices(query_responses[:, context_length:] == pad_token_id)
-        - 1
-        + context_length
+    reward_logits = model.score(
+        hidden_states=output.hidden_states[-1],
+        input_ids=input_ids,
+        games=games,
+        context_length=context_length,
     )
+    # Handle context_length as either int or list
+    if isinstance(context_length, int):
+        # Single context length for all sequences
+        sequence_lengths = (
+            first_true_indices(query_responses[:, context_length:] == pad_token_id)
+            - 1
+            + context_length
+        )
+    else:
+        # List of context lengths - compute for each sequence individually
+        sequence_lengths = []
+        for i, ctx_len in enumerate(context_length):
+            seq_len = (
+                first_true_indices(query_responses[i, ctx_len:] == pad_token_id)
+                - 1
+                + ctx_len
+            )
+            sequence_lengths.append(seq_len)
+        sequence_lengths = torch.stack(sequence_lengths)
     # https://github.com/huggingface/transformers/blob/dc68a39c8111217683bf49a4912d0c9018bab33d/src/transformers/models/gpt2/modeling_gpt2.py#L1454
     return (
         reward_logits,
@@ -389,6 +412,7 @@ class PPOTrainer(Trainer):
         #########
         ### setup dataloader
         #########
+        print("===! train_dataset in ppo_trainer ===", self.train_dataset[0])
         self.dataloader = DataLoader(
             self.train_dataset,
             batch_size=self.local_dataloader_batch_size,
@@ -561,7 +585,11 @@ class PPOTrainer(Trainer):
             with torch.no_grad():
                 queries = data["input_ids"].to(device)
                 games_all = data["game"]
-                context_length = queries.shape[1]
+                context_lengths = data[
+                    "context_length"
+                ]  # Use pre-computed context lengths
+                print("=== query in ppo_trainer ===", queries[0])
+                print("=== context_lengths in ppo_trainer ===", context_lengths)
                 responses = []
                 postprocessed_responses = []
                 logprobs = []
@@ -581,20 +609,84 @@ class PPOTrainer(Trainer):
                         processing_class.pad_token_id,
                         generation_config,
                     )
+                    print("=== query_response in ppo_trainer ===", query_responses[0])
 
                 for i in range(
                     0, queries.shape[0], args.local_rollout_forward_batch_size
                 ):
                     query = queries[i : i + args.local_rollout_forward_batch_size]
+                    context_length = context_lengths[
+                        i : i + args.local_rollout_forward_batch_size
+                    ]
                     query_response = query_responses[
                         i : i + args.local_rollout_forward_batch_size
                     ]
                     games = games_all[i : i + args.local_rollout_forward_batch_size]
-                    response = query_response[:, context_length:]
-                    logits = logitss[i : i + args.local_rollout_forward_batch_size]
-                    logprob = selective_log_softmax(logits, response)
-                    del logits
-                    torch.cuda.empty_cache()
+                    print("===! query in ppo_trainer ===", query[0])
+                    print("===! context_length in ppo_trainer ===", context_length)
+                    print("===! query_response in ppo_trainer ===", query_response[0])
+                    print("===! games in ppo_trainer ===", games[0])
+                    # Extract responses while preserving batch dimension
+                    response_list = []
+                    for j in range(len(query_response)):
+                        response_list.append(query_response[j][context_length[j] :])
+
+                    # Debug: Show actual response lengths
+                    response_lengths = [len(r) for r in response_list]
+                    print("===! actual response lengths ===", response_lengths)
+
+                    # Pad responses to the same length for batching
+                    max_response_length = max(len(r) for r in response_list)
+                    padded_responses = []
+                    for resp in response_list:
+                        if len(resp) < max_response_length:
+                            # Pad with pad_token_id
+                            padding = torch.full(
+                                (max_response_length - len(resp),),
+                                processing_class.pad_token_id,
+                                dtype=resp.dtype,
+                                device=resp.device,
+                            )
+                            padded_resp = torch.cat([resp, padding])
+                        else:
+                            padded_resp = resp
+                        padded_responses.append(padded_resp)
+
+                    response = torch.stack(padded_responses)
+                    print("===! response in ppo_trainer ===", response[0])
+                    print("===! response shape ===", response.shape)
+
+                    # Get logits from model forward pass to match response shape
+                    with torch.no_grad():
+                        # Forward pass through the model to get logits for the response tokens
+                        query_response_with_response = torch.cat(
+                            [query, response], dim=1
+                        )
+                        output = forward(
+                            model.policy,
+                            query_response_with_response,
+                            processing_class.pad_token_id,
+                        )
+
+                        # Extract logits for the response portion
+                        logits_list = []
+                        for j in range(len(query_response)):
+                            start_idx = context_length[j] - 1
+                            end_idx = start_idx + response.shape[1]
+                            logits_list.append(output.logits[j, start_idx:end_idx])
+
+                        logits = torch.stack(logits_list)
+                        print("===! logits shape ===", logits.shape)
+
+                        # Debug: Show what the original logitss contains
+                        original_logits = logitss[
+                            i : i + args.local_rollout_forward_batch_size
+                        ]
+                        print("===! original logitss shape ===", original_logits.shape)
+
+                        logprob = selective_log_softmax(logits, response)
+                        del logits, output
+                        torch.cuda.empty_cache()
 
                     if ref_policy is None:
                         with self.null_ref_context():
@@ -607,7 +699,13 @@ class PPOTrainer(Trainer):
                         ref_output = forward(
                             ref_policy, query_response, processing_class.pad_token_id
                         )
-                    ref_logits = ref_output.logits[:, context_length - 1 : -1]
+                    # Handle context_length as a list - we need to process each sequence individually
+                    ref_logits_list = []
+                    for j in range(len(query_response)):
+                        start_idx = context_length[j] - 1
+                        end_idx = start_idx + response.shape[1]  # Use response length
+                        ref_logits_list.append(ref_output.logits[j, start_idx:end_idx])
+                    ref_logits = torch.stack(ref_logits_list)
                     ref_logits /= args.temperature + 1e-7
                     ref_logprob = selective_log_softmax(ref_logits, response)
                     del ref_output, ref_logits
@@ -621,6 +719,10 @@ class PPOTrainer(Trainer):
                         postprocessed_response = truncate_response(
                             self.stop_token_id, processing_class.pad_token_id, response
                         )
+                    print(
+                        "===! postprocessed_response in ppo_trainer ===",
+                        postprocessed_response[0],
+                    )
 
                     # Response Processing 2. run reward model on the truncated responses
                     postprocessed_query_response = torch.cat(
@@ -632,6 +734,10 @@ class PPOTrainer(Trainer):
                         )
                         - 1
                     )
+                    print(
+                        "===! postprocessed_query_response in ppo_trainer ===",
+                        postprocessed_query_response[0],
+                    )
                     unwrapped_value_model = accelerator.unwrap_model(model).value_model
                     full_value, _, _ = get_reward(
                         unwrapped_value_model,
@@ -640,7 +746,13 @@ class PPOTrainer(Trainer):
                         processing_class.pad_token_id,
                         context_length,
                     )
-                    value = full_value[:, context_length - 1 : -1].squeeze(-1)
+                    # Handle context_length as a list for value computation
+                    value_list = []
+                    for j in range(len(query_response)):
+                        start_idx = context_length[j] - 1
+                        end_idx = start_idx + response.shape[1]  # Use response length
+                        value_list.append(full_value[j, start_idx:end_idx].squeeze(-1))
+                    value = torch.stack(value_list)
                     _, score, _ = get_reward(
                         reward_model,
                         postprocessed_query_response,
@@ -758,7 +870,25 @@ class PPOTrainer(Trainer):
                             output, vpred_temp = forward(
                                 model, mb_query_responses, processing_class.pad_token_id
                             )
-                            logits = output.logits[:, context_length - 1 : -1]
+
+                            # Handle context_length as a list for logits extraction
+                            logits_list = []
+                            vpred_list = []
+                            mb_context_lengths = [
+                                context_lengths[i] for i in micro_batch_inds
+                            ]
+
+                            for j in range(len(mb_query_responses)):
+                                start_idx = mb_context_lengths[j] - 1
+                                end_idx = (
+                                    start_idx + mb_responses.shape[1]
+                                )  # Use response length
+                                logits_list.append(output.logits[j, start_idx:end_idx])
+                                vpred_list.append(
+                                    vpred_temp[j, start_idx:end_idx].squeeze(-1)
+                                )
+
+                            logits = torch.stack(logits_list)
                             logits /= args.temperature + 1e-7
                             new_logprobs = selective_log_softmax(logits, mb_responses)
                             new_logprobs = torch.masked_fill(
@@ -766,7 +896,7 @@ class PPOTrainer(Trainer):
                                 padding_mask[micro_batch_inds],
                                 INVALID_LOGPROB,
                             )
-                            vpred = vpred_temp[:, context_length - 1 : -1].squeeze(-1)
+                            vpred = torch.stack(vpred_list)
                             vpred = torch.masked_fill(
                                 vpred, padding_mask_p1[micro_batch_inds], 0
                             )
@@ -994,8 +1124,10 @@ class PPOTrainer(Trainer):
             for batch in self.eval_dataloader:
                 query = batch["input_ids"]
                 games = batch["game"]
+                context_lengths = batch[
+                    "context_length"
+                ]  # Use pre-computed context lengths
                 with torch.no_grad():
-                    context_length = query.shape[1]
                     query_response, _ = batch_generation(
                         unwrapped_model.policy,
                         query,
@@ -1003,40 +1135,54 @@ class PPOTrainer(Trainer):
                         processing_class.pad_token_id,
                         generation_config,
                     )
-                    response = query_response[:, context_length:]
-                    postprocessed_response = response
-                    if (
-                        self.stop_token_id is not None
-                    ):  # handle the edge case when stop_token_id exists but is 0
-                        postprocessed_response = truncate_response(
-                            self.stop_token_id, processing_class.pad_token_id, response
+
+                    # Handle each sequence individually since they may have different context lengths
+                    for i in range(len(query)):
+                        ctx_len = (
+                            context_lengths[i]
+                            if isinstance(context_lengths, list)
+                            else context_lengths
                         )
-                    table["query"].extend(
-                        gather_object(
-                            processing_class.batch_decode(
-                                query, skip_special_tokens=True
+                        response = query_response[i : i + 1, ctx_len:]
+                        postprocessed_response = response
+                        if (
+                            self.stop_token_id is not None
+                        ):  # handle the edge case when stop_token_id exists but is 0
+                            postprocessed_response = truncate_response(
+                                self.stop_token_id,
+                                processing_class.pad_token_id,
+                                response,
+                            )
+
+                        table["query"].extend(
+                            gather_object(
+                                processing_class.batch_decode(
+                                    query[i : i + 1], skip_special_tokens=True
+                                )
                             )
                         )
-                    )
-                    table["model response"].extend(
-                        gather_object(
-                            processing_class.batch_decode(postprocessed_response)
+                        table["model response"].extend(
+                            gather_object(
+                                processing_class.batch_decode(postprocessed_response)
+                            )
                         )
-                    )
 
-                    postprocessed_query_response = torch.cat(
-                        (query, postprocessed_response), 1
-                    )
-                    _, score, _ = get_reward(
-                        self.reward_model,
-                        postprocessed_query_response,
-                        games,
-                        processing_class.pad_token_id,
-                        context_length,
-                    )
-                    table["score"].extend(
-                        self.accelerator.gather_for_metrics(score).float().cpu().numpy()
-                    )
+                        postprocessed_query_response = torch.cat(
+                            (query[i : i + 1], postprocessed_response), 1
+                        )
+                        _, score, _ = get_reward(
+                            self.reward_model,
+                            postprocessed_query_response,
+                            [games[i]],
+                            processing_class.pad_token_id,
+                            ctx_len,
+                        )
+                        table["score"].extend(
+                            self.accelerator.gather_for_metrics(score)
+                            .float()
+                            .cpu()
+                            .numpy()
+                        )
 
                 if sampling:
                     break
