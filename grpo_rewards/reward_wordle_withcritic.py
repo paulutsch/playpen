@@ -1,6 +1,58 @@
 import re
 
-from .reward_wordle import calculate_feedback_adherence
+
+def calculate_feedback_adherence(guess: str, feedback: str) -> float:
+    print(
+        f"calculate_feedback_adherence called with guess: {guess}, feedback: {feedback}"
+    )
+
+    if len(guess) != 5:
+        print("Guess is not 5 letters, returning 0")
+        return 0.0
+
+    feedback_parts = feedback.split()
+    if len(feedback_parts) != 5:
+        print(f"Feedback has {len(feedback_parts)} parts, expected 5, returning 0")
+        return 0.0
+
+    adherence_score = 0.0
+
+    for i, part in enumerate(feedback_parts):
+        if i >= len(guess):
+            break
+
+        match = re.match(r"(\w)<(\w+)>", part)
+        if not match:
+            print(f"Could not parse feedback part: {part}")
+            continue
+
+        feedback_letter = match.group(1).lower()
+        status = match.group(2).lower()
+        guess_letter = guess[i].lower()
+
+        print(
+            f"Position {i}: feedback_letter={feedback_letter}, status={status}, guess_letter={guess_letter}"
+        )
+
+        if status == "green":
+            if guess_letter == feedback_letter:
+                adherence_score += 0.06
+                print(
+                    f"Green match at position {i}, adherence_score: {adherence_score}"
+                )
+        elif status == "yellow":
+            if guess_letter != feedback_letter and feedback_letter in guess:
+                adherence_score += 0.06
+                print(
+                    f"Yellow match at position {i}, adherence_score: {adherence_score}"
+                )
+        elif status == "red":
+            if guess_letter != feedback_letter and feedback_letter not in guess:
+                adherence_score += 0.06
+                print(f"Red match at position {i}, adherence_score: {adherence_score}")
+
+    print(f"Final adherence_score: {adherence_score}")
+    return adherence_score
 
 
 def reward_wordle_withcritic(completion: str, prefix: list[dict[str, str]]) -> float:
