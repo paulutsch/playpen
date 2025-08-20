@@ -1,7 +1,9 @@
 import json
 import os
 import random
+import zipfile
 from collections import Counter, defaultdict
+from pathlib import Path
 
 import trl
 from clemcore.backends.huggingface_local_api import HuggingfaceLocalModel
@@ -9,7 +11,7 @@ from clemcore.clemgame import GameRegistry
 from datasets import ClassLabel, Dataset, concatenate_datasets, load_dataset
 from peft import LoraConfig
 
-from grpo_rewards.clembench_grpo_rewards import (
+from grpo_rewards import (
     reward_imagegame,
     reward_referencegame,
     reward_taboo,
@@ -17,6 +19,7 @@ from grpo_rewards.clembench_grpo_rewards import (
     reward_wordle_withclue,
     reward_wordle_withcritic,
 )
+
 from playpen import BasePlayPen
 
 # For wandb api-key
@@ -39,77 +42,33 @@ def calculate_reward(completions, **kwargs):
     Returns:
         List of float rewards in range [-1, 1]
     """
-    # Try to get game information from kwargs first
+    print("--------------- KWARGS-----------------")
+    print(", ".join(k for k, _ in kwargs.items()))
+
     games = kwargs["game"]
-
-    # If not in kwargs, try to infer from prompts or use default
-    # if not games:
-    #     prompts = kwargs.get("prompts") or kwargs.get("prompt") or []
-    #     games = []
-    #     for p in prompts:
-    #         # Simple heuristic to detect game type from prompt content
-    #         prompt_text = str(p).lower()
-    #         if "welcome to wordle" in prompt_text and "critic" in prompt_text:
-    #             games.append("wordle_withcritic")
-    #         elif "welcome to wordle" in prompt_text and "clue:" in prompt_text:
-    #             games.append("wordle_withclue")
-    #         elif "welcome to wordle" in prompt_text:
-    #             games.append("wordle")
-    #         elif (
-    #             "you are playing a collaborative word guessing game" in prompt_text
-    #             or "related words are" in prompt_text
-    #         ):
-    #             games.append("taboo")
-    #         elif "target grid" in prompt_text and "distractor grid" in prompt_text:
-    #             games.append("referencegame")
-    #         elif "what is your next instruction?" in prompt_text:
-    #             games.append("imagegame")
-    #         else:
-    #             games.append("wordle")  # default fallback
-
-    # Handle case where games is a single string or None
-    # if not isinstance(games, (list, tuple)):
-    #     games = [games] * len(completions)
-
-    # Ensure we have the same number of games as completions
-    # if len(games) != len(completions):
-    #     games = games * len(completions)
 
     scores = []
     for i, (completion, game) in enumerate(zip(completions, games)):
         print("-------------- GAME, COMPLETION ------------------")
         print(game)
         print(completion)
-        # Create per-completion kwargs
-        per_completion_kwargs = {}
-        for k, v in kwargs.items():
-            if k in {"completions", "game"}:
-                continue
-            if isinstance(v, (list, tuple)) and len(v) > i:
-                per_completion_kwargs[k] = v[i]
-            else:
-                per_completion_kwargs[k] = v
 
-        # Add the game for this specific completion
-        per_completion_kwargs["game"] = game
+        prefix = kwargs["prompts"][i]
 
-        # Route to appropriate reward function based on game
         if game == "imagegame":
-            score = reward_imagegame([completion], **per_completion_kwargs)[0]
+            score = reward_imagegame(completion, prefix)
         elif game == "referencegame":
-            score = reward_referencegame([completion], **per_completion_kwargs)[0]
+            score = reward_referencegame(completion, prefix)
         elif game == "taboo":
-            score = reward_taboo([completion], **per_completion_kwargs)[0]
+            score = reward_taboo(completion, prefix)
         elif game == "wordle":
-            score = reward_wordle([completion], **per_completion_kwargs)[0]
+            score = reward_wordle(completion, prefix)
         elif game == "wordle_withclue":
-            score = reward_wordle_withclue([completion], **per_completion_kwargs)[0]
+            score = reward_wordle_withclue(completion, prefix)
         elif game == "wordle_withcritic":
-            score = reward_wordle_withcritic([completion], **per_completion_kwargs)[0]
+            score = reward_wordle_withcritic(completion, prefix)
         else:
-            # Default to wordle if game is not recognized
-            print(f"Warning: Unknown game '{game}', defaulting to wordle reward")
-            score = reward_wordle([completion], **per_completion_kwargs)[0]
+            raise ValueError(f"Unknown game '{game}'")
 
         scores.append(score)
 
