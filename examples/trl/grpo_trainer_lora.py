@@ -15,7 +15,6 @@ from grpo_rewards import (
     reward_imagegame,
     reward_referencegame,
     reward_taboo,
-    reward_wordle,
     reward_wordle_withcritic,
 )
 from playpen import BasePlayPen
