@@ -12,6 +12,11 @@ def reward_taboo(completion: str, prefix: list[dict[str, str]]) -> float:
     Returns:
         Float reward in range [0, 1]
     """
+    print(f"\n--------------------------------")
+    print(f"completion: {completion}")
+    print(f"prefix: {prefix[0]['content']}")
+    print(f"--------------------------------\n")
+
     reward = 1.0
 
     target_word = None

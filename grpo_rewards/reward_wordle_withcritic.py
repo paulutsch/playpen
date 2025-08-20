@@ -71,11 +71,10 @@ def reward_wordle_withcritic(completion: str, prefix: list[dict[str, str]]) -> f
         Float reward in range [0, 1].
     """
 
-    reward = 1.0
-
-    if completion != completion.lower():
-        print("Completion not all lowercase; setting reward to 0.0")
-        return 0.0
+    print(f"\n--------------------------------")
+    print(f"completion: {completion}")
+    print(f"prefix: {prefix[0]['content']}")
+    print(f"--------------------------------\n")
 
     if not re.search(
         r"^\s*agreement:\s*(yes|no)\s*$", completion, re.IGNORECASE | re.MULTILINE
