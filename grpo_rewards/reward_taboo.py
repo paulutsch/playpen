@@ -14,7 +14,7 @@ def reward_taboo(completion: str, prefix: list[dict[str, str]]) -> float:
     """
     print(f"\n--------------------------------")
     print(f"completion: {completion}")
-    print(f"prefix: {prefix[0]['content']}")
+    print(f"prefix[0]['content']: {prefix[0]['content']}")
     print(f"--------------------------------\n")
 
     reward = 1.0
@@ -23,7 +23,6 @@ def reward_taboo(completion: str, prefix: list[dict[str, str]]) -> float:
     related_words = []
 
     prompt = prefix[0].get("content", "")
-    print(f"Extracted prompt: {prompt[:200]}...")
 
     target_match = re.search(
         r"This is the target word that you need to describe and that the other player needs to guess:\s*\n\s*(\w+)",

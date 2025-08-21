@@ -16,7 +16,6 @@ from grpo_rewards import (
     reward_referencegame,
     reward_taboo,
     reward_wordle,
-    reward_wordle_withcritic,
 )
 from playpen import BasePlayPen
 
@@ -70,15 +69,8 @@ def calculate_reward(completions, **kwargs):
         # we don't use wordle or wordle_withclue in the training, because the dataset is broken for those
         # elif game == "wordle":
         #     score = reward_wordle(completion, prompt)
-        elif game == "wordle_withcritic":
-            first_content = prompt[0]["content"]
-
-            uses_critic_format = "agreement:" in first_content
-
-            if uses_critic_format:
-                score = reward_wordle_withcritic(completion, prompt)
-            else:
-                score = reward_wordle(completion, prompt)
+        elif game == "wordle_withcritic":  # only using player 1 samples
+            score = reward_wordle(completion, prompt)
         else:
             raise ValueError(f"Unknown game '{game}'")
 
@@ -99,28 +91,19 @@ class PeftGrpoTrainer(BasePlayPen):
         playpen_dataset = load_dataset("clembench-playpen/DPO_turn", split="train")
         playpen_dataset = playpen_dataset.shuffle(seed=42)
 
-        # wordle and wordle with clue are broken, so we exclude them (check the samples, you'll see)
-        def _exclude_broken_games(example):
-            return example.get("game") not in {"wordle", "wordle_withclue"}
+        def _exclude(example):
+            # prompts of wordle and wordle with clue are broken, so we exclude them
+            game_to_choose = example.get("game") not in {"wordle", "wordle_withclue"}
+            # prompts with length >1 are very rare, so we exclude them (too scetchy)
+            length_1 = len(example.get("prompt")) == 1
+            player_1 = (
+                example.get("player") == "player 1"
+            )  # only very few samples for player 2, so we exclude them
+            return game_to_choose and player_1 and length_1
 
-        playpen_dataset = playpen_dataset.filter(_exclude_broken_games)
+        playpen_dataset = playpen_dataset.filter(_exclude)
 
         playpen_dataset = playpen_dataset.train_test_split(0.2, shuffle=True, seed=42)
-
-        # assuming sample to have a "prompt" field in the form of [{"role": "user", "content": "..."}, ...]
-        def make_conversation(sample):
-            new_sample = {
-                "prompt": [
-                    *sample["prompt"],
-                ],
-            }
-            # drop all other fields
-            new_sample.update({k: v for k, v in sample.items() if k not in new_sample})
-            return new_sample
-
-        playpen_dataset = playpen_dataset.map(make_conversation)
-
-        print(playpen_dataset["train"][0])
 
         # Initialize training configuration for grpo
         config = trl.GRPOConfig(
