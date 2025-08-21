@@ -13,13 +13,14 @@ def reward_wordle(completion: str, prefix: list[dict[str, str]]) -> float:
         Float reward in range [0, 1]
     """
     # Extract feedback from the last message (what the completion is responding to)
+    print("\n\n--------------------------------")
     feedback = None
     if prefix:
         last_message = prefix[-1].get("content", "")
         feedback_match = re.search(
             r"guess_feedback:\s*([^\n]+)", last_message, re.IGNORECASE
         )
-        if feedback_match:
+        if feedback_match and len(prefix) > 1:
             feedback = feedback_match.group(1).strip()
             print(f"Extracted feedback: {feedback}")
 
@@ -65,22 +66,11 @@ def calculate_feedback_adherence(guess: str, feedback: str) -> float:
     print(
         f"calculate_feedback_adherence called with guess: {guess}, feedback: {feedback}"
     )
-
-    if len(guess) != 5:
-        print("Guess is not 5 letters, returning 0")
-        return 0.0
-
     feedback_parts = feedback.split()
-    if len(feedback_parts) != 5:
-        print(f"Feedback has {len(feedback_parts)} parts, expected 5, returning 0")
-        return 0.0
 
     adherence_score = 0.0
 
     for i, part in enumerate(feedback_parts):
-        if i >= len(guess):
-            break
-
         match = re.match(r"(\w)<(\w+)>", part)
         if not match:
             print(f"Could not parse feedback part: {part}")
