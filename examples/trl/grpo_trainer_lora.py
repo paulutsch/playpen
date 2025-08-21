@@ -67,12 +67,18 @@ def calculate_reward(completions, **kwargs):
             score = reward_referencegame(completion, prompt)
         elif game == "taboo":
             score = reward_taboo(completion, prompt)
+        # we don't use wordle or wordle_withclue in the training, because the dataset is broken for those
         # elif game == "wordle":
         #     score = reward_wordle(completion, prompt)
-        elif (
-            game == "wordle_withcritic"
-        ):  # for some reason, the samples in wordle_withcritic are samples from wordle
-            score = reward_wordle(completion, prompt)
+        elif game == "wordle_withcritic":
+            first_content = prompt[0]["content"]
+
+            uses_critic_format = "agreement:" in first_content
+
+            if uses_critic_format:
+                score = reward_wordle_withcritic(completion, prompt)
+            else:
+                score = reward_wordle(completion, prompt)
         else:
             raise ValueError(f"Unknown game '{game}'")
 
