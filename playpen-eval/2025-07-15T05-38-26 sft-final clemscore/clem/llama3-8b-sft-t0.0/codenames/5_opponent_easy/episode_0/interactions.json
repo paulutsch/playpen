@@ -1,0 +1,304 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "opponent_easy",
+    "game_id": 0,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:26.772007",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "suit",
+                "day",
+                "engine",
+                "forest",
+                "doctor",
+                "turkey",
+                "post",
+                "stadium",
+                "mexico"
+              ],
+              "innocent": [
+                "cast",
+                "temple",
+                "scale",
+                "amazon",
+                "gold",
+                "bill",
+                "police"
+              ],
+              "opponent": [
+                "deck",
+                "hotel",
+                "washington",
+                "paste",
+                "cap",
+                "drill",
+                "pyramid",
+                "bugle"
+              ],
+              "assassin": [
+                "spine"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:47:26.772086",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: suit, day, engine, forest, doctor, turkey, post, stadium, mexico.\nYour opponent's team words are: deck, hotel, washington, paste, cap, drill, pyramid, bugle.\nDistractor words are: cast, temple, scale, amazon, gold, bill, police.\nThe kill words are: spine.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:27.650959",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: bird\nTARGETS: turkey, doctor, mexico",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:27.651293",
+        "action": {
+          "type": "clue",
+          "content": "bird"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:27.651328",
+        "action": {
+          "type": "targets",
+          "content": [
+            "turkey",
+            "doctor",
+            "mexico"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:27.651353",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "turkey",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:27.651374",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "doctor",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:27.651391",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "mexico",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:47:27.651602",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 3 words from the following list that best relate or are most closely associated with the word 'bird'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nwashington, mexico, amazon, stadium, paste, police, forest, suit, bill, cast, deck, cap, hotel, post, gold, turkey, scale, day, spine, temple, pyramid, engine, drill, doctor, bugle",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:28.279122",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: forest, turkey, bird",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:28.279227",
+        "action": {
+          "type": "validation error",
+          "content": {
+            "player": "Guesser",
+            "type": "guess is clue word",
+            "utterance": "forest, turkey, bird",
+            "message": "Guessed word 'bird' is the same word as the provided clue word, you should only select words from the provided list.",
+            "guess": "bird",
+            "clue": "bird"
+          }
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "suit",
+        "day",
+        "engine",
+        "forest",
+        "doctor",
+        "turkey",
+        "post",
+        "stadium",
+        "mexico"
+      ],
+      "innocent": [
+        "cast",
+        "temple",
+        "scale",
+        "amazon",
+        "gold",
+        "bill",
+        "police"
+      ],
+      "opponent": [
+        "deck",
+        "hotel",
+        "washington",
+        "paste",
+        "cap",
+        "drill",
+        "pyramid",
+        "bugle"
+      ],
+      "assassin": [
+        "spine"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [],
+        "innocent": [],
+        "opponent": [],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 2,
+  "Aborted": true,
+  "Lose": false,
+  "Game ended through assassin": false,
+  "Request Count": 2,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 1,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

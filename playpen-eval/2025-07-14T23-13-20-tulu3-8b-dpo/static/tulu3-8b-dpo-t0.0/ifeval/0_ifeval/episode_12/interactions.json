@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 104,
+    "results_folder": "tulu3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-DPO",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T00:00:16.649106",
+        "action": {
+          "type": "send message",
+          "content": "Compose a poem that has the word \"land\" and \"river\". It should be about nature and love. Also, the word \"forest\" should appear at least 3 times, and be written in English, with all letters lowercased.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:00:21.848154",
+        "action": {
+          "type": "get message",
+          "content": "in the heart of the forest, where whispers softly roam,\na river winds through the land, a gentle, loving home.\ntrees reach high, their branches entwined in a tender embrace,\nthe forest's secret, a place where love finds its place.\n\nbeneath the forest's ancient canopy, where sunlight filters through,\nthe river sings a song of life, a melody so true.\nhere, in this sacred land, where nature's love is vast,\nthe forest cradles all, in its timeless, loving cast.\n\nthe river flows with stories, of times and loves long past,\nthrough the forest's quiet heart, where dreams are gently cast.\nhere, love and nature intertwine, in a dance so grand,\nthe forest, the river, the land, in a loving, endless band.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:00:21.848208",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:frequency": {
+              "relation": "at least",
+              "keyword": "forest",
+              "frequency": 3
+            },
+            "change_case:english_lowercase": {},
+            "keywords:existence": {
+              "keywords": [
+                "land",
+                "river"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:00:21.852817",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

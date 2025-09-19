@@ -1,0 +1,391 @@
+{
+  "meta": {
+    "game_name": "guesswhat",
+    "experiment_name": "Abs_Level_1",
+    "game_id": 0,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "2.5.1"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:12:07.455398",
+        "action": {
+          "type": "send message",
+          "content": "Let's play a guessing game. Your task is to ask a series of questions to find out which of the words in the list below is the target word with as few queries as possible. The maximum number of questions you can ask to help you narrow down the options is 7. Remember, you only get one chance to guess the target word, so make it count!\n\nThe rules of the game are: \n\n1. Only ask one question per turn. DO NOT ASK MORE THAN ONE QUESTION.\n\n2. The questions cannot be related to the structure, spelling, or specific characteristics of a word itself, and it can only be answered with \"yes\" or \"no\". \n\n3. Use the following format for asking questions and DO NOT ADD ANY TEXT OTHER THAN THIS: \n\nQUESTION: <your question>\n\n4. You have only one opportunity to guess the target word. To make your guess, use the following format and DO NOT ADD ANY TEXT OTHER THAN THIS: \n\nGUESS: <target word>\n\nRemember you cannot ask for a hint. Make your question brief. Let’s start!\n\nList of candidate words: ['communism', 'election', 'epic', 'reference', 'audible', 'piece', 'rugby', 'equestrian']",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:08.214150",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word related to a sport?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:12:08.214253",
+        "action": {
+          "type": "send message",
+          "content": "Let’s play a guessing game! Your task is to answer the other player's questions. Based on your knowledge of the word: audible, respond to the following questions or guesses. Limit your response to only 'yes' or 'no' with no explanation or other words. Never reveal the answer in your response.\n\nYou must reply using the format below and DO NOT ADD ANY TEXT OTHER THAN THIS:\n\nANSWER: <some text>\n\nTarget Word: audible\n\nQUESTION: Is the target word related to a sport?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:08.531288",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: no",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:12:08.531363",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: no",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:09.230017",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word related to politics?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:12:09.230129",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word related to politics?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:09.547711",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: no",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:12:09.547784",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: no",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:10.429503",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word related to a form of government?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:12:10.429606",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word related to a form of government?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:10.747474",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: no",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:12:10.747548",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: no",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:11.694439",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word related to a literary or artistic concept?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:12:11.694544",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word related to a literary or artistic concept?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:12.012206",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:12:12.012279",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:13.028571",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word related to a type of writing or literature?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:12:13.028675",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word related to a type of writing or literature?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:13.347188",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:12:13.347263",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:14.427556",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word related to a novel or a long narrative poem?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:12:14.427661",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word related to a novel or a long narrative poem?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:14.746469",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: no",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:12:14.746544",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: no",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:15.766417",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word related to a short story or a poem?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:12:15.766521",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word related to a short story or a poem?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:16.085083",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:12:16.085156",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:16.479750",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: epic",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:16.479819",
+        "action": {
+          "type": "incorrect guess",
+          "content": "epic"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:12:16.479845",
+        "action": {
+          "type": "incorrect guess",
+          "content": "end game"
+        }
+      }
+    ]
+  ]
+}

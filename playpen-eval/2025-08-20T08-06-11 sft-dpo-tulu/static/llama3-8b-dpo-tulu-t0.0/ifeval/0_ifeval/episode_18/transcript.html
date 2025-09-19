@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+
+.game-round {
+  padding: 20px 0 20px 0;
+  background-color: #f0f8ff; /* light background for content */
+  position: relative; /* Important to position the badge */
+  border-radius: 10px;
+  margin: 10px 0 10px 0;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge in top-right corner */
+.game-round::before {
+  content: "Round " attr(data-round);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #c4c3c3;
+  padding: 0px 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for ifeval, episode 153 with llama3-8b-dpo-tulu-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+<div class="game-round" data-round="0">
+    <div speaker="GM (Game Master) to Player 1 (InstructionFollower)" class="msg gm-a" style="">
+        <p>Can you write a poem about the pros and cons of playing a lot of video games? Please make sure it&#x27;s at least 40 sentences long (don&#x27;t forget to add punctuations). You must highlight some words or phrases in your response, like *highlighted phrase*.</p>
+    </div>
+
+    <div speaker="Player 1 (InstructionFollower) to GM (Game Master)" class="msg a-gm" style="">
+        <p>In the realm of pixels and digital dreams,<br/>A world of wonder, where gamers beam,<br/>With controllers in hand, they embark on a quest,<br/>To conquer realms, and put their skills to the test.<br/><br/>But as they delve deeper, into the virtual night,<br/>They may forget the world, and its shining light,<br/>Their social lives suffer, as they spend more time,<br/>In the *virtual world*, where their avatars shine.<br/><br/>Their eyes, once bright, now dim with the screen,<br/>Their bodies, once active, now sedentary and lean,<br/>Their minds, once sharp, now dulled by the *constant grind*,<br/>As they repeat the same tasks, in a never-ending find.<br/><br/>Their relationships suffer, as they spend less time,<br/>With loved ones, and more time, in the digital prime,<br/>Their communication skills, may start to decay,<br/>As they type away, in a *virtual haze*, day by day.<br/><br/>But on the other hand, there are benefits to be found,<br/>In the world of gaming, where creativity abounds,<br/>Players can express themselves, through art and design,<br/>And bring their imagination, to life in a digital shrine.<br/><br/>Gaming can be a *social activity*, where friends unite,<br/>To conquer challenges, and share in the delight,<br/>It can be a *stress-reliever*, where players can unwind,<br/>And find solace in the *virtual world*, where their worries are left behind.<br/><br/>It can also be a *learning experience*, where players can grow,<br/>In skills and knowledge, as they navigate the digital flow,<br/>They can learn about history, science, and more,<br/>Through interactive games, that make learning a joy to explore.<br/><br/>But as with all things, there&#x27;s a balance to be found,<br/>Between gaming and life, where players must be bound,<br/>To a routine, that allows for rest and play,<br/>And a healthy lifestyle, that keeps them on the right way.<br/><br/>So let us not forget, the pros and cons of play,<br/>And find a balance, that&#x27;s just right, every day,<br/>For in the world of gaming, there&#x27;s much to be gained,<br/>But also much to be lost, if we&#x27;re not careful, and not sustained.<br/><br/>Let us be mindful, of our gaming habits, and our time,<br/>And make sure we&#x27;re not *addicted*, to the digital grind,<br/>Let us find a balance, that&#x27;s just right for us,<br/>And enjoy the world of gaming, in a healthy, and happy fuss.<br/><br/>For gaming can be a *positive force*, in our lives,<br/>A source of joy, and a way to thrive,<br/>But it&#x27;s up to us, to use it wisely, and with care,<br/>And find a balance, that&#x27;s just right, and fair.<br/><br/>So let us play, and have fun, in the world of games,<br/>But let us not forget, the importance of real-life claims,<br/>For in the end, it&#x27;s not just about the *score*, or the win,<br/>But about living a life, that&#x27;s full, and rich, and within.</p>
+    </div>
+
+    <div speaker="Game Master: target" class="msg gm-gm" style="">
+        <p>{&#x27;detectable_format:number_highlighted_sections&#x27;: {&#x27;num_highlights&#x27;: 1}, &#x27;length_constraints:number_sentences&#x27;: {&#x27;relation&#x27;: &#x27;at least&#x27;, &#x27;num_sentences&#x27;: 40}}</p>
+    </div>
+
+    <div speaker="Game Master: followed not all instructions" class="msg gm-gm" style="">
+        <p>game_result = LOSE</p>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,517 @@
+{
+  "meta": {
+    "game_name": "matchit_ascii",
+    "experiment_name": "different_grid",
+    "game_id": 6,
+    "results_folder": "tulu3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-SFT",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "MatchItPlayer",
+      "model_name": "tulu3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "MatchItPlayer",
+      "model_name": "tulu3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T16:54:55.069199",
+        "action": {
+          "type": "send message",
+          "content": "You are participating in a collaborative guessing game.\nThe goal is to find out whether this grid and another picture only I can see, are the same.\nPlease describe your grid first. Then, I will provide my description and we can ask each other questions about the grids to figure out whether they are the same. Now start your short grid description with \"DESCRIPTION:\" followed by the description. Do not add anything else. This is your grid:\nX ▢ ▢ ▢ X\nX ▢ ▢ ▢ X\nX X X X X\nX ▢ ▢ ▢ X\nX ▢ ▢ ▢ X",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:54:56.435570",
+        "action": {
+          "type": "get message",
+          "content": "DESCRIPTION: The grid is a 5x5 grid with a cross (X) in the top left, bottom right, and middle row. The rest of the grid is filled with squares (▢).<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:54:56.435631",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T16:54:56.435700",
+        "action": {
+          "type": "send message",
+          "content": "You are participating in a collaborative guessing game.\nThe goal is to find out whether this grid and another picture only I can see, are the same.\nPlease describe your grid first. Then, I will provide my description and we can ask each other questions about the grids to figure out whether they are the same. Now start your short grid description with \"DESCRIPTION:\" followed by the description. Do not add anything else. This is your grid:\n▢ ▢ ▢ ▢ ▢\nX X X ▢ X\nX X ▢ X X\nX ▢ X X X\n▢ ▢ ▢ ▢ ▢",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:54:59.301910",
+        "action": {
+          "type": "get message",
+          "content": "DESCRIPTION: The grid is a 5x5 grid with the following pattern:\n- The first row has 4 empty squares and 1 X.\n- The second row has 3 X's and 2 empty squares.\n- The third row has 2 empty squares, 1 X, and 2 X's.\n- The fourth row has 1 empty square and 4 X's.\n- The fifth row has 4 empty squares.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:54:59.301969",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T16:54:59.302033",
+        "action": {
+          "type": "send message",
+          "content": "This is my DESCRIPTION: The grid is a 5x5 grid with a cross (X) in the top left, bottom right, and middle row. The rest of the grid is filled with squares (▢).<|end_of_text|>\nNow ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:54:59.844361",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: How many X's are there in the second row of your grid?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:54:59.844417",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T16:54:59.844494",
+        "action": {
+          "type": "send message",
+          "content": "This is my DESCRIPTION: The grid is a 5x5 grid with the following pattern:\n- The first row has 4 empty squares and 1 X.\n- The second row has 3 X's and 2 empty squares.\n- The third row has 2 empty squares, 1 X, and 2 X's.\n- The fourth row has 1 empty square and 4 X's.\n- The fifth row has 4 empty squares.<|end_of_text|>\nQUESTION: How many X's are there in the second row of your grid?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:00.041454",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: 3<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:00.041506",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T16:55:00.041560",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:00.584382",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: How many empty squares are there in the third row of your grid?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:00.584435",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T16:55:00.584498",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: 3<|end_of_text|>\nQUESTION: How many empty squares are there in the third row of your grid?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:00.792999",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: 2<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:00.793050",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T16:55:00.793102",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:01.348582",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: How many X's are there in the fourth row of your grid?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:01.348636",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T16:55:01.348709",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: 2<|end_of_text|>\nQUESTION: How many X's are there in the fourth row of your grid?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:01.558920",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: 4<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:01.558971",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T16:55:01.559027",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:02.116403",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: How many empty squares are there in the first row of your grid?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:02.116458",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T16:55:02.116533",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: 4<|end_of_text|>\nQUESTION: How many empty squares are there in the first row of your grid?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:02.331467",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: 4<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:02.331519",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T16:55:02.331570",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:02.896183",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: How many X's are there in the fifth row of your grid?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:02.896238",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T16:55:02.896312",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: 4<|end_of_text|>\nQUESTION: How many X's are there in the fifth row of your grid?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:03.113693",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: 0<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:03.113746",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T16:55:03.113804",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:03.679359",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: How many empty squares are there in the fifth row of your grid?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:03.679414",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T16:55:03.679474",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: 0<|end_of_text|>\nQUESTION: How many empty squares are there in the fifth row of your grid?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:03.898929",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: 5<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:03.898981",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T16:55:03.899034",
+        "action": {
+          "type": "send message",
+          "content": "Now come to a decision. What do you think: are your grid and the other grid described the same?  Write \"DECISION: same grid\" if you think they are the same grid or \"DECISION: different grids\" if you think they are different grids. Do not add anything else.\n",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:04.127939",
+        "action": {
+          "type": "get message",
+          "content": "DECISION: different grids<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:04.127993",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:04.128009",
+        "action": {
+          "type": "invalid content",
+          "content": "abort, wrong message content."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T16:55:04.128051",
+        "action": {
+          "type": "Game over",
+          "content": "Aborted"
+        }
+      }
+    ]
+  ]
+}

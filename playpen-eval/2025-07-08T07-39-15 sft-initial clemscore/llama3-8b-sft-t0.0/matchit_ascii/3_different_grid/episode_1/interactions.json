@@ -1,0 +1,346 @@
+{
+  "meta": {
+    "game_name": "matchit_ascii",
+    "experiment_name": "different_grid",
+    "game_id": 9,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "2.5.1"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "MatchItPlayer",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "MatchItPlayer",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:14:35.737982",
+        "action": {
+          "type": "send message",
+          "content": "You are participating in a collaborative guessing game.\nThe goal is to find out whether this grid and another picture only I can see, are the same.\nPlease describe your grid first. Then, I will provide my description and we can ask each other questions about the grids to figure out whether they are the same. Now start your short grid description with \"DESCRIPTION:\" followed by the description. Do not add anything else. This is your grid:\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\nX X ▢ X X\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:37.688371",
+        "action": {
+          "type": "get message",
+          "content": "DESCRIPTION: A 5x5 grid with a cross (X) in the third row, third column. The rest of the grid is empty.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:37.688430",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:14:37.688464",
+        "action": {
+          "type": "send message",
+          "content": "You are participating in a collaborative guessing game.\nThe goal is to find out whether this grid and another picture only I can see, are the same.\nPlease describe your grid first. Then, I will provide my description and we can ask each other questions about the grids to figure out whether they are the same. Now start your short grid description with \"DESCRIPTION:\" followed by the description. Do not add anything else. This is your grid:\nX ▢ ▢ ▢ X\nX X ▢ ▢ X\nX ▢ X ▢ X\nX ▢ ▢ X X\nX ▢ ▢ ▢ X",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:42.393979",
+        "action": {
+          "type": "get message",
+          "content": "DESCRIPTION: The grid is a 5x5 square with X's and empty squares (▢). The X's are arranged in a pattern, with some rows and columns having more X's than others. The top-left and bottom-right corners have X's, and there are X's in the middle row and column. The rest of the grid is empty squares.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:42.394070",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:14:42.394388",
+        "action": {
+          "type": "send message",
+          "content": "This is my DESCRIPTION: A 5x5 grid with a cross (X) in the third row, third column. The rest of the grid is empty.\nNow ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:43.463692",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is there a row in your grid that has exactly three X's?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:43.463750",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:14:43.463796",
+        "action": {
+          "type": "send message",
+          "content": "This is my DESCRIPTION: The grid is a 5x5 square with X's and empty squares (▢). The X's are arranged in a pattern, with some rows and columns having more X's than others. The top-left and bottom-right corners have X's, and there are X's in the middle row and column. The rest of the grid is empty squares.\nQUESTION: Is there a row in your grid that has exactly three X's? Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:43.844011",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:43.844066",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:14:43.844101",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:44.914357",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is there a column in your grid that has exactly three X's?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:44.914415",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:14:44.914451",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No.\nQUESTION: Is there a column in your grid that has exactly three X's? Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:45.295781",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:45.295837",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:14:45.295866",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:46.374362",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is there a column in your grid that has exactly two X's?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:46.374421",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:14:46.374463",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No.\nQUESTION: Is there a column in your grid that has exactly two X's? Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:46.764600",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:46.764658",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:14:46.764693",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:47.848546",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is there a row in your grid that has exactly two X's?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:47.848605",
+        "action": {
+          "type": "invalid format",
+          "content": "abort, first word: QUESTION:"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:47.848619",
+        "action": {
+          "type": "Game over",
+          "content": "Aborted"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:14:47.848635",
+        "action": {
+          "type": "Game over",
+          "content": "Aborted"
+        }
+      }
+    ]
+  ]
+}

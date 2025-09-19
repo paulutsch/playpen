@@ -1,0 +1,1626 @@
+{
+  "meta": {
+    "game_name": "textmapworld_graphreasoning",
+    "experiment_name": "small",
+    "game_id": 4,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "PathGuesser",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "PathDescriber",
+      "model_name": "programmatic"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:04.422009",
+        "action": {
+          "type": "send message",
+          "content": "Please help me with the following task. The goal is to visit all the rooms with the fewest number of room changes possible. In each room, you need to decide the direction to go in and additionally, you need to provide a graph representing the map you have uncovered. Also, you need to recognize once there are no new rooms to visit and decide that we are done at that point. Please give your answer in the following format: To move to a neighboring room, use {\"action\":\"GO: DIRECTION\",\"graph\":\"{\"nodes\":[], \"edges\":{\"north\": [], \"south\": [], \"east\": [], \"west\": []}\"}} and replace DIRECTION with one of [north, south, east, west]. To stop the exploration, answer with \"DONE\" instead. Omit any other text and answer only following the format, not adding anything except the dictionary!\nHere is an example: \nYou are in the Living Room. Currently available directions: south, west. What is your next instruction?\n{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Living Room\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}\nYou have made a step and entered a Library. Currently available directions: east, north. What is your next instruction?\n{\"action\":\"GO: north\", \"graph\":{\"nodes\":[\"Living Room\", \"Library\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[(\"Living Room\", \"Library\")]}}}\nYou have made a step and entered a Kitchen. Currently available directions: south, east. What is your next instruction?\n{\"action\":\"GO: east\", \"graph\":{\"nodes\": [\"Living Room\", \"Library\", \"Kitchen\"], \"edges\":{\"north\": [(\"Library\", \"Kitchen\")],\"south\": [],\"east\": [],\"west\": [(\"Living Room\", \"Library\")]}}}\n...\nYou have made a step and entered a Bedroom. Currently available directions: south, west. What is your next instruction?\n{\"action\": \"DONE\", \"graph\": {...}}\nLet us start.\nYou are in the Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:06.466352",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:06.466473",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:06.466515",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:06.466935",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Kitchen. Currently available directions: south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:06.466970",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:06.467018",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Sunroom\", \"new\": \"Kitchen\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:06.467035",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom'], 'edges': {'north': [], 'south': [], 'east': [], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:06.467064",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Kitchen. Currently available directions: south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:09.140327",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:09.140430",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:09.140471",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:09.140958",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:09.140993",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:09.141034",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Kitchen\", \"new\": \"Sunroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:09.141052",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:09.141079",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:11.826422",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:11.826579",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:11.826624",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:11.827218",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:11.827256",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:11.827316",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Sunroom\", \"new\": \"Closet\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:11.827334",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:11.827364",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:15.723937",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\")],\"west\":[(\"Sunroom\", \"Closet\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:15.724039",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\")],\"west\":[(\"Sunroom\", \"Closet\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:15.724079",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\")],\"west\":[(\"Sunroom\", \"Closet\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:15.724569",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Home theater. Currently available directions: west. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:15.724604",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:15.724644",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Closet\", \"new\": \"Home theater\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:15.724664",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom')], 'west': [('Sunroom', 'Closet')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:15.724692",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Home theater. Currently available directions: west. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:20.393303",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:20.393411",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:20.393452",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:20.393948",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:20.393983",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:20.394024",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Home theater\", \"new\": \"Closet\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:20.394044",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:20.394072",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:25.578251",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:25.578360",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:25.578402",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:25.578922",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:25.578957",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:25.578998",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Closet\", \"new\": \"Sunroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:25.579018",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:25.579046",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:30.783000",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:30.783107",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:30.783150",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:30.783830",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Kitchen. Currently available directions: south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:30.783866",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:30.783907",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Sunroom\", \"new\": \"Kitchen\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:30.783928",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:30.783956",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Kitchen. Currently available directions: south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:36.007210",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:36.007332",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:36.007373",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:36.008097",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:36.008132",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:36.008178",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Kitchen\", \"new\": \"Sunroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:36.008199",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:36.008228",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:41.236666",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:41.236775",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:41.236816",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:41.237456",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:41.237491",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:41.237532",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Sunroom\", \"new\": \"Closet\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:41.237553",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:41.237580",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:46.475312",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:46.475419",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:46.475460",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:46.476090",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Home theater. Currently available directions: west. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:46.476124",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:46.476165",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Closet\", \"new\": \"Home theater\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:46.476185",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:46.476212",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Home theater. Currently available directions: west. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:51.732440",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:51.732557",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:51.732599",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:51.733267",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:51.733303",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:51.733343",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Home theater\", \"new\": \"Closet\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:51.733364",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:51.733391",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:56.993422",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:56.993535",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:08:56.993576",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:56.994092",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:56.994127",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:56.994168",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Closet\", \"new\": \"Sunroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:08:56.994188",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:08:56.994215",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:02.293681",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:02.293793",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:09:02.293835",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:02.294360",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Kitchen. Currently available directions: south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:02.294395",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:02.294437",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Sunroom\", \"new\": \"Kitchen\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:02.294458",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:09:02.294487",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Kitchen. Currently available directions: south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:07.597994",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:07.598101",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:09:07.598142",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:07.598663",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:07.598698",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:07.598738",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Kitchen\", \"new\": \"Sunroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:07.598758",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:09:07.598785",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:12.911325",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:12.911431",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:09:12.911472",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:12.911989",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:12.912024",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:12.912065",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Sunroom\", \"new\": \"Closet\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:12.912085",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:09:12.912113",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:18.229702",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:18.229812",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:09:18.229853",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:18.230374",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Home theater. Currently available directions: west. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:18.230408",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:18.230448",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Closet\", \"new\": \"Home theater\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:18.230469",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:09:18.230497",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Home theater. Currently available directions: west. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:23.568498",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:23.568615",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:09:23.568657",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:23.569172",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:23.569207",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:23.569247",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Home theater\", \"new\": \"Closet\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:23.569268",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:09:23.569295",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Closet. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:28.932907",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:28.933014",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:09:28.933055",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:28.933693",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:28.933728",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:28.933768",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Closet\", \"new\": \"Sunroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:28.933789",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:09:28.933817",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:34.307243",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:34.307351",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:09:34.307391",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:34.308112",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Kitchen. Currently available directions: south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:34.308147",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:34.308188",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Sunroom\", \"new\": \"Kitchen\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:34.308208",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:09:34.308236",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Kitchen. Currently available directions: south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:39.693887",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:39.693999",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:09:39.694040",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Sunroom\", \"Kitchen\", \"Closet\", \"Home theater\"],\"edges\":{\"north\":[(\"Sunroom\", \"Kitchen\")],\"south\":[],\"east\":[(\"Closet\", \"Sunroom\"), (\"Sunroom\", \"Home theater\")],\"west\":[(\"Sunroom\", \"Closet\"), (\"Closet\", \"Home theater\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:39.694586",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:39.694621",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:39.694661",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Kitchen\", \"new\": \"Sunroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:39.694682",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Sunroom', 'Kitchen', 'Closet', 'Home theater'], 'edges': {'north': [('Sunroom', 'Kitchen')], 'south': [], 'east': [('Closet', 'Sunroom'), ('Sunroom', 'Home theater')], 'west': [('Sunroom', 'Closet'), ('Closet', 'Home theater')]}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:09:39.694693",
+        "action": {
+          "type": "turns_limit",
+          "content": "20"
+        }
+      }
+    ]
+  ]
+}

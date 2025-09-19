@@ -1,0 +1,1626 @@
+{
+  "meta": {
+    "game_name": "textmapworld_graphreasoning",
+    "experiment_name": "medium",
+    "game_id": 14,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "PathGuesser",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "PathDescriber",
+      "model_name": "programmatic"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:11:54.385200",
+        "action": {
+          "type": "send message",
+          "content": "Please help me with the following task. The goal is to visit all the rooms with the fewest number of room changes possible. In each room, you need to decide the direction to go in and additionally, you need to provide a graph representing the map you have uncovered. Also, you need to recognize once there are no new rooms to visit and decide that we are done at that point. Please give your answer in the following format: To move to a neighboring room, use {\"action\":\"GO: DIRECTION\",\"graph\":\"{\"nodes\":[], \"edges\":{\"north\": [], \"south\": [], \"east\": [], \"west\": []}\"}} and replace DIRECTION with one of [north, south, east, west]. To stop the exploration, answer with \"DONE\" instead. Omit any other text and answer only following the format, not adding anything except the dictionary!\nHere is an example: \nYou are in the Living Room. Currently available directions: south, west. What is your next instruction?\n{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Living Room\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}\nYou have made a step and entered a Library. Currently available directions: east, north. What is your next instruction?\n{\"action\":\"GO: north\", \"graph\":{\"nodes\":[\"Living Room\", \"Library\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[(\"Living Room\", \"Library\")]}}}\nYou have made a step and entered a Kitchen. Currently available directions: south, east. What is your next instruction?\n{\"action\":\"GO: east\", \"graph\":{\"nodes\": [\"Living Room\", \"Library\", \"Kitchen\"], \"edges\":{\"north\": [(\"Library\", \"Kitchen\")],\"south\": [],\"east\": [],\"west\": [(\"Living Room\", \"Library\")]}}}\n...\nYou have made a step and entered a Bedroom. Currently available directions: south, west. What is your next instruction?\n{\"action\": \"DONE\", \"graph\": {...}}\nLet us start.\nYou are in the Foyer. Currently available directions: west, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:56.431157",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:56.431261",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:11:56.431302",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:56.431744",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Studio. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:56.431779",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:56.431823",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Foyer\", \"new\": \"Studio\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:56.431840",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer'], 'edges': {'north': [], 'south': [], 'east': [], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:11:56.431869",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Studio. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:59.112690",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[(\"Studio\", \"Foyer\")],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:59.112786",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[(\"Studio\", \"Foyer\")],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:11:59.112827",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[(\"Studio\", \"Foyer\")],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:59.113312",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Bedroom. Currently available directions: east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:59.113347",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:59.113386",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Studio\", \"new\": \"Bedroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:11:59.113404",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio'], 'edges': {'north': [], 'south': [], 'east': [('Studio', 'Foyer')], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:11:59.113432",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Bedroom. Currently available directions: east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:02.878122",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:02.878227",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:02.878268",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:02.878753",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Studio. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:02.878788",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:02.878829",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Bedroom\", \"new\": \"Studio\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:02.878848",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom'], 'edges': {'north': [], 'south': [], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:02.878876",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Studio. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:06.648544",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:06.648650",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:06.648693",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:06.649168",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Foyer. Currently available directions: west, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:06.649203",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:06.649245",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Studio\", \"new\": \"Foyer\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:06.649264",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom'], 'edges': {'north': [], 'south': [], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:06.649293",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Foyer. Currently available directions: west, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:10.879099",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\"],\"edges\":{\"north\":[],\"south\":[(\"Foyer\", \"Studio\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:10.879205",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\"],\"edges\":{\"north\":[],\"south\":[(\"Foyer\", \"Studio\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:10.879247",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\"],\"edges\":{\"north\":[],\"south\":[(\"Foyer\", \"Studio\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:10.879741",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Media room. Currently available directions: north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:10.879775",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:10.879816",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Foyer\", \"new\": \"Media room\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:10.879836",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom'], 'edges': {'north': [], 'south': [('Foyer', 'Studio')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:10.879862",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Media room. Currently available directions: north, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:15.939965",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:15.940076",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:15.940120",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:15.940637",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Foyer. Currently available directions: west, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:15.940672",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:15.940716",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Media room\", \"new\": \"Foyer\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:15.940737",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room'], 'edges': {'north': [('Media room', 'Foyer')], 'south': [('Foyer', 'Media room')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:15.940766",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Foyer. Currently available directions: west, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:21.013043",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:21.013152",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:21.013194",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:21.013721",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Studio. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:21.013755",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:21.013794",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Foyer\", \"new\": \"Studio\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:21.013815",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room'], 'edges': {'north': [('Media room', 'Foyer')], 'south': [('Foyer', 'Media room')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:21.013843",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Studio. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:26.097671",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:26.097778",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:26.097819",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:26.098342",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Bedroom. Currently available directions: east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:26.098378",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:26.098418",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Studio\", \"new\": \"Bedroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:26.098439",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room'], 'edges': {'north': [('Media room', 'Foyer')], 'south': [('Foyer', 'Media room')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:26.098468",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Bedroom. Currently available directions: east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:31.136400",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:31.136513",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:31.136569",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:31.137119",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Studio. Currently available directions: west, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:31.137154",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:31.137198",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Bedroom\", \"new\": \"Studio\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:31.137218",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room'], 'edges': {'north': [('Media room', 'Foyer')], 'south': [('Foyer', 'Media room')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:31.137247",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Studio. Currently available directions: west, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:36.160862",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:36.160972",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:36.161016",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:36.161547",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Foyer. Currently available directions: west, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:36.161584",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:36.161628",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Studio\", \"new\": \"Foyer\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:36.161649",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room'], 'edges': {'north': [('Media room', 'Foyer')], 'south': [('Foyer', 'Media room')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:36.161677",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Foyer. Currently available directions: west, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:41.195111",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:41.195217",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:41.195257",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:41.195770",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Media room. Currently available directions: north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:41.195805",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:41.195846",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Foyer\", \"new\": \"Media room\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:41.195865",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room'], 'edges': {'north': [('Media room', 'Foyer')], 'south': [('Foyer', 'Media room')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:41.195893",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Media room. Currently available directions: north, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:46.237102",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:46.237207",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:46.237248",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\")],\"south\":[(\"Foyer\", \"Media room\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:46.237792",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Gallery. Currently available directions: north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:46.237827",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:46.237869",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Media room\", \"new\": \"Gallery\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:46.237889",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room'], 'edges': {'north': [('Media room', 'Foyer')], 'south': [('Foyer', 'Media room')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:46.237918",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Gallery. Currently available directions: north, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:52.381109",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:52.381226",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:52.381268",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:52.381829",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:52.381863",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:52.381906",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Gallery\", \"new\": \"Sunroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:52.381927",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room', 'Gallery'], 'edges': {'north': [('Media room', 'Foyer'), ('Gallery', 'Media room')], 'south': [('Foyer', 'Media room'), ('Media room', 'Gallery')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:52.381955",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:58.792057",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:58.792167",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:12:58.792207",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:58.792748",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Gallery. Currently available directions: north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:58.792782",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:58.792821",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Sunroom\", \"new\": \"Gallery\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:12:58.792843",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room', 'Gallery', 'Sunroom'], 'edges': {'north': [('Media room', 'Foyer'), ('Gallery', 'Media room')], 'south': [('Foyer', 'Media room'), ('Media room', 'Gallery')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:12:58.792871",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Gallery. Currently available directions: north, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:05.272282",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:05.272441",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:13:05.272486",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:05.273185",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Media room. Currently available directions: north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:05.273224",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:05.273283",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Gallery\", \"new\": \"Media room\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:05.273305",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room', 'Gallery', 'Sunroom'], 'edges': {'north': [('Media room', 'Foyer'), ('Gallery', 'Media room')], 'south': [('Foyer', 'Media room'), ('Media room', 'Gallery')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:13:05.273336",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Media room. Currently available directions: north, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:11.799873",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:11.799984",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:13:11.800025",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:11.800577",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Foyer. Currently available directions: west, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:11.800612",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:11.800652",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Media room\", \"new\": \"Foyer\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:11.800673",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room', 'Gallery', 'Sunroom'], 'edges': {'north': [('Media room', 'Foyer'), ('Gallery', 'Media room')], 'south': [('Foyer', 'Media room'), ('Media room', 'Gallery')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:13:11.800701",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Foyer. Currently available directions: west, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:18.360892",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:18.361005",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:13:18.361045",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:18.361590",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Media room. Currently available directions: north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:18.361625",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:18.361666",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Foyer\", \"new\": \"Media room\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:18.361688",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room', 'Gallery', 'Sunroom'], 'edges': {'north': [('Media room', 'Foyer'), ('Gallery', 'Media room')], 'south': [('Foyer', 'Media room'), ('Media room', 'Gallery')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:13:18.361715",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Media room. Currently available directions: north, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:24.948159",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:24.948283",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:13:24.948325",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:24.948935",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Gallery. Currently available directions: north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:24.948970",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:24.949014",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Media room\", \"new\": \"Gallery\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:24.949037",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room', 'Gallery', 'Sunroom'], 'edges': {'north': [('Media room', 'Foyer'), ('Gallery', 'Media room')], 'south': [('Foyer', 'Media room'), ('Media room', 'Gallery')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:13:24.949065",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Gallery. Currently available directions: north, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:31.552125",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:31.552236",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:13:31.552278",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:31.552841",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:31.552875",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:31.552915",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Gallery\", \"new\": \"Sunroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:31.552937",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room', 'Gallery', 'Sunroom'], 'edges': {'north': [('Media room', 'Foyer'), ('Gallery', 'Media room')], 'south': [('Foyer', 'Media room'), ('Media room', 'Gallery')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:13:31.552965",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Sunroom. Currently available directions: north. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:38.182006",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:38.182123",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:13:38.182165",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\": {\"nodes\":[\"Foyer\", \"Studio\", \"Bedroom\", \"Media room\", \"Gallery\", \"Sunroom\"],\"edges\":{\"north\":[(\"Media room\", \"Foyer\"), (\"Gallery\", \"Media room\")],\"south\":[(\"Foyer\", \"Media room\"), (\"Media room\", \"Gallery\")],\"east\":[(\"Studio\", \"Foyer\"), (\"Bedroom\", \"Studio\")],\"west\": [(\"Foyer\", \"Studio\")]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:38.182736",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Gallery. Currently available directions: north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:38.182771",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:38.182814",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Sunroom\", \"new\": \"Gallery\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:38.182836",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Foyer', 'Studio', 'Bedroom', 'Media room', 'Gallery', 'Sunroom'], 'edges': {'north': [('Media room', 'Foyer'), ('Gallery', 'Media room')], 'south': [('Foyer', 'Media room'), ('Media room', 'Gallery')], 'east': [('Studio', 'Foyer'), ('Bedroom', 'Studio')], 'west': [('Foyer', 'Studio')]}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:13:38.182848",
+        "action": {
+          "type": "turns_limit",
+          "content": "20"
+        }
+      }
+    ]
+  ]
+}

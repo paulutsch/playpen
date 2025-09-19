@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "game_name": "eqbench",
+    "experiment_name": "eq_bench",
+    "game_id": 78,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T11:30:26.365620",
+        "action": {
+          "type": "send message",
+          "content": "\nYour task is to predict the likely emotional responses of a character in this dialogue:\n\nBennett: Julian, I've been in space. I've seen the Earth from a distance. It's round. \nJulian: That's what they want you to believe, Bennett.\nBennett: And who exactly are 'they'?\nJulian: The ones pulling the strings, the ones in power. \n[End dialogue]\n\nAt the end of this dialogue, Bennett would feel...\nCuriosity\nFrustration\nDisbelief\nFear\n\nGive each of these possible emotions a score from 0-10 for the relative intensity that they are likely to be feeling each.\n\nYou must output in the following format, including headings (of course, you should give your own scores), with no additional commentary:\n\nCuriosity: <score>\nFrustration: <score>\nDisbelief: <score>\nFear: <score>\n\n\n[End of answer]\n\nRemember: zero is a valid score, meaning they are likely not feeling that emotion. You must score at least one emotion > 0.\n\nYour answer:\n",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:30:27.920911",
+        "action": {
+          "type": "get message",
+          "content": "Curiosity: 8\nFrustration: 6\nDisbelief: 4\nFear: 0",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:30:27.920998",
+        "action": {
+          "type": "parsed",
+          "content": "Curiosity: 8\nFrustration: 6\nDisbelief: 4\nFear: 0"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:30:27.921015",
+        "action": {
+          "type": "target",
+          "content": "Curiosity: 0\nFrustration: 4\nDisbelief: 7\nFear: 0"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:30:27.921027",
+        "action": {
+          "type": "not exact match",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Parsed Response": {
+    "Curiosity": 8,
+    "Frustration": 6,
+    "Disbelief": 4,
+    "Fear": 0
+  },
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 389,
+    "results_folder": "llama3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T01:57:23.651042",
+        "action": {
+          "type": "send message",
+          "content": "Write a JSON schema for a beta cruiser that includes at least one placeholder represented by square brackets. The response must be in English and all lowercase letters.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T01:58:01.910913",
+        "action": {
+          "type": "get message",
+          "content": "Here's a JSON schema for a beta cruiser:\n\n```json\n{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"Beta Cruiser\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"name of the beta cruiser\"\n    },\n    \"class\": {\n      \"type\": \"string\",\n      \"description\": \"class of the beta cruiser (e.g. destroyer, cruiser, etc.)\"\n    },\n    \"size\": {\n      \"type\": \"integer\",\n      \"description\": \"size of the beta cruiser in meters\"\n    },\n    \"speed\": {\n      \"type\": \"number\",\n      \"description\": \"speed of the beta cruiser in meters per second\"\n    },\n    \"armament\": {\n      \"type\": \"array\",\n      \"description\": \"list of armaments on the beta cruiser\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"type\": {\n            \"type\": \"string\",\n            \"description\": \"type of armament (e.g. gun, missile, etc.)\"\n          },\n          \"caliber\": {\n            \"type\": \"integer\",\n            \"description\": \"caliber of the armament in millimeters\"\n          },\n          \"quantity\": {\n            \"type\": \"integer\",\n            \"description\": \"quantity of the armament\"\n          }\n        },\n        \"required\": [\"type\", \"caliber\", \"quantity\"]\n      }\n    },\n    \"crew\": {\n      \"type\": \"array\",\n      \"description\": \"list of crew members on the beta cruiser\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\": {\n            \"type\": \"string\",\n            \"description\": \"name of the crew member\"\n          },\n          \"rank\": {\n            \"type\": \"string\",\n            \"description\": \"rank of the crew member\"\n          },\n          \"specialty\": {\n            \"type\": \"string\",\n            \"description\": \"specialty of the crew member\"\n          }\n        },\n        \"required\": [\"name\", \"rank\", \"specialty\"]\n      }\n    },\n    \"engines\": {\n      \"type\": \"array\",\n      \"description\": \"list of engines on the beta cruiser\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"type\": {\n            \"type\": \"string\",\n            \"description\": \"type of engine (e.g. diesel, nuclear, etc.)\"\n          },\n          \"power\": {\n            \"type\": \"number\",\n            \"description\": \"power of the engine in kilowatts\"\n          },\n          \"efficiency\": {\n            \"type\": \"number\",\n            \"description\": \"efficiency of the engine as a percentage\"\n          }\n        },\n        \"required\": [\"type\", \"power\", \"efficiency\"]\n      }\n    },\n    \"sensors\": {\n      \"type\": \"array\",\n      \"description\": \"list of sensors on the beta cruiser\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"type\": {\n            \"type\": \"string\",\n            \"description\": \"type of sensor (e.g. radar, sonar, etc.)\"\n          },\n          \"range\": {\n            \"type\": \"number\",\n            \"description\": \"range of the sensor in meters\"\n          },\n          \"resolution\": {\n            \"type\": \"number\",\n            \"description\": \"resolution of the sensor as a percentage\"\n          }\n        },\n        \"required\": [\"type\", \"range\", \"resolution\"]\n      }\n    },\n    \"electronic warfare\": {\n      \"type\": \"array\",\n      \"description\": \"list of electronic warfare systems on the beta cruiser\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"type\": {\n            \"type\": \"string\",\n            \"description\": \"type of electronic warfare system (e.g. jammer, decoy, etc.)\"\n          },\n          \"power\": {\n            \"type\": \"number\",\n            \"description\": \"power of the electronic warfare system in watts\"\n          },\n          \"effectiveness\": {\n            \"type\": \"number\",\n            \"description\": \"effectiveness of the electronic warfare system as a percentage\"\n          }\n        },\n        \"required\": [\"type\", \"power\", \"effectiveness\"]\n      }\n    },\n    \"communication systems\": {\n      \"type\": \"array\",\n      \"description\": \"list of communication systems on the beta cruiser\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"type\": {\n            \"type\": \"string\",\n            \"description\": \"type of communication system (e.g. radio, satellite, etc.)\"\n          },\n          \"range\": {\n            \"type\": \"number\",\n            \"description\": \"range of the communication system in meters\"\n          },\n          \"bandwidth\": {\n            \"type\": \"number\",\n            \"description\": \"bandwidth of the communication system in bits per second\"\n          }\n        },\n        \"required\": [\"type\", \"range\", \"bandwidth\"]\n      }\n    },\n    \"[additional systems]\": {\n      \"type\": \"array\",\n      \"description\": \"list of additional systems on the beta cruiser\"\n    }\n  },\n  \"required\": [\"name\", \"class\", \"size\", \"speed\", \"armament\", \"crew\", \"engines\", \"sensors\", \"electronic warfare\", \"communication systems\"]\n}\n```\n\nThis schema defines a beta cruiser with various properties, including name, class, size, speed, armament, crew, engines, sensors, electronic warfare systems, and communication systems. The `[additional systems]` property is a placeholder for any additional systems that may be present on the beta cruiser.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T01:58:01.911013",
+        "action": {
+          "type": "target",
+          "content": {
+            "detectable_content:number_placeholders": {
+              "num_placeholders": 1
+            },
+            "change_case:english_lowercase": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T01:58:01.911088",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

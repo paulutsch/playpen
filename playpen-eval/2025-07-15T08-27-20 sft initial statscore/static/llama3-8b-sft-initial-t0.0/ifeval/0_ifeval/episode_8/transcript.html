@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+
+.game-round {
+  padding: 20px 0 20px 0;
+  background-color: #f0f8ff; /* light background for content */
+  position: relative; /* Important to position the badge */
+  border-radius: 10px;
+  margin: 10px 0 10px 0;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge in top-right corner */
+.game-round::before {
+  content: "Round " attr(data-round);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #c4c3c3;
+  padding: 0px 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for ifeval, episode 64 with llama3-8b-sft-initial-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+<div class="game-round" data-round="0">
+    <div speaker="GM (Game Master) to Player 1 (InstructionFollower)" class="msg gm-a" style="">
+        <p>Write a funny article about why the dinosaurs went extinct and put double quotations marks around your whole response. Include exactly 8 bullet points in your response. The bullet points should be in the form of:<br/>* This is bullet 1<br/>* This is bullet 2<br/>...</p>
+    </div>
+
+    <div speaker="Player 1 (InstructionFollower) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&quot;**The Great Dino-Mite Debacle: Why the Dinosaurs Went Extinct**<br/><br/>In a shocking turn of events, the dinosaurs suddenly and mysteriously vanished from the face of the earth. But what really happened? Was it a massive asteroid impact, a global volcanic eruption, or perhaps a dino-sized case of the Mondays? Let&#x27;s dive into the top 8 reasons why the dinosaurs went extinct, and it&#x27;s not what you think.<br/><br/>* **Reason #1: They were just really bad at math**. I mean, who needs to calculate the trajectory of a massive asteroid when you&#x27;re too busy chasing after your tail? It&#x27;s a wonder they made it this far without a calculator.<br/>* **Reason #2: They were allergic to change**. Dinosaurs were creatures of habit, and when the earth started changing, they just couldn&#x27;t adapt. It&#x27;s like they were stuck in a never-ending loop of &#x27;dino-mite&#x27; and couldn&#x27;t escape.<br/>* **Reason #3: They were just too cool for school**. I mean, who needs to learn about the dangers of asteroids when you&#x27;re a T-Rex? You&#x27;re the king of the food chain, after all.<br/>* **Reason #4: They were just really bad at sharing**. Dinosaurs were notorious for their territorial behavior, and when the earth started getting crowded, they just couldn&#x27;t share the space. It&#x27;s like they were stuck in a never-ending game of &#x27;dino-tag&#x27;.<br/>* **Reason #5: They were just too busy arguing**. I mean, who needs to worry about extinction when you&#x27;re too busy arguing with your dino-friends about who&#x27;s the best? It&#x27;s like they were stuck in a never-ending loop of &#x27;dino-debate&#x27;.<br/>* **Reason #6: They were just really bad at hiding**. Dinosaurs were huge, and when the earth started changing, they just couldn&#x27;t hide from the impending doom. It&#x27;s like they were stuck in a never-ending game of &#x27;dino-hide-and-seek&#x27;.<br/>* **Reason #7: They were just too proud to ask for help**. I mean, who needs to ask for help when you&#x27;re a T-Rex? You&#x27;re the king of the food chain, after all. It&#x27;s like they were stuck in a never-ending loop of &#x27;dino-proud&#x27;.<br/>* **Reason #8: They were just really bad at predicting the future**. I mean, who needs to predict the future when you&#x27;re a dinosaur? You&#x27;re just going to eat, sleep, and repeat, right? It&#x27;s like they were stuck in a never-ending loop of &#x27;dino-now&#x27;.&quot;<br/><br/>**The End**&quot;</p>
+    </div>
+
+    <div speaker="Game Master: target" class="msg gm-gm" style="">
+        <p>{&#x27;startend:quotation&#x27;: {}, &#x27;detectable_format:number_bullet_lists&#x27;: {&#x27;num_bullets&#x27;: 8}}</p>
+    </div>
+
+    <div speaker="Game Master: followed all instructions" class="msg gm-gm" style="">
+        <p>game_result = WIN</p>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

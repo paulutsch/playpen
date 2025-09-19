@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+
+.game-round {
+  padding: 20px 0 20px 0;
+  background-color: #f0f8ff; /* light background for content */
+  position: relative; /* Important to position the badge */
+  border-radius: 10px;
+  margin: 10px 0 10px 0;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge in top-right corner */
+.game-round::before {
+  content: "Round " attr(data-round);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #c4c3c3;
+  padding: 0px 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for ifeval, episode 71 with llama3-8b-sft-initial-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+<div class="game-round" data-round="0">
+    <div speaker="GM (Game Master) to Player 1 (InstructionFollower)" class="msg gm-a" style="">
+        <p>Draft a blog post about Ripley&#x27;s Aquarium. Make sure your blog post contains at least 7 placeholders represented by square brackets, such as [location].</p>
+    </div>
+
+    <div speaker="Player 1 (InstructionFollower) to GM (Game Master)" class="msg a-gm" style="">
+        <p>**Title:** Exploring the Wonders of the Deep: A Visit to Ripley&#x27;s Aquarium<br/><br/>**Introduction:**<br/><br/>Located in the heart of [location], Ripley&#x27;s Aquarium is a must-visit destination for anyone fascinated by the underwater world. This massive aquarium is home to thousands of marine animals from around the globe, offering an unforgettable experience for visitors of all ages. In this blog post, we&#x27;ll delve into the wonders of Ripley&#x27;s Aquarium, highlighting its unique features, exhibits, and what makes it a standout attraction.<br/><br/>**The Aquarium&#x27;s History:**<br/><br/>Ripley&#x27;s Aquarium has a rich history dating back to [year], when it was first opened to the public. Since then, it has undergone several expansions and renovations, adding new exhibits and marine life to its collection. Today, it stands as one of the largest and most popular aquariums in the world, attracting millions of visitors each year.<br/><br/>**Exhibits and Displays:**<br/><br/>One of the highlights of Ripley&#x27;s Aquarium is its diverse array of exhibits, showcasing marine life from different parts of the world. Some of the most popular exhibits include:<br/><br/>*   **The Shark Tank:** A massive tank filled with a variety of shark species, including the majestic whale shark.<br/>*   **The Ray Bay:** A large exhibit featuring a variety of ray species, including the majestic manta ray.<br/>*   **The Penguin Playhouse:** A unique exhibit where visitors can observe penguins in their natural habitat.<br/>*   **The Jellyfish Gallery:** A mesmerizing exhibit featuring a variety of jellyfish species, including the majestic moon jellyfish.<br/><br/>**Interactive Experiences:**<br/><br/>Ripley&#x27;s Aquarium offers a range of interactive experiences that allow visitors to get up close and personal with marine life. Some of the most popular interactive experiences include:<br/><br/>*   **The Touch Pool:** A hands-on exhibit where visitors can touch and learn about marine animals such as starfish, anemones, and crabs.<br/>*   **The Shark Encounter:** A thrilling experience where visitors can get face-to-face with sharks in a safe and controlled environment.<br/>*   **The Sea Lion Show:** A fun and educational show featuring sea lions performing acrobatic stunts and tricks.<br/><br/>**Conservation Efforts:**<br/><br/>Ripley&#x27;s Aquarium is committed to conservation and education, offering a range of programs and activities that promote the importance of marine conservation. Some of the conservation efforts include:<br/><br/>*   **The Marine Life Rescue Program:** A program that rescues and rehabilitates injured marine animals with the goal of releasing them back into the wild.<br/>*   **The Conservation Education Program:** A program that educates visitors about the importance of marine conservation and the impact of human activities on marine ecosystems.<br/><br/>**Conclusion:**<br/><br/>Ripley&#x27;s Aquarium is a must-visit destination for anyone interested in marine life and conservation. With its diverse array of exhibits, interactive experiences, and conservation efforts, it offers an unforgettable experience for visitors of all ages. Whether you&#x27;re a marine biologist, a student, or simply someone who loves the ocean, Ripley&#x27;s Aquarium is a place that will leave you in awe of the wonders of the deep.</p>
+    </div>
+
+    <div speaker="Game Master: target" class="msg gm-gm" style="">
+        <p>{&#x27;detectable_content:number_placeholders&#x27;: {&#x27;num_placeholders&#x27;: 7}}</p>
+    </div>
+
+    <div speaker="Game Master: followed not all instructions" class="msg gm-gm" style="">
+        <p>game_result = LOSE</p>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

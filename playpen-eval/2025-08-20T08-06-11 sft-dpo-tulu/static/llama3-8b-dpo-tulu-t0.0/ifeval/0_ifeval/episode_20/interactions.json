@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 177,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T11:39:51.783952",
+        "action": {
+          "type": "send message",
+          "content": "My brother is trying to install a new toilet in his bathroom. Could you give me details of how-to? You don't need to show all details -- just the first 5 steps for now. Separated them with \"***\", such as:\nStep 1: ......\n***\nStep 2: ......\n***\n...\n\nEnd your whole response with the phrase \"Let me know how it works. I can give you next steps when you finish all steps above.\"",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:40:12.494736",
+        "action": {
+          "type": "get message",
+          "content": "Here are the first 5 steps for installing a new toilet:\n\nStep 1: **Shut off the water supply**: Locate the shut-off valve behind the toilet and turn it clockwise to shut off the water supply to the toilet. Open the toilet tank to drain the water and let it sit for a few minutes to ensure the water has stopped flowing.\n\n***\nStep 2: **Disconnect the water supply line**: Use an adjustable wrench to loosen the nut that holds the water supply line to the toilet. Once loose, use a wrench to completely remove the nut and the supply line from the toilet.\n\n***\nStep 3: **Disconnect the toilet from the floor**: Use a wrench to loosen the nuts that hold the toilet to the floor. You may need to use a putty knife to break the old wax ring that holds the toilet in place. Once the nuts are loose, carefully lift the toilet off the floor.\n\n***\nStep 4: **Remove the old wax ring and debris**: Use a putty knife or a scraper to remove the old wax ring and any debris that may be stuck to the floor. This will ensure a clean surface for the new wax ring.\n\n***\nStep 5: **Inspect and prepare the flange**: Inspect the toilet flange (the metal ring that holds the toilet in place) for any damage or mineral buildup. Clean the flange with a wire brush and apply a new wax ring to the flange, making sure it's centered and evenly spread.\n\nLet me know how it works. I can give you next steps when you finish all steps above.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:40:12.494800",
+        "action": {
+          "type": "target",
+          "content": {
+            "length_constraints:number_paragraphs": {
+              "num_paragraphs": 5
+            },
+            "startend:end_checker": {
+              "end_phrase": "Let me know how it works. I can give you next steps when you finish all steps above."
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:40:12.494894",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

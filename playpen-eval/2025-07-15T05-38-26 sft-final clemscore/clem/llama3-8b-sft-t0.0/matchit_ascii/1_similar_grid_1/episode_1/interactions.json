@@ -1,0 +1,549 @@
+{
+  "meta": {
+    "game_name": "matchit_ascii",
+    "experiment_name": "similar_grid_1",
+    "game_id": 7,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "MatchItPlayer",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "MatchItPlayer",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:58:23.601789",
+        "action": {
+          "type": "send message",
+          "content": "You are participating in a collaborative guessing game.\nThe goal is to find out whether this grid and another picture only I can see, are the same.\nPlease describe your grid first. Then, I will provide my description and we can ask each other questions about the grids to figure out whether they are the same. Now start your short grid description with \"DESCRIPTION:\" followed by the description. Do not add anything else. This is your grid:\n▢ ▢ X ▢ ▢\n▢ X X ▢ ▢\nX X X X X\n▢ X X ▢ ▢\n▢ ▢ X ▢ ▢",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:28.727409",
+        "action": {
+          "type": "get message",
+          "content": "DESCRIPTION: The grid is a 5x5 matrix. The first row has an 'X' in the third column. The second row has 'X's in the second, third, and fourth columns. The third row is entirely filled with 'X's. The fourth row has 'X's in the second and third columns. The fifth row has an 'X' in the third column.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:28.727481",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:58:28.727561",
+        "action": {
+          "type": "send message",
+          "content": "You are participating in a collaborative guessing game.\nThe goal is to find out whether this grid and another picture only I can see, are the same.\nPlease describe your grid first. Then, I will provide my description and we can ask each other questions about the grids to figure out whether they are the same. Now start your short grid description with \"DESCRIPTION:\" followed by the description. Do not add anything else. This is your grid:\n▢ ▢ X ▢ ▢\n▢ ▢ X X ▢\nX X X X X\n▢ ▢ X X ▢\n▢ ▢ X ▢ ▢",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:35.004285",
+        "action": {
+          "type": "get message",
+          "content": "DESCRIPTION: The grid is a 5x5 matrix. The first row has an 'X' in the third column, and the rest are empty squares. The second row has an 'X' in the third and fourth columns. The third row is entirely filled with 'X's. The fourth row has an 'X' in the third and fourth columns, similar to the second row. The fifth row has an 'X' in the third column, similar to the first row.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:35.004357",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:58:35.004431",
+        "action": {
+          "type": "send message",
+          "content": "This is my DESCRIPTION: The grid is a 5x5 matrix. The first row has an 'X' in the third column. The second row has 'X's in the second, third, and fourth columns. The third row is entirely filled with 'X's. The fourth row has 'X's in the second and third columns. The fifth row has an 'X' in the third column.\nNow ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:36.854125",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the 'X' in the third column of the first row the only 'X' in that column throughout the entire grid?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:36.854193",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:58:36.854293",
+        "action": {
+          "type": "send message",
+          "content": "This is my DESCRIPTION: The grid is a 5x5 matrix. The first row has an 'X' in the third column, and the rest are empty squares. The second row has an 'X' in the third and fourth columns. The third row is entirely filled with 'X's. The fourth row has an 'X' in the third and fourth columns, similar to the second row. The fifth row has an 'X' in the third column, similar to the first row.\nQUESTION: Is the 'X' in the third column of the first row the only 'X' in that column throughout the entire grid? Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:37.185237",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:37.185300",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:58:37.185364",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:39.038727",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the 'X' in the third column of the second row the only 'X' in that column throughout the entire grid?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:39.038794",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:58:39.038880",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes\nQUESTION: Is the 'X' in the third column of the second row the only 'X' in that column throughout the entire grid? Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:39.372717",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:39.372781",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:58:39.372835",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:41.232949",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the 'X' in the third column of the third row the only 'X' in that column throughout the entire grid?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:41.233017",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:58:41.233114",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes\nQUESTION: Is the 'X' in the third column of the third row the only 'X' in that column throughout the entire grid? Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:41.573014",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:41.573075",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:58:41.573149",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:43.439937",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the 'X' in the third column of the fourth row the only 'X' in that column throughout the entire grid?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:43.440004",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:58:43.440091",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes\nQUESTION: Is the 'X' in the third column of the fourth row the only 'X' in that column throughout the entire grid? Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:43.786682",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:43.786747",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:58:43.786816",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:45.667976",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the 'X' in the third column of the fifth row the only 'X' in that column throughout the entire grid?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:45.668041",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:58:45.668141",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes\nQUESTION: Is the 'X' in the third column of the fifth row the only 'X' in that column throughout the entire grid? Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:46.025106",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:46.025169",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:58:46.025243",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:47.910295",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the 'X' in the second column of the second row the only 'X' in that column throughout the entire grid?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:47.910364",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:58:47.910444",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes\nQUESTION: Is the 'X' in the second column of the second row the only 'X' in that column throughout the entire grid? Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:48.273121",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:48.273184",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:58:48.273255",
+        "action": {
+          "type": "send message",
+          "content": "Now come to a decision. What do you think: are your grid and the other grid described the same?  Write \"DECISION: same grid\" if you think they are the same grid or \"DECISION: different grids\" if you think they are different grids. Do not add anything else.\n",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:48.715278",
+        "action": {
+          "type": "get message",
+          "content": "DECISION: same grid",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:48.715341",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:48.715358",
+        "action": {
+          "type": "Decision Player B",
+          "content": "loss"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:58:48.715462",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes\nNow come to a decision. What do you think: are your grid and the other grid described the same?  Write \"DECISION: same grid\" if you think they are the same grid or \"DECISION: different grids\" if you think they are different grids. Do not add anything else.\n",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:49.155347",
+        "action": {
+          "type": "get message",
+          "content": "DECISION: same grid",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:49.155409",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:58:49.155426",
+        "action": {
+          "type": "Decision Player A",
+          "content": "loss"
+        }
+      }
+    ]
+  ]
+}

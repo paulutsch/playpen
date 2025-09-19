@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 439,
+    "results_folder": "llama3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T01:58:22.499268",
+        "action": {
+          "type": "send message",
+          "content": "Students are travelling to UCI for 3 days. Create a hilarious itinerary for them. Do not use the word 'university'. Your entire response should have exactly 4 paragraphs.  Separate paragraphs with the markdown divider: ***",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T01:58:36.818192",
+        "action": {
+          "type": "get message",
+          "content": "**Day 1: Arrival and Acclimation**\n\nThe students arrive at the campus, exhausted from their long journey. To wake them up, they're treated to a surprise breakfast of \"Campus Cereal\" - a mix of Froot Loops, Cinnamon Toast Crunch, and a dash of mystery cereal that's been sitting in the back of the pantry since the Clinton administration. After fueling up, they head to the \"Extreme Lounge\" for a game of \"Who Can Eat the Most Pizza in One Sitting.\" The winner gets a prize: a year's supply of ramen noodles.\n\n*** \n\n**Day 2: Campus Shenanigans**\n\nThe students start the day with a thrilling game of \"Capture the Flag...of the Cafeteria.\" They have to sneak into the cafeteria, grab a tray, and make a break for it without getting caught by the cafeteria staff. The team that successfully captures the most flags wins. Afterward, they head to the \"Innovation Station\" for a workshop on \"The Art of Napping in Class.\" They learn the ancient techniques of the \"Power Nap,\" the \"Sneaky Snooze,\" and the \"Art of Falling Asleep with Your Eyes Open.\"\n\n*** \n\n**Day 3: The Great Escape**\n\nThe students are given a challenge: escape the campus without getting caught by the \"Campus Cops\" (aka the administrators). They have to navigate through a maze of buildings, avoid getting caught in the \"Time-Warp Tunnel\" (aka the library), and make it to the \"Freedom Zone\" (aka the parking lot) without getting caught. The team that successfully escapes wins a prize: a year's supply of free parking.\n\n*** \n\n**The Grand Finale**\n\nThe students gather for a final feast of \"Campus Cuisine\" - a mix of leftover pizza, Chinese takeout, and a dash of mystery meat. They share stories of their adventures, and the winners of the challenges are awarded their prizes. As they depart, they're given a parting gift: a t-shirt that reads \"I Survived [Campus Name] 3-Day Adventure.\" They leave with memories that will last a lifetime, and a newfound appreciation for the art of napping in class.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T01:58:36.818255",
+        "action": {
+          "type": "target",
+          "content": {
+            "length_constraints:number_paragraphs": {
+              "num_paragraphs": 4
+            },
+            "keywords:forbidden_words": {
+              "forbidden_words": [
+                "university"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T01:58:36.818431",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

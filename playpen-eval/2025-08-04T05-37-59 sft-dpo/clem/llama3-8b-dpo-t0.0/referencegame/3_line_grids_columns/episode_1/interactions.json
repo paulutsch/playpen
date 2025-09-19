@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "game_name": "referencegame",
+    "experiment_name": "line_grids_columns",
+    "game_id": 7,
+    "results_folder": "llama3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b/checkpoint-1860",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Instruction Giver",
+      "model_name": "llama3-8b-dpo"
+    },
+    "Player 2": {
+      "game_role": "Instruction Follower",
+      "model_name": "llama3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T07:01:53.350703",
+        "action": {
+          "type": "send message",
+          "content": "You are given three grids, where each of them is 5 by 5 in size.\nGrids have empty cells marked with \"▢\" and filled cells marked with \"X\".\nYour task is to generate a referring expression that best describes the target grid while distinguishing it from the two other distractor grids.\nThe first grid is the target grid, and the following two grids are the distractors.\n\nTarget grid:\n\nX □ X X X\nX □ X X X\nX □ X X X\nX □ X X X\nX □ X X X\n\nDistractor grid 1:\n\n□ X X X X\n□ X X X X\n□ X X X X\n□ X X X X\n□ X X X X\n\nDistractor grid 2:\n\nX X □ X X\nX X □ X X\nX X □ X X\nX X □ X X\nX X □ X X\n\nInstruction: Describe the target grid.\nGenerate the referring expression starting with the tag \"Expression: \" for the given target grid. Omit any other text.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T07:01:57.544498",
+        "action": {
+          "type": "get message",
+          "content": "Expression: The grid that has exactly five rows and exactly five columns, and in which every cell in the first row, the second row, the third row, the fourth row, and the fifth row is either an \"X\" or a \"▢\", and in which every cell is an \"X\" in the first column.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T07:01:57.544586",
+        "action": {
+          "type": "parse",
+          "content": "Expression: The grid that has exactly five rows and exactly five columns, and in which every cell in the first row, the second row, the third row, the fourth row, and the fifth row is either an \"X\" or a \"▢\", and in which every cell is an \"X\" in the first column."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T07:01:57.544626",
+        "action": {
+          "type": "send message",
+          "content": "You are given three grids, where each of them is 5 by 5 in size.\nGrids have empty cells marked with \"▢\" and filled cells marked with \"X\".\nYou are also given a referring expression that describes one of the given grids.\nYour task is to select the grid that matches the given referring expression.\nGenerate only the number (in text) of the grid that matches the given expression by selecting first, second, or third.\n\nFirst:\n\n□ X X X X\n□ X X X X\n□ X X X X\n□ X X X X\n□ X X X X\n\nSecond:\n\nX □ X X X\nX □ X X X\nX □ X X X\nX □ X X X\nX □ X X X\n\nThird:\n\nX X □ X X\nX X □ X X\nX X □ X X\nX X □ X X\nX X □ X X\n\nExpression: The grid that has exactly five rows and exactly five columns, and in which every cell in the first row, the second row, the third row, the fourth row, and the fifth row is either an \"X\" or a \"▢\", and in which every cell is an \"X\" in the first column.\nQuestion: Which grid does the expression refer to?\nStart with the tag \"Answer: \", followed by your selection. Omit any other text.\n",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T07:01:57.857475",
+        "action": {
+          "type": "get message",
+          "content": "Answer: 1",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T07:01:57.857555",
+        "action": {
+          "type": "parse_wrong",
+          "content": "1"
+        }
+      }
+    ]
+  ]
+}

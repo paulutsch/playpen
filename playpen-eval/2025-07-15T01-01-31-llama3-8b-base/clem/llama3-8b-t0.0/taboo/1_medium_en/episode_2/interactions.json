@@ -1,0 +1,309 @@
+{
+  "meta": {
+    "game_name": "taboo",
+    "experiment_name": "medium_en",
+    "game_id": 13,
+    "results_folder": "llama3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "WordDescriber",
+      "model_name": "llama3-8b"
+    },
+    "Player 2": {
+      "game_role": "WordGuesser",
+      "model_name": "llama3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:32:31.285498",
+        "action": {
+          "type": "send message",
+          "content": "You are playing a collaborative word guessing game in which you have to describe a target word for another player to guess.\n\nRules:\n(a) You have to reply in the form: CLUE: <some text>. Guesses from the other player will start with GUESS.\n(b) You cannot use the target word itself, parts or morphological variants of it in your description.\n(c) In addition, the same rules apply for related words which are provided below.\n\nEnd conditions:\n(i) If you use the target word or a related word in your description, then you lose.\n(ii) If the other player can guess the target word in 3 tries, you both win.\n\nLet us start.\n\nThis is the target word that you need to describe and that the other player needs to guess:\n\nordinance\n\nRelated words are:\n\n- law\n- regulation\n- ordination\n\nImportant: You are under time pressure, give short descriptions that are to the point!",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:31.728855",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: A formal order issued by a government or authority.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:31.728906",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:31.729091",
+        "action": {
+          "type": "valid clue",
+          "content": "a formal order issued by a government or authority"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:32:31.729133",
+        "action": {
+          "type": "send message",
+          "content": "You are playing a collaborative word guessing game in which you have to guess a target word that another player describes to you.\n\nYou can make one guess at each trial. You win when you guess the target word. You lose when you cannot guess it in 3 tries.\n\nAfter each trial you will get a new hint from the other player which starts with CLUE.\n\nMake your guesses by just saying the word using the following form: GUESS: <a word>\n\nLet us start.\n",
+          "label": "initial prompt"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:32:31.729149",
+        "action": {
+          "type": "send message",
+          "content": "CLUE: A formal order issued by a government or authority.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:31.950726",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: DECREE",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:31.950772",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:31.950793",
+        "action": {
+          "type": "valid guess",
+          "content": "decree"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:32:31.950834",
+        "action": {
+          "type": "send message",
+          "content": "GUESS: DECREE",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:32.301587",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Often enforced by police or military.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:32.301635",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:32.301791",
+        "action": {
+          "type": "valid clue",
+          "content": "often enforced by police or military"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:32:32.301829",
+        "action": {
+          "type": "send message",
+          "content": "CLUE: Often enforced by police or military.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:32.523248",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: ORDERS",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:32.523291",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:32.523313",
+        "action": {
+          "type": "valid guess",
+          "content": "orders"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:32:32.523352",
+        "action": {
+          "type": "send message",
+          "content": "GUESS: ORDERS",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:32.874136",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Can be posted in public places.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:32.874181",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:32.874322",
+        "action": {
+          "type": "valid clue",
+          "content": "can be posted in public places"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:32:32.874359",
+        "action": {
+          "type": "send message",
+          "content": "CLUE: Can be posted in public places.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:33.128289",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: BULLETIN",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:33.128333",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:33.128353",
+        "action": {
+          "type": "valid guess",
+          "content": "bulletin"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:32:33.128377",
+        "action": {
+          "type": "max rounds reached",
+          "content": "3"
+        }
+      }
+    ]
+  ]
+}

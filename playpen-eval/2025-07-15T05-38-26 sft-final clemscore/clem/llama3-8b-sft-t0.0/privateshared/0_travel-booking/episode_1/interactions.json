@@ -1,0 +1,2045 @@
+{
+  "meta": {
+    "game_name": "privateshared",
+    "experiment_name": "travel-booking",
+    "game_id": 6,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "Questioner",
+      "model_name": "programmatic"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:04.839169",
+        "action": {
+          "type": "send message",
+          "content": "You are a customer of a travel agency. Here is a description of the details of the travel you want to make:\n\nWHAT: Travel\nFROM: Paris\nTO: Dresden\nBY: Taxi\nCLASS: First\nWHEN: At the end of next week\n\nThe travel agent does not know about it yet. \n\nQuestions from the travel agent will start with TRAVEL-AGENT. Please reply in the form: ANSWER: <one sentence>\n\nI will also ask you questions. These questions will start with ME: . Please answer these questions with: ASIDE: <one sentence>\n\nImportant: Give short, direct answers!\n\nLet us start.",
+          "label": "pseudo"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:04.839191",
+        "action": {
+          "type": "get message",
+          "content": "Ok.",
+          "label": "pseudo"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:04.839231",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Does the travel agent already know your origin? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.225165",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.225228",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.225252",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for FROM valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.225265",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:05.225289",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Is the travel agent aware of your destination? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.610151",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.610213",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.610236",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for TO valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.610248",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:05.610273",
+        "action": {
+          "type": "send message",
+          "content": "ME:  If I asked the travel agent how you are travelling, would he or she know the answer? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.998596",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.998662",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.998687",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for BY valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:05.998699",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:05.998724",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Do you think the travel agent knows in which class the trip will happen? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:06.389459",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:06.389524",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:06.389549",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for CLASS valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:06.389561",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:06.389586",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you informed the travel agent about your dates? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:06.778797",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:06.778864",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:06.778889",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for WHEN valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:06.778902",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:00:06.778938",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:06.778974",
+        "action": {
+          "type": "get message",
+          "content": "Please inform your destination.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:06.779040",
+        "action": {
+          "type": "send message",
+          "content": "TRAVEL-AGENT: Please inform your destination.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.165458",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Dresden.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.165539",
+        "action": {
+          "type": "metadata",
+          "content": "Slot filled: True"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:07.165594",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Has the travel agent been informed about your place of departure? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.556658",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.556724",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.556749",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for FROM valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.556762",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:07.556787",
+        "action": {
+          "type": "send message",
+          "content": "ME:  If I asked the travel agent where you want to go, would he or she know the answer? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.941521",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.941588",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.941612",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for TO valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:07.941625",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:07.941651",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Do you believe that the travel agent is aware of how you are going to travel? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:08.330616",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:08.330682",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:08.330706",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for BY valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:08.330718",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:08.330743",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Do you think the travel agent knows in which class the trip will happen? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:08.718294",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:08.718361",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:08.718386",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for CLASS valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:08.718399",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:08.718424",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you told the travel agent when you want to travel? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.105959",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.106026",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.106052",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for WHEN valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.106064",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:00:09.106121",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.106158",
+        "action": {
+          "type": "get message",
+          "content": "Please inform your place of departure.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:09.106205",
+        "action": {
+          "type": "send message",
+          "content": "TRAVEL-AGENT: Please inform your place of departure.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.489080",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Paris.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.489160",
+        "action": {
+          "type": "metadata",
+          "content": "Slot filled: True"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:09.489216",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Does the travel agent know where your trip is starting? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.877000",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.877070",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.877095",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for FROM valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:09.877107",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:09.877133",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Do you think the travel agent knows where you want to go to? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:10.259758",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:10.259822",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:10.259846",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for TO valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:10.259858",
+        "action": {
+          "type": "check",
+          "content": "Answer is incorrect."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:10.259884",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Has the travel agent been informed about your preferred means of transportation? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:10.645696",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:10.645762",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:10.645787",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for BY valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:10.645799",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:10.645824",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you informed the travel agent about your class preference? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:11.033684",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:11.033751",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:11.033776",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for CLASS valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:11.033788",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:11.033813",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you already mentioned the dates of your trip to the travel agent? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:11.423119",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:11.423183",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:11.423209",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for WHEN valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:11.423222",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:00:11.423280",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:11.423316",
+        "action": {
+          "type": "get message",
+          "content": "Do you want a specific kind of transport?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:11.423364",
+        "action": {
+          "type": "send message",
+          "content": "TRAVEL-AGENT: Do you want a specific kind of transport?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:12.257451",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes, I want to travel by taxi.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:12.257535",
+        "action": {
+          "type": "metadata",
+          "content": "Slot filled: True"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:12.257595",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Does the travel agent already know your origin? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:12.638268",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:12.638328",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:12.638350",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for FROM valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:12.638363",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:12.638388",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you already mentioned the destination of your trip to the travel agent? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.019002",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.019064",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.019086",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for TO valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.019099",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:13.019124",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Is the travel agent aware of your means of transportation? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.397297",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.397357",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.397380",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for BY valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.397392",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:13.397416",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Does the travel agent know your preference for class? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.776983",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.777042",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.777065",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for CLASS valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:13.777077",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:13.777102",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Is the travel agent aware of the dates of your trip? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:14.155651",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:14.155709",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:14.155732",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for WHEN valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:14.155744",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:00:14.155801",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:14.155838",
+        "action": {
+          "type": "get message",
+          "content": "Do you have a preference for class?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:14.155884",
+        "action": {
+          "type": "send message",
+          "content": "TRAVEL-AGENT: Do you have a preference for class?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:14.845608",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes, I prefer first class.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:14.845684",
+        "action": {
+          "type": "metadata",
+          "content": "Slot filled: True"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:14.845741",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you told the travel agent where you are leaving from? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.224877",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.224935",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.224958",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for FROM valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.224970",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:15.224994",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Does the travel agent already know your destination? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.606225",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.606283",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.606305",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for TO valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.606317",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:15.606342",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Do you think the travel agent knows how you want to travel? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.985351",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.985412",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.985435",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for BY valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:15.985447",
+        "action": {
+          "type": "check",
+          "content": "Answer is incorrect."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:15.985471",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Do you think the travel agent knows in which class the trip will happen? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:16.371742",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:16.371812",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:16.371836",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for CLASS valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:16.371849",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:16.371875",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Has the travel agent been informed about the dates of your trip? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:16.749802",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:16.749859",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:16.749880",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for WHEN valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:16.749892",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T07:00:16.749953",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:16.749990",
+        "action": {
+          "type": "get message",
+          "content": "When does your trip begin?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:16.750037",
+        "action": {
+          "type": "send message",
+          "content": "TRAVEL-AGENT: When does your trip begin?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:17.436581",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: At the end of next week.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:17.436666",
+        "action": {
+          "type": "metadata",
+          "content": "Slot filled: True"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:17.436724",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Do you think the travel agent knows where you depart from? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:17.816703",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:17.816769",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:17.816791",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for FROM valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:17.816804",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:17.816830",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you already mentioned the destination of your trip to the travel agent? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.193728",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.193781",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.193801",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for TO valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.193814",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:18.193836",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Is the travel agent aware of your means of transportation? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.570175",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.570228",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.570248",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for BY valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.570260",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:18.570282",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you informed the travel agent about your class preference? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.947082",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.947135",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.947156",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for CLASS valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:18.947168",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:00:18.947190",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you already mentioned the dates of your trip to the travel agent? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:19.324202",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:19.324258",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:19.324279",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for WHEN valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:19.324291",
+        "action": {
+          "type": "check",
+          "content": "Answer is incorrect."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:00:19.324324",
+        "action": {
+          "type": "end",
+          "content": "Game finished."
+        }
+      }
+    ]
+  ],
+  "probes": [
+    [
+      {
+        "target": "FROM",
+        "question": "ME: Does the travel agent already know your origin? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "TO",
+        "question": "ME: Is the travel agent aware of your destination? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "BY",
+        "question": "ME: If I asked the travel agent how you are travelling, would he or she know the answer? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "CLASS",
+        "question": "ME: Do you think the travel agent knows in which class the trip will happen? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "WHEN",
+        "question": "ME: Have you informed the travel agent about your dates? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      }
+    ],
+    [
+      {
+        "target": "FROM",
+        "question": "ME: Has the travel agent been informed about your place of departure? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "TO",
+        "question": "ME: If I asked the travel agent where you want to go, would he or she know the answer? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "BY",
+        "question": "ME: Do you believe that the travel agent is aware of how you are going to travel? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "CLASS",
+        "question": "ME: Do you think the travel agent knows in which class the trip will happen? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "WHEN",
+        "question": "ME: Have you told the travel agent when you want to travel? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      }
+    ],
+    [
+      {
+        "target": "FROM",
+        "question": "ME: Does the travel agent know where your trip is starting? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "TO",
+        "question": "ME: Do you think the travel agent knows where you want to go to? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "BY",
+        "question": "ME: Has the travel agent been informed about your preferred means of transportation? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "CLASS",
+        "question": "ME: Have you informed the travel agent about your class preference? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "WHEN",
+        "question": "ME: Have you already mentioned the dates of your trip to the travel agent? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      }
+    ],
+    [
+      {
+        "target": "FROM",
+        "question": "ME: Does the travel agent already know your origin? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "TO",
+        "question": "ME: Have you already mentioned the destination of your trip to the travel agent? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "BY",
+        "question": "ME: Is the travel agent aware of your means of transportation? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "CLASS",
+        "question": "ME: Does the travel agent know your preference for class? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "WHEN",
+        "question": "ME: Is the travel agent aware of the dates of your trip? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      }
+    ],
+    [
+      {
+        "target": "FROM",
+        "question": "ME: Have you told the travel agent where you are leaving from? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "TO",
+        "question": "ME: Does the travel agent already know your destination? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "BY",
+        "question": "ME: Do you think the travel agent knows how you want to travel? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "CLASS",
+        "question": "ME: Do you think the travel agent knows in which class the trip will happen? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "WHEN",
+        "question": "ME: Has the travel agent been informed about the dates of your trip? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      }
+    ],
+    [
+      {
+        "target": "FROM",
+        "question": "ME: Do you think the travel agent knows where you depart from? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "TO",
+        "question": "ME: Have you already mentioned the destination of your trip to the travel agent? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "BY",
+        "question": "ME: Is the travel agent aware of your means of transportation? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "CLASS",
+        "question": "ME: Have you informed the travel agent about your class preference? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: Yes.",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "WHEN",
+        "question": "ME: Have you already mentioned the dates of your trip to the travel agent? Answer this question with yes or no and then stop.",
+        "gt": 1,
+        "answer": "ASIDE: No.",
+        "value": 0,
+        "tries": 1
+      }
+    ]
+  ],
+  "realised_slots": {
+    "to": 0,
+    "from": 1,
+    "by": 2,
+    "class": 3,
+    "when": 4
+  },
+  "Request Count": [
+    5,
+    6,
+    6,
+    6,
+    6,
+    6
+  ],
+  "Parsed Request Count": [
+    5,
+    6,
+    6,
+    6,
+    6,
+    6
+  ],
+  "Violated Request Count": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "Filled Slots": [
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "Aborted": false,
+  "Played Probe Rounds": 6
+}

@@ -1,0 +1,391 @@
+{
+  "meta": {
+    "game_name": "guesswhat",
+    "experiment_name": "Abs_Level_1",
+    "game_id": 0,
+    "results_folder": "llama3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b/checkpoint-1860",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-dpo"
+    },
+    "Player 2": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:47:18.952065",
+        "action": {
+          "type": "send message",
+          "content": "Let's play a guessing game. Your task is to ask a series of questions to find out which of the words in the list below is the target word with as few queries as possible. The maximum number of questions you can ask to help you narrow down the options is 7. Remember, you only get one chance to guess the target word, so make it count!\n\nThe rules of the game are: \n\n1. Only ask one question per turn. DO NOT ASK MORE THAN ONE QUESTION.\n\n2. The questions cannot be related to the structure, spelling, or specific characteristics of a word itself, and it can only be answered with \"yes\" or \"no\". \n\n3. Use the following format for asking questions and DO NOT ADD ANY TEXT OTHER THAN THIS: \n\nQUESTION: <your question>\n\n4. You have only one opportunity to guess the target word. To make your guess, use the following format and DO NOT ADD ANY TEXT OTHER THAN THIS: \n\nGUESS: <target word>\n\nRemember you cannot ask for a hint. Make your question brief. Let’s start!\n\nList of candidate words: ['communism', 'election', 'epic', 'reference', 'audible', 'piece', 'rugby', 'equestrian']",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:19.943971",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word something that can be held in your hand?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:47:19.944082",
+        "action": {
+          "type": "send message",
+          "content": "Let’s play a guessing game! Your task is to answer the other player's questions. Based on your knowledge of the word: audible, respond to the following questions or guesses. Limit your response to only 'yes' or 'no' with no explanation or other words. Never reveal the answer in your response.\n\nYou must reply using the format below and DO NOT ADD ANY TEXT OTHER THAN THIS:\n\nANSWER: <some text>\n\nTarget Word: audible\n\nQUESTION: Is the target word something that can be held in your hand?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:20.258473",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:47:20.258560",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:21.127166",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word related to a competition or event?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:47:21.127278",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word related to a competition or event?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:21.440742",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:47:21.440825",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:22.245523",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word primarily associated with a team?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:47:22.245633",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word primarily associated with a team?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:22.557711",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:47:22.557796",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:23.366196",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word typically associated with a sport?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:47:23.366309",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word typically associated with a sport?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:23.677909",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:47:23.677992",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:24.493629",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a sport that involves horses?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:47:24.493742",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a sport that involves horses?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:24.806213",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:47:24.806295",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:25.744899",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a sport that is commonly played outdoors?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:47:25.745014",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a sport that is commonly played outdoors?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:26.057720",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:47:26.057799",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:27.063727",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a sport that is typically played on foot?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:47:27.063840",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a sport that is typically played on foot?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:27.376462",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:47:27.376556",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:27.766553",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: rugby",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:27.766622",
+        "action": {
+          "type": "incorrect guess",
+          "content": "rugby"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:47:27.766648",
+        "action": {
+          "type": "incorrect guess",
+          "content": "end game"
+        }
+      }
+    ]
+  ]
+}

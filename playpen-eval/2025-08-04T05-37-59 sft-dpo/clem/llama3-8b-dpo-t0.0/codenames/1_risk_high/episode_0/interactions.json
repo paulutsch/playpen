@@ -1,0 +1,1380 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "risk_high",
+    "game_id": 5,
+    "results_folder": "llama3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b/checkpoint-1860",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-dpo"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:55.561761",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "europe",
+                "crash",
+                "superhero",
+                "mercury",
+                "whale",
+                "phoenix",
+                "canada",
+                "suit",
+                "spring"
+              ],
+              "innocent": [
+                "plot",
+                "foot",
+                "snowman"
+              ],
+              "opponent": [
+                "wave",
+                "himalayas",
+                "ice",
+                "engine",
+                "shakespeare",
+                "button",
+                "play",
+                "park"
+              ],
+              "assassin": [
+                "pants",
+                "pipe",
+                "tokyo",
+                "soldier",
+                "hotel"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:43:55.561837",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: europe, crash, superhero, mercury, whale, phoenix, canada, suit, spring.\nYour opponent's team words are: wave, himalayas, ice, engine, shakespeare, button, play, park.\nDistractor words are: plot, foot, snowman.\nThe kill words are: pants, pipe, tokyo, soldier, hotel.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.315078",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Continent\nTARGETS: europe, canada",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.315390",
+        "action": {
+          "type": "clue",
+          "content": "continent"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.315426",
+        "action": {
+          "type": "targets",
+          "content": [
+            "europe",
+            "canada"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.315450",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "europe",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.315471",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "canada",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:43:56.315717",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 2 words from the following list that best relate or are most closely associated with the word 'continent'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\npipe, superhero, tokyo, button, whale, park, plot, wave, engine, snowman, play, phoenix, hotel, himalayas, shakespeare, soldier, mercury, spring, foot, ice, suit, pants, crash, europe, canada",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.824296",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: europe, canada",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.824420",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "europe",
+            "canada"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.824465",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "europe",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.824488",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "europe",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.824509",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "canada",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.824537",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "canada",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.824791",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "engine",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:56.824827",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "crash",
+                "superhero",
+                "mercury",
+                "whale",
+                "phoenix",
+                "suit",
+                "spring"
+              ],
+              "innocent": [
+                "plot",
+                "foot",
+                "snowman"
+              ],
+              "opponent": [
+                "wave",
+                "himalayas",
+                "ice",
+                "shakespeare",
+                "button",
+                "play",
+                "park"
+              ],
+              "assassin": [
+                "pants",
+                "pipe",
+                "tokyo",
+                "soldier",
+                "hotel"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "europe",
+                  "canada"
+                ],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "engine"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:43:56.824895",
+        "action": {
+          "type": "send message",
+          "content": "The words europe, canada were guessed correctly. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: crash, superhero, mercury, whale, phoenix, suit, spring.\nRemaining words for your opponent are: wave, himalayas, ice, engine, shakespeare, button, play, park.\nRemaining distractor words are: plot, foot, snowman.\nRemaining kill words are: pants, pipe, tokyo, soldier, hotel.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:57.653758",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Mythology\nTARGETS: phoenix, mercury",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:57.654002",
+        "action": {
+          "type": "clue",
+          "content": "mythology"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:57.654035",
+        "action": {
+          "type": "targets",
+          "content": [
+            "phoenix",
+            "mercury"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:57.654060",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "phoenix",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:57.654080",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "mercury",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:43:57.654321",
+        "action": {
+          "type": "send message",
+          "content": "The words europe, canada were guessed correctly. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'mythology'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\npipe, superhero, tokyo, button, whale, park, plot, wave, snowman, play, phoenix, hotel, himalayas, shakespeare, soldier, mercury, spring, foot, ice, suit, pants, crash",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.211522",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: phoenix, shakespeare",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.211632",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "phoenix",
+            "shakespeare"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.211672",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "phoenix",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.211695",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "phoenix",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.211716",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "shakespeare",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.211736",
+        "action": {
+          "type": "turn end after",
+          "content": "shakespeare"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.211960",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "himalayas",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.211994",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "crash",
+                "superhero",
+                "mercury",
+                "whale",
+                "suit",
+                "spring"
+              ],
+              "innocent": [
+                "plot",
+                "foot",
+                "snowman"
+              ],
+              "opponent": [
+                "wave",
+                "ice",
+                "button",
+                "play",
+                "park"
+              ],
+              "assassin": [
+                "pants",
+                "pipe",
+                "tokyo",
+                "soldier",
+                "hotel"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "europe",
+                  "canada",
+                  "phoenix"
+                ],
+                "innocent": [],
+                "opponent": [
+                  "shakespeare"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "engine",
+                  "himalayas"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:43:58.212063",
+        "action": {
+          "type": "send message",
+          "content": "The word phoenix was guessed correctly. The word shakespeare was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: crash, superhero, mercury, whale, suit, spring.\nRemaining words for your opponent are: wave, himalayas, ice, button, play, park.\nRemaining distractor words are: plot, foot, snowman.\nRemaining kill words are: pants, pipe, tokyo, soldier, hotel.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.994689",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Costume\nTARGETS: superhero, suit",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.994917",
+        "action": {
+          "type": "clue",
+          "content": "costume"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.994950",
+        "action": {
+          "type": "targets",
+          "content": [
+            "superhero",
+            "suit"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.994974",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "superhero",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:58.994994",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "suit",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:43:58.995225",
+        "action": {
+          "type": "send message",
+          "content": "The word phoenix was guessed correctly. The word shakespeare was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'costume'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\npipe, superhero, tokyo, button, whale, park, plot, wave, snowman, play, hotel, soldier, mercury, spring, foot, ice, suit, pants, crash",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:59.503255",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: superhero, suit",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:59.503367",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "superhero",
+            "suit"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:59.503405",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "superhero",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:59.503428",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "superhero",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:59.503448",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "suit",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:59.503466",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "suit",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:59.503704",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "wave",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:43:59.503738",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "crash",
+                "mercury",
+                "whale",
+                "spring"
+              ],
+              "innocent": [
+                "plot",
+                "foot",
+                "snowman"
+              ],
+              "opponent": [
+                "ice",
+                "button",
+                "play",
+                "park"
+              ],
+              "assassin": [
+                "pants",
+                "pipe",
+                "tokyo",
+                "soldier",
+                "hotel"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "europe",
+                  "canada",
+                  "phoenix",
+                  "superhero",
+                  "suit"
+                ],
+                "innocent": [],
+                "opponent": [
+                  "shakespeare"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "engine",
+                  "himalayas",
+                  "wave"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:43:59.503806",
+        "action": {
+          "type": "send message",
+          "content": "The words superhero, suit were guessed correctly. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: crash, mercury, whale, spring.\nRemaining words for your opponent are: wave, ice, button, play, park.\nRemaining distractor words are: plot, foot, snowman.\nRemaining kill words are: pants, pipe, tokyo, soldier, hotel.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.309369",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Planet\nTARGETS: mercury, whale",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.309581",
+        "action": {
+          "type": "clue",
+          "content": "planet"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.309614",
+        "action": {
+          "type": "targets",
+          "content": [
+            "mercury",
+            "whale"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.309637",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "mercury",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.309656",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "whale",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:44:00.309887",
+        "action": {
+          "type": "send message",
+          "content": "The words superhero, suit were guessed correctly. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'planet'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\npipe, tokyo, button, whale, park, plot, snowman, play, hotel, soldier, mercury, spring, foot, ice, pants, crash",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.828325",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: mercury, whale",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.828435",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "mercury",
+            "whale"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.828475",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "mercury",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.828497",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "mercury",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.828517",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "whale",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.828544",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "whale",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.828777",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "ice",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:00.828811",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "crash",
+                "spring"
+              ],
+              "innocent": [
+                "plot",
+                "foot",
+                "snowman"
+              ],
+              "opponent": [
+                "button",
+                "play",
+                "park"
+              ],
+              "assassin": [
+                "pants",
+                "pipe",
+                "tokyo",
+                "soldier",
+                "hotel"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "europe",
+                  "canada",
+                  "phoenix",
+                  "superhero",
+                  "suit",
+                  "mercury",
+                  "whale"
+                ],
+                "innocent": [],
+                "opponent": [
+                  "shakespeare"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "engine",
+                  "himalayas",
+                  "wave",
+                  "ice"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:44:00.828880",
+        "action": {
+          "type": "send message",
+          "content": "The words mercury, whale were guessed correctly. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: crash, spring.\nRemaining words for your opponent are: ice, button, play, park.\nRemaining distractor words are: plot, foot, snowman.\nRemaining kill words are: pants, pipe, tokyo, soldier, hotel.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.533072",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Season\nTARGETS: spring",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.533268",
+        "action": {
+          "type": "clue",
+          "content": "season"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.533300",
+        "action": {
+          "type": "targets",
+          "content": [
+            "spring"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.533323",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "spring",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:44:01.533562",
+        "action": {
+          "type": "send message",
+          "content": "The words mercury, whale were guessed correctly. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 1 words from the following list of words that best relate or are most closely associated with the word 'season'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\npipe, tokyo, button, park, plot, snowman, play, hotel, soldier, spring, foot, pants, crash",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.947370",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: spring",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.947475",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "spring"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.947514",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "spring",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.947537",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "spring",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.947777",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "park",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:01.947812",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "crash"
+              ],
+              "innocent": [
+                "plot",
+                "foot",
+                "snowman"
+              ],
+              "opponent": [
+                "button",
+                "play"
+              ],
+              "assassin": [
+                "pants",
+                "pipe",
+                "tokyo",
+                "soldier",
+                "hotel"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "europe",
+                  "canada",
+                  "phoenix",
+                  "superhero",
+                  "suit",
+                  "mercury",
+                  "whale",
+                  "spring"
+                ],
+                "innocent": [],
+                "opponent": [
+                  "shakespeare"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "engine",
+                  "himalayas",
+                  "wave",
+                  "ice",
+                  "park"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:44:01.947881",
+        "action": {
+          "type": "send message",
+          "content": "The word spring was guessed correctly. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: crash.\nRemaining words for your opponent are: button, play, park.\nRemaining distractor words are: plot, foot, snowman.\nRemaining kill words are: pants, pipe, tokyo, soldier, hotel.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:02.671271",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Accident\nTARGETS: crash",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:02.671462",
+        "action": {
+          "type": "clue",
+          "content": "accident"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:02.671495",
+        "action": {
+          "type": "targets",
+          "content": [
+            "crash"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:02.671518",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "crash",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:44:02.671758",
+        "action": {
+          "type": "send message",
+          "content": "The word spring was guessed correctly. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 1 words from the following list of words that best relate or are most closely associated with the word 'accident'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\npipe, tokyo, button, plot, snowman, play, hotel, soldier, foot, pants, crash",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:03.103204",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: crash",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:03.103308",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "crash"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:03.103348",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "crash",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:03.103370",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "crash",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:03.103585",
+        "action": {
+          "type": "game end",
+          "content": "team has won"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:03.103617",
+        "action": {
+          "type": "game end",
+          "content": "team has won"
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [],
+      "innocent": [
+        "plot",
+        "foot",
+        "snowman"
+      ],
+      "opponent": [
+        "button",
+        "play"
+      ],
+      "assassin": [
+        "pants",
+        "pipe",
+        "tokyo",
+        "soldier",
+        "hotel"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "europe",
+          "canada",
+          "phoenix",
+          "superhero",
+          "suit",
+          "mercury",
+          "whale",
+          "spring",
+          "crash"
+        ],
+        "innocent": [],
+        "opponent": [
+          "shakespeare"
+        ],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "engine",
+          "himalayas",
+          "wave",
+          "ice",
+          "park"
+        ],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 7,
+  "Aborted": false,
+  "Lose": false,
+  "Game ended through assassin": false,
+  "Request Count": 12,
+  "Parsed Request Count": 12,
+  "Violated Request Count": 0,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

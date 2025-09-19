@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 263,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T11:45:04.593482",
+        "action": {
+          "type": "send message",
+          "content": "Create an itinerary for a 3-day trip to Moscow that uses the word founding less than twice. Don't add anything before and after the JSON code. Your entire output should just contain a JSON code block.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:45:48.122036",
+        "action": {
+          "type": "get message",
+          "content": "{\n  \"day1\": {\n    \"morning\": {\n      \"9:00 AM\": \"Start the day at Red Square, one of the most iconic landmarks in Moscow. Take a stroll around the square and visit the nearby St. Basil's Cathedral.\",\n      \"10:30 AM\": \"Visit the Kremlin, a UNESCO World Heritage Site and the official residence of the President of Russia. Explore the Armory Chamber and the Diamond Fund.\"\n    },\n    \"afternoon\": {\n      \"1:00 PM\": \"Take a break for lunch at a traditional Russian restaurant, such as Cafe Pushkin or Stolle.\",\n      \"2:30 PM\": \"Visit the Lenin Mausoleum, a grandiose monument to the founder of the Soviet Union, Vladimir Lenin.\"\n    },\n    \"evening\": {\n      \"6:00 PM\": \"Enjoy a traditional Russian dinner at a restaurant like 20 Dvortsovy or Cafe Gourmet.\",\n      \"8:00 PM\": \"Take a stroll along the Moskva River and enjoy the city's vibrant nightlife.\"\n    }\n  },\n  \"day2\": {\n    \"morning\": {\n      \"9:00 AM\": \"Visit the Tretyakov Gallery, one of the largest and most famous art museums in Russia, featuring a vast collection of Russian art from the 11th to the 20th centuries.\",\n      \"11:30 AM\": \"Explore the nearby Novodevichy Convent, a beautiful and historic monastery that dates back to the 16th century.\"\n    },\n    \"afternoon\": {\n      \"1:00 PM\": \"Take a break for lunch at a modern Russian restaurant, such as White Rabbit or The Dead Poets.\",\n      \"2:30 PM\": \"Visit the Museum of Cosmonautics, a unique museum showcasing the history of space exploration in Russia.\"\n    },\n    \"evening\": {\n      \"6:00 PM\": \"Enjoy a performance at the Bolshoi Theatre, one of the most famous ballet and opera companies in the world.\",\n      \"8:00 PM\": \"Take a walk through the trendy neighborhood of Arbat, known for its street performers, cafes, and shops.\"\n    }\n  },\n  \"day3\": {\n    \"morning\": {\n      \"9:00 AM\": \"Visit the Moscow Metro, a stunning underground transportation system that features beautiful architecture and ornate decorations.\",\n      \"10:30 AM\": \"Explore the nearby Gorky Park, a large public park that offers a peaceful escape from the hustle and bustle of the city.\"\n    },\n    \"afternoon\": {\n      \"1:00 PM\": \"Take a break for lunch at a food court or market, such as the Gorky Park Food Court or the Izmailovo Market.\",\n      \"2:30 PM\": \"Visit the Museum of Soviet Arcade Machines, a quirky museum featuring a collection of vintage arcade games and Soviet-era technology.\"\n    },\n    \"evening\": {\n      \"6:00 PM\": \"Enjoy a farewell dinner at a Michelin-starred restaurant, such as Twins Garden or The White Rabbit.\",\n      \"8:00 PM\": \"Take a final stroll through the city and reflect on the amazing sights and experiences of your trip to Moscow.\"\n    }\n  }\n}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:45:48.122101",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:frequency": {
+              "relation": "less than",
+              "keyword": "founding",
+              "frequency": 2
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:45:48.122187",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+
+.game-round {
+  padding: 20px 0 20px 0;
+  background-color: #f0f8ff; /* light background for content */
+  position: relative; /* Important to position the badge */
+  border-radius: 10px;
+  margin: 10px 0 10px 0;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge in top-right corner */
+.game-round::before {
+  content: "Round " attr(data-round);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #c4c3c3;
+  padding: 0px 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for ifeval, episode 179 with llama3-8b-sft-initial-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+<div class="game-round" data-round="0">
+    <div speaker="GM (Game Master) to Player 1 (InstructionFollower)" class="msg gm-a" style="">
+        <p>What are the uses of poppy seeds? Your answer should have exactly 7 paragraphs and the last paragraph must start with the word &quot;Summary&quot;. Each paragraph should be separated by two new lines.</p>
+    </div>
+
+    <div speaker="Player 1 (InstructionFollower) to GM (Game Master)" class="msg a-gm" style="">
+        <p>Poppy seeds are a versatile ingredient used in various culinary and medicinal applications. They are derived from the opium poppy plant (Papaver somniferum), which is native to the Mediterranean region. The seeds are small, flat, and kidney-shaped, with a delicate flavor and a crunchy texture.<br/><br/>In baking, poppy seeds are often used as a topping for bread, cakes, and pastries. They add a nutty flavor and a decorative touch to these sweet treats. Poppy seed muffins, cakes, and cookies are popular desserts that showcase the seeds&#x27; unique flavor and texture.<br/><br/>Poppy seeds are also used in savory dishes, particularly in Middle Eastern and Indian cuisine. They are often mixed with herbs and spices to create a flavorful topping for vegetables, meats, and grains. In some recipes, poppy seeds are used to thicken sauces and soups, adding a rich and creamy texture.<br/><br/>In addition to their culinary uses, poppy seeds have medicinal properties. They contain a compound called morphine, which is used to treat pain and other medical conditions. However, the seeds themselves do not contain enough morphine to produce a significant effect, and they are not typically used as a medicinal ingredient.<br/><br/>Poppy seeds are also used in traditional medicine to treat various ailments, including insomnia, anxiety, and digestive issues. They are believed to have a calming effect on the nervous system and can be used to promote relaxation and improve sleep quality.<br/><br/>In some cultures, poppy seeds are used as a symbol of good luck and prosperity. They are often used in wedding ceremonies and other celebrations to bring good fortune and happiness to the couple or individuals involved.<br/><br/>Summary: Poppy seeds are a versatile ingredient with a range of uses in baking, savory dishes, and traditional medicine. They add flavor, texture, and medicinal properties to various recipes and are often used as a symbol of good luck and prosperity.</p>
+    </div>
+
+    <div speaker="Game Master: target" class="msg gm-gm" style="">
+        <p>{&#x27;length_constraints:nth_paragraph_first_word&#x27;: {&#x27;num_paragraphs&#x27;: 7, &#x27;first_word&#x27;: &#x27;summary&#x27;, &#x27;nth_paragraph&#x27;: 7}}</p>
+    </div>
+
+    <div speaker="Game Master: followed not all instructions" class="msg gm-gm" style="">
+        <p>game_result = LOSE</p>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

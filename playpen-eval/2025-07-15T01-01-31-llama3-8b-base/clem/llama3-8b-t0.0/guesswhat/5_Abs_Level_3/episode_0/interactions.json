@@ -1,0 +1,348 @@
+{
+  "meta": {
+    "game_name": "guesswhat",
+    "experiment_name": "Abs_Level_3",
+    "game_id": 3,
+    "results_folder": "llama3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b"
+    },
+    "Player 2": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:49.001103",
+        "action": {
+          "type": "send message",
+          "content": "Let's play a guessing game. Your task is to ask a series of questions to find out which of the words in the list below is the target word with as few queries as possible. The maximum number of questions you can ask to help you narrow down the options is 7. Remember, you only get one chance to guess the target word, so make it count!\n\nThe rules of the game are: \n\n1. Only ask one question per turn. DO NOT ASK MORE THAN ONE QUESTION.\n\n2. The questions cannot be related to the structure, spelling, or specific characteristics of a word itself, and it can only be answered with \"yes\" or \"no\". \n\n3. Use the following format for asking questions and DO NOT ADD ANY TEXT OTHER THAN THIS: \n\nQUESTION: <your question>\n\n4. You have only one opportunity to guess the target word. To make your guess, use the following format and DO NOT ADD ANY TEXT OTHER THAN THIS: \n\nGUESS: <target word>\n\nRemember you cannot ask for a hint. Make your question brief. Let’s start!\n\nList of candidate words: ['dictatorship', 'monarchy', 'oligarchy', 'autocracy', 'democrat', 'republican', 'fascism', 'democracy']",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:49.509113",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a form of government that is not democratic?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:49.509213",
+        "action": {
+          "type": "send message",
+          "content": "Let’s play a guessing game! Your task is to answer the other player's questions. Based on your knowledge of the word: democrat, respond to the following questions or guesses. Limit your response to only 'yes' or 'no' with no explanation or other words. Never reveal the answer in your response.\n\nYou must reply using the format below and DO NOT ADD ANY TEXT OTHER THAN THIS:\n\nANSWER: <some text>\n\nTarget Word: democrat\n\nQUESTION: Is the target word a form of government that is not democratic?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:49.669530",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: no",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:49.669614",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: no",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:50.303654",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a form of government that is typically associated with a single leader?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:50.303760",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a form of government that is typically associated with a single leader?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:50.462786",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: no",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:50.462856",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: no",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:51.157958",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a form of government that is considered to be a fair and equal system?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:51.158060",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a form of government that is considered to be a fair and equal system?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:51.318519",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:51.318592",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:51.932223",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a form of government that is practiced in the United States?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:51.932323",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a form of government that is practiced in the United States?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:52.094200",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:52.094271",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:52.833249",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a form of government that is practiced at the national level in the United States?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:52.833348",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a form of government that is practiced at the national level in the United States?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:52.996850",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:52.996921",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:53.799345",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a form of government that is practiced by the majority of the population in the United States?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:53.799452",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a form of government that is practiced by the majority of the population in the United States?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:53.963893",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:53.963966",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:54.174830",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: democracy",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:54.174906",
+        "action": {
+          "type": "incorrect guess",
+          "content": "democracy"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:54.174930",
+        "action": {
+          "type": "incorrect guess",
+          "content": "end game"
+        }
+      }
+    ]
+  ]
+}

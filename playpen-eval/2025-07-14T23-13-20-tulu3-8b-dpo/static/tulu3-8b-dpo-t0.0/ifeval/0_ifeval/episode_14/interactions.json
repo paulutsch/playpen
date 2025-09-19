@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 114,
+    "results_folder": "tulu3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-DPO",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T00:00:35.851490",
+        "action": {
+          "type": "send message",
+          "content": "I really love the album called Lilith. I want to introduce it to my friend Luheng. Draft an email for it. Add a postscript to your response that starts with P.S.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:00:43.647531",
+        "action": {
+          "type": "get message",
+          "content": "Subject: Discovering a Gem: The Album \"Lilith\"\n\nHi Luheng,\n\nI hope you're doing well! I've been diving into some amazing music lately, and I stumbled upon an album that I think you'll absolutely love. It's called \"Lilith,\" and it's a masterpiece that I've been listening to on repeat.\n\nThe album has a unique blend of sounds and emotions that really captivate you. Each track tells its own story, and the overall vibe is both haunting and beautiful. The lyrics are profound, and the melodies are so catchy that they'll be stuck in your head long after you've finished listening.\n\nI think you'll appreciate the depth and creativity that went into this project. It's the kind of music that makes you stop and really listen, and I can't wait to hear what you think.\n\nLet me know if you want to listen to it together sometime. I'd love to share my favorite tracks with you.\n\nP.S. Once you give \"Lilith\" a listen, I bet you'll understand why I'm so excited about it. It's one of those albums that you'll want to revisit again and again.\n\nTake care,\n[Your Name]<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:00:43.647586",
+        "action": {
+          "type": "target",
+          "content": {
+            "detectable_content:postscript": {
+              "postscript_marker": "P.S."
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:00:43.647653",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 504,
+    "results_folder": "llama3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b/checkpoint-1860",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T09:05:58.585682",
+        "action": {
+          "type": "send message",
+          "content": "Write an XML document describing the release of the latest Google Pixel phone. The document must contain at least three placeholders, such as [price], and you must not use commas in your response.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T09:06:17.153226",
+        "action": {
+          "type": "get message",
+          "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<phone-release>\n  <model>Google Pixel 8</model>\n  <release-date>September 2024</release-date>\n  <features>\n    <camera>\n      <resolution>50MP primary sensor</resolution>\n      <software>Advanced AI-powered camera software</software>\n    </camera>\n    <battery>\n      <capacity>4500mAh</capacity>\n      <fast-charge>Supports up to 30W fast charging</fast-charge>\n    </battery>\n  </features>\n  <availability>\n    <pre-order>Pre-orders start on September 1st 2024</pre-order>\n    <retail-price>[price] USD</retail-price>\n    <storage-options>\n      <option>128GB</option>\n      <option>256GB</option>\n      <option>512GB</option>\n    </storage-options>\n  </availability>\n  <specifications>\n    <processor>Qualcomm Snapdragon Gen 2</processor>\n    <ram>12GB</ram>\n    <display>\n      <size>6.7 inches</size>\n      <resolution>1440 x 3120 pixels</resolution>\n    </display>\n  </specifications>\n  <colors>\n    <color>Obsidian</color>\n    <color>Snow</color>\n    <color>Green</color>\n  </colors>\n</phone-release>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T09:06:17.153323",
+        "action": {
+          "type": "target",
+          "content": {
+            "detectable_content:number_placeholders": {
+              "num_placeholders": 3
+            },
+            "punctuation:no_comma": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T09:06:17.153381",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,390 @@
+{
+  "meta": {
+    "game_name": "guesswhat",
+    "experiment_name": "Level_1",
+    "game_id": 9,
+    "results_folder": "llama3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b"
+    },
+    "Player 2": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:14.554285",
+        "action": {
+          "type": "send message",
+          "content": "Let's play a guessing game. Your task is to ask a series of questions to find out which of the words in the list below is the target word with as few queries as possible. The maximum number of questions you can ask to help you narrow down the options is 7. Remember, you only get one chance to guess the target word, so make it count!\n\nThe rules of the game are: \n\n1. Only ask one question per turn. DO NOT ASK MORE THAN ONE QUESTION.\n\n2. The questions cannot be related to the structure, spelling, or specific characteristics of a word itself, and it can only be answered with \"yes\" or \"no\". \n\n3. Use the following format for asking questions and DO NOT ADD ANY TEXT OTHER THAN THIS: \n\nQUESTION: <your question>\n\n4. You have only one opportunity to guess the target word. To make your guess, use the following format and DO NOT ADD ANY TEXT OTHER THAN THIS: \n\nGUESS: <target word>\n\nRemember you cannot ask for a hint. Make your question brief. Let’s start!\n\nList of candidate words: ['Emu', 'Robin', 'Frisbee', 'Time', 'Car', 'Wagon', 'Chest', 'Tree']",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:15.031408",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word something that can be found in nature?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:15.031507",
+        "action": {
+          "type": "send message",
+          "content": "Let’s play a guessing game! Your task is to answer the other player's questions. Based on your knowledge of the word: Time, respond to the following questions or guesses. Limit your response to only 'yes' or 'no' with no explanation or other words. Never reveal the answer in your response.\n\nYou must reply using the format below and DO NOT ADD ANY TEXT OTHER THAN THIS:\n\nANSWER: <some text>\n\nTarget Word: Time\n\nQUESTION: Is the target word something that can be found in nature?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:15.190954",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:15.191025",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:15.574658",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a type of bird?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:15.574750",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a type of bird?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:15.734193",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:15.734268",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:16.117545",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word typically found on land?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:16.117642",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word typically found on land?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:16.277349",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:16.277420",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:16.660373",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a type of tree?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:16.660465",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a type of tree?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:16.821069",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:16.821140",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:17.247594",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word a type of mammal?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:17.247689",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word a type of mammal?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:17.409024",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:17.409095",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:17.773786",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word native to Australia?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:17.773880",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word native to Australia?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:17.936778",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:17.936850",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:18.362991",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Is the target word commonly found in backyards?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:18.363091",
+        "action": {
+          "type": "send message",
+          "content": "QUESTION: Is the target word commonly found in backyards?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:18.527351",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:18.527420",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:18.737852",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: Robin",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:18.737914",
+        "action": {
+          "type": "incorrect guess",
+          "content": "robin"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:18.737935",
+        "action": {
+          "type": "incorrect guess",
+          "content": "end game"
+        }
+      }
+    ]
+  ]
+}

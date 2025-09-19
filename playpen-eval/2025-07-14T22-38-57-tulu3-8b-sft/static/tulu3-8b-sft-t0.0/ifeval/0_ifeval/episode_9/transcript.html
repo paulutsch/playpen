@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+
+.game-round {
+  padding: 20px 0 20px 0;
+  background-color: #f0f8ff; /* light background for content */
+  position: relative; /* Important to position the badge */
+  border-radius: 10px;
+  margin: 10px 0 10px 0;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge in top-right corner */
+.game-round::before {
+  content: "Round " attr(data-round);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #c4c3c3;
+  padding: 0px 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for ifeval, episode 71 with tulu3-8b-sft-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+<div class="game-round" data-round="0">
+    <div speaker="GM (Game Master) to Player 1 (InstructionFollower)" class="msg gm-a" style="">
+        <p>Draft a blog post about Ripley&#x27;s Aquarium. Make sure your blog post contains at least 7 placeholders represented by square brackets, such as [location].</p>
+    </div>
+
+    <div speaker="Player 1 (InstructionFollower) to GM (Game Master)" class="msg a-gm" style="">
+        <p>**Exploring the Wonders of Ripley&#x27;s Aquarium: A Journey Under the Sea**<br/><br/>Welcome to our blog post dedicated to Ripley&#x27;s Aquarium, a mesmerizing underwater world that offers an unforgettable experience for visitors of all ages. Whether you&#x27;re a seasoned aquarist or a curious first-time visitor, Ripley&#x27;s Aquarium promises an adventure that will leave you in awe of the ocean&#x27;s beauty and diversity.<br/><br/>**[Location] Overview**<br/><br/>Ripley&#x27;s Aquarium is located in the heart of [location], making it easily accessible for both locals and tourists. Nestled in a vibrant neighborhood, this aquarium provides a perfect escape from the hustle and bustle of city life. With its stunning architecture and inviting atmosphere, Ripley&#x27;s Aquarium is a must-visit destination for anyone in the [location] area.<br/><br/>**The Marine Life Exhibits**<br/><br/>As you step into Ripley&#x27;s Aquarium, you are greeted by a vast array of marine life exhibits that showcase the incredible diversity of the ocean. From the vibrant coral reefs to the mysterious depths of the ocean, each exhibit is meticulously designed to provide an immersive experience. One of the highlights is the [specific exhibit name], where you can witness the graceful movements of [specific species] swimming gracefully around you.<br/><br/>**Interactive Experiences**<br/><br/>Ripley&#x27;s Aquarium is not just about looking at marine life; it&#x27;s about engaging with it. The aquarium offers several interactive experiences that allow visitors to get up close and personal with the ocean&#x27;s inhabitants. One of the most popular activities is the [interactive activity name], where you can touch and even feed [specific species], gaining a deeper understanding of these fascinating creatures.<br/><br/>**Educational Programs**<br/><br/>For those looking to learn more about marine conservation, Ripley&#x27;s Aquarium offers a range of educational programs. These programs are designed to educate visitors about the importance of protecting our oceans and the role each of us can play in conservation efforts. Whether it&#x27;s a guided tour or a workshop, there&#x27;s something for everyone to learn and enjoy.<br/><br/>**Dining and Shopping**<br/><br/>After exploring the wonders of Ripley&#x27;s Aquarium, you&#x27;ll find a variety of dining options to satisfy your appetite. The aquarium&#x27;s [restaurant name] offers a selection of delicious meals and snacks, perfect for refueling after a day of exploration. For those looking to take a piece of the aquarium home, the [gift shop name] is stocked with unique souvenirs and educational materials.<br/><br/>**Special Events and Shows**<br/><br/>Ripley&#x27;s Aquarium hosts a variety of special events and shows throughout the year, providing additional opportunities for visitors to engage with the marine life. From [specific event name] to [another specific event name], there&#x27;s always something exciting happening at the aquarium. These events are perfect for families, groups of friends, and anyone looking to make a splash in their day.<br/><br/>**Conclusion**<br/><br/>Ripley&#x27;s Aquarium is more than just a place to see marine life; it&#x27;s a gateway to understanding and appreciating the ocean&#x27;s wonders. With its stunning exhibits, interactive experiences, and educational programs, it offers something for everyone. Whether you&#x27;re a local or a visitor, Ripley&#x27;s Aquarium is a destination that will leave you inspired and eager to explore the depths of the ocean. So, don&#x27;t miss the chance to dive into the world beneath the waves and discover the magic of Ripley&#x27;s Aquarium.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: target" class="msg gm-gm" style="">
+        <p>{&#x27;detectable_content:number_placeholders&#x27;: {&#x27;num_placeholders&#x27;: 7}}</p>
+    </div>
+
+    <div speaker="Game Master: followed all instructions" class="msg gm-gm" style="">
+        <p>game_result = WIN</p>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

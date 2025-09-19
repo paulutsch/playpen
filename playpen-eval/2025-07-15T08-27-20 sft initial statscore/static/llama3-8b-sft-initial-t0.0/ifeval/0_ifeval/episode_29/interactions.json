@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 263,
+    "results_folder": "llama3-8b-sft-initial-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft-initial",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b-success1/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-sft-initial"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T09:23:32.337463",
+        "action": {
+          "type": "send message",
+          "content": "Create an itinerary for a 3-day trip to Moscow that uses the word founding less than twice. Don't add anything before and after the JSON code. Your entire output should just contain a JSON code block.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:24:02.446290",
+        "action": {
+          "type": "get message",
+          "content": "{\n  \"day1\": {\n    \"morning\": {\n      \"9:00 AM\": \"Breakfast at a local café\",\n      \"10:00 AM\": \"Visit the Kremlin, the historic center of Moscow and the seat of the Russian government\"\n    },\n    \"afternoon\": {\n      \"1:00 PM\": \"Lunch at a traditional Russian restaurant\",\n      \"2:30 PM\": \"Explore the Red Square, a historic square in the heart of Moscow\"\n    },\n    \"evening\": {\n      \"6:00 PM\": \"Dinner at a modern Russian restaurant\",\n      \"8:00 PM\": \"Attend a performance at the Bolshoi Theatre, one of the most famous ballet and opera companies in the world\"\n    }\n  },\n  \"day2\": {\n    \"morning\": {\n      \"9:00 AM\": \"Breakfast at a local café\",\n      \"10:00 AM\": \"Visit the Tretyakov Gallery, one of the largest and most important art museums in Russia\"\n    },\n    \"afternoon\": {\n      \"1:00 PM\": \"Lunch at a traditional Russian restaurant\",\n      \"2:30 PM\": \"Explore the Novodevichy Convent, a historic convent and one of the most beautiful examples of Russian architecture\"\n    },\n    \"evening\": {\n      \"6:00 PM\": \"Dinner at a modern Russian restaurant\",\n      \"8:00 PM\": \"Attend a performance at the Moscow State Academic Theatre of Opera and Ballet\"\n    }\n  },\n  \"day3\": {\n    \"morning\": {\n      \"9:00 AM\": \"Breakfast at a local café\",\n      \"10:00 AM\": \"Visit the Moscow Metro, one of the most beautiful and extensive metro systems in the world\"\n    },\n    \"afternoon\": {\n      \"1:00 PM\": \"Lunch at a traditional Russian restaurant\",\n      \"2:30 PM\": \"Explore the Gorky Park, a large public park in the heart of Moscow\"\n    },\n    \"evening\": {\n      \"6:00 PM\": \"Dinner at a modern Russian restaurant\",\n      \"8:00 PM\": \"Attend a performance at the Moscow Philharmonic, one of the most important concert halls in Russia\"\n    }\n  }\n}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:24:02.446349",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:frequency": {
+              "relation": "less than",
+              "keyword": "founding",
+              "frequency": 2
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:24:02.446421",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

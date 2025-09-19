@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+
+.game-round {
+  padding: 20px 0 20px 0;
+  background-color: #f0f8ff; /* light background for content */
+  position: relative; /* Important to position the badge */
+  border-radius: 10px;
+  margin: 10px 0 10px 0;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge in top-right corner */
+.game-round::before {
+  content: "Round " attr(data-round);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #c4c3c3;
+  padding: 0px 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for ifeval, episode 136 with llama3-8b-sft-initial-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+<div class="game-round" data-round="0">
+    <div speaker="GM (Game Master) to Player 1 (InstructionFollower)" class="msg gm-a" style="">
+        <p>Write an interesting and funny article about the biology of a banana peel. In your response, the word disappointed should appear at least 2 times, and at least six section should be highlighted with markdown,  i.e *banana peel*.</p>
+    </div>
+
+    <div speaker="Player 1 (InstructionFollower) to GM (Game Master)" class="msg a-gm" style="">
+        <p>**The Fascinating Biology of a Banana Peel: A Fruitful Exploration**<br/><br/>As we peel back the layers of a banana, we often overlook the humble banana peel, dismissing it as nothing more than a discarded wrapper. But, dear reader, do not be disappointed! For beneath its unassuming exterior lies a world of fascinating biology, a tale of cellular structure, chemical composition, and the intricate dance of life.<br/><br/>**The Anatomy of a Banana Peel**<br/><br/>A banana peel is, in fact, the outermost layer of the banana fruit, a thin, edible skin that protects the delicate flesh within. Composed primarily of cellulose, hemicellulose, and pectin, the peel is a complex matrix of fibers and polysaccharides that provide structural support and maintain the fruit&#x27;s shape. But, as we delve deeper, we find that the peel is more than just a passive barrier – it&#x27;s a dynamic, living entity that plays a crucial role in the banana&#x27;s growth and development.<br/><br/>**The Chemistry of the Peel**<br/><br/>The banana peel is rich in nutrients, including potassium, magnesium, and vitamins C and B6. These compounds are essential for the fruit&#x27;s growth and ripening process, and they also contribute to the peel&#x27;s unique texture and flavor. But, as the peel ages, its chemical composition changes, leading to the characteristic yellowing and softening that we associate with overripe bananas. Don&#x27;t be disappointed – this process is a natural part of the fruit&#x27;s life cycle!<br/><br/>**The Microbiology of the Peel**<br/><br/>The banana peel is home to a diverse array of microorganisms, including bacteria, fungi, and yeast. These microbes play a vital role in the fruit&#x27;s decomposition process, breaking down the peel&#x27;s complex molecules and releasing nutrients back into the environment. But, as the peel dries out, the microbial community shifts, leading to the formation of a tough, leathery texture that&#x27;s perfect for composting. Don&#x27;t be disappointed – this process is a testament to the peel&#x27;s incredible adaptability!<br/><br/>**The Ecology of the Peel**<br/><br/>The banana peel is a vital component of the ecosystem, providing food and shelter for a wide range of animals, from insects to birds. The peel&#x27;s high water content and nutrient-rich composition make it an attractive snack for many species, while its fibrous texture provides a comfortable nesting site for others. But, as the peel dries out, it becomes a valuable resource for gardeners and composters, adding valuable nutrients to the soil. Don&#x27;t be disappointed – this process is a reminder of the peel&#x27;s importance in the grand scheme of things!<br/><br/>**The Cultural Significance of the Peel**<br/><br/>In many cultures, the banana peel is considered a sacred or symbolic object, representing abundance, fertility, and new life. In some traditions, the peel is used in rituals and ceremonies, while in others, it&#x27;s simply discarded as a waste product. But, as we reflect on the peel&#x27;s biology and ecology, we&#x27;re reminded of the importance of respecting and appreciating the natural world. Don&#x27;t be disappointed – this process is a chance to reconnect with the earth and its many wonders!<br/><br/>**Conclusion**<br/><br/>The banana peel may seem like a humble, disposable thing, but it&#x27;s so much more than that. It&#x27;s a complex, dynamic system that&#x27;s full of life, chemistry, and ecology. So, the next time you peel a banana, don&#x27;t be disappointed – take a moment to appreciate the incredible biology that&#x27;s hidden beneath the surface. Who knows? You might just discover a whole new world of wonder and awe!</p>
+    </div>
+
+    <div speaker="Game Master: target" class="msg gm-gm" style="">
+        <p>{&#x27;keywords:frequency&#x27;: {&#x27;relation&#x27;: &#x27;at least&#x27;, &#x27;keyword&#x27;: &#x27;disappointed&#x27;, &#x27;frequency&#x27;: 2}, &#x27;detectable_format:number_highlighted_sections&#x27;: {&#x27;num_highlights&#x27;: 6}}</p>
+    </div>
+
+    <div speaker="Game Master: followed all instructions" class="msg gm-gm" style="">
+        <p>game_result = WIN</p>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

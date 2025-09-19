@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 439,
+    "results_folder": "llama3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b/checkpoint-1860",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T09:02:42.713986",
+        "action": {
+          "type": "send message",
+          "content": "Students are travelling to UCI for 3 days. Create a hilarious itinerary for them. Do not use the word 'university'. Your entire response should have exactly 4 paragraphs.  Separate paragraphs with the markdown divider: ***",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T09:03:15.155818",
+        "action": {
+          "type": "get message",
+          "content": "**Day 1: Arrival and Acclimation**\n\nWelcome, students, to the land of sun-kissed beaches and endless possibilities! Upon arrival, we'll kick off the adventure with a group photo shoot in front of the iconic Anteater statue. Don't worry, we won't make you wear those silly hats, but you're encouraged to bring your A-game (and a good sense of humor). Afterward, we'll head to the beach for a game of beach volleyball, where the only rule is to have fun and not get sand everywhere (but let's be real, it's gonna happen). To refuel, we'll grab some delicious tacos at a local eatery, because, priorities.\n\n*** \n\n**Day 2: Academic Shenanigans**\n\nToday, we'll tackle the \"academics\" with a series of hilarious challenges. We'll start with a scavenger hunt around campus, where you'll have to find the most creative ways to take a nap, eat a snack, and pretend to be interested in a lecture (just kidding, sort of). Next, we'll have a \"speed friending\" session, where you'll have to interview your fellow students and come up with the most outrageous, yet somehow believable, answers to the question, \"What's your favorite subject?\" To cap off the day, we'll have a group karaoke session, where you can show off your hidden talents (or lack thereof).\n\n*** \n\n**Day 3: Adventure and Departure**\n\nOn the final day, we'll take it up a notch with some adrenaline-pumping activities. We'll start with a hike through the nearby trails, where you'll have to navigate through obstacles and pretend to be a real-life adventurer (bonus points if you spot a squirrel). Afterward, we'll head to a nearby trampoline park, where you can bounce your way to happiness (and possibly a few bruises). To wrap up the adventure, we'll have a farewell dinner at a local restaurant, where you can share your favorite memories and make plans for the next adventure.\n\n*** \n\n**The Grand Finale**\n\nAs the students depart, we'll present them with a parting gift: a customized \"I survived [number] days at [location]\" t-shirt, complete with a ridiculous design and a dash of sarcasm. We'll also provide a souvenir photo album, filled with memories of the good, the bad, and the utterly ridiculous moments from the trip. And as they head back home, they'll be left with a newfound appreciation for the importance of laughter, friendship, and a good sense of humor.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T09:03:15.155915",
+        "action": {
+          "type": "target",
+          "content": {
+            "length_constraints:number_paragraphs": {
+              "num_paragraphs": 4
+            },
+            "keywords:forbidden_words": {
+              "forbidden_words": [
+                "university"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T09:03:15.156119",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

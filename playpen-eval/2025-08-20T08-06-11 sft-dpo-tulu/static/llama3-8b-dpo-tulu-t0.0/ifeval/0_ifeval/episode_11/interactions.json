@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 92,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T11:36:23.008640",
+        "action": {
+          "type": "send message",
+          "content": "Generate a forum thread about several people waiting to hear the latest local news. All sentences should be short. Refrain from using any commas. Use placeholders to represent different usernames. Use square brackets for placeholders, like [username1], [username2]. Please include at least 20 placeholders in the thread.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:36:52.968413",
+        "action": {
+          "type": "get message",
+          "content": "**Thread Title:** Waiting for Local News\n\n**[username1]**: I'm waiting to hear the latest news about the new park.\n\n**[username2]**: I heard it's going to be huge.\n\n**[username3]**: I want to know about the new restaurant downtown.\n\n**[username4]**: I'm sure it will be great.\n\n**[username5]**: Has anyone seen the news yet?\n\n**[username6]**: No I'm still waiting.\n\n**[username7]**: I'm getting impatient.\n\n**[username8]**: I'm sure it will be on the news at 6.\n\n**[username9]**: I'll be watching.\n\n**[username10]**: I hope they cover the new school.\n\n**[username11]**: I'm sure they will.\n\n**[username12]**: I want to know about the traffic changes.\n\n**[username13]**: I'm worried about the commute.\n\n**[username14]**: I'm sure it will be fine.\n\n**[username15]**: I'm still waiting for the news to start.\n\n**[username16]**: It's almost 6.\n\n**[username17]**: I'm getting excited.\n\n**[username18]**: Let's see what they say.\n\n**[username19]**: I'm recording it.\n\n**[username20]**: I'll post the highlights.\n\n**[username21]**: Can't wait to hear the news.\n\n**[username22]**: It's starting.\n\n**[username23]**: Let's go.\n\n**[username24]**: I'm watching.\n\n**[username25]**: They're talking about the park.\n\n**[username26]**: It's going to be amazing.\n\n**[username27]**: And they're talking about the new restaurant.\n\n**[username28]**: I'm so excited.\n\n**[username29]**: What about the school?\n\n**[username30]**: They're covering it now.\n\n**[username31]**: And the traffic changes.\n\n**[username32]**: It's all good news.\n\n**[username33]**: I'm so relieved.\n\n**[username34]**: Me too.\n\n**[username35]**: Thanks for the update.\n\n**[username36]**: No problem.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:36:52.968477",
+        "action": {
+          "type": "target",
+          "content": {
+            "detectable_content:number_placeholders": {
+              "num_placeholders": 20
+            },
+            "punctuation:no_comma": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:36:52.968574",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

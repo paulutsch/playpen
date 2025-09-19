@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "game_name": "cladder",
+    "experiment_name": "full_v1.5_default",
+    "game_id": 8207,
+    "results_folder": "llama3-8b-sft-initial-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft-initial",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b-success1/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-sft-initial"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T09:08:49.240606",
+        "action": {
+          "type": "send message",
+          "content": "You are an expert in causal inference. The following question is not a typical commonsense query, but rather a meticulously designed question created by a professor specializing in causal inference, intended to assess the students' mastery of the course content.\nImagine a self-contained, hypothetical world with only the following conditions, and without any unmentioned factors or causal relationships: Tijv has a direct effect on tijw and xevo. Xevo has a direct effect on gyzp. Tijw has a direct effect on gyzp. For those who are not tijv and are not xevo, the probability of gyzp is 29%. For those who are not tijv and are xevo, the probability of gyzp is 14%. For those who are tijv and are not xevo, the probability of gyzp is 11%. For those who are tijv and are xevo, the probability of gyzp is 16%. The overall probability of tijv is 88%. Will xevo increase the chance of gyzp?\nStart your answer with 'Yes' or 'No', followed by additional reasoning or evidence to support your explanation.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:08:54.667949",
+        "action": {
+          "type": "get message",
+          "content": "Yes. The probability of gyzp for those who are not tijv and are xevo is 14%, which is lower than the overall probability of gyzp (29%). The probability of gyzp for those who are tijv and are xevo is 16%, which is higher than the overall probability of gyzp (29%). Therefore, xevo increases the chance of gyzp.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:08:54.668021",
+        "action": {
+          "type": "parsed",
+          "content": "Yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:08:54.668036",
+        "action": {
+          "type": "target",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:08:54.668048",
+        "action": {
+          "type": "correct label",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

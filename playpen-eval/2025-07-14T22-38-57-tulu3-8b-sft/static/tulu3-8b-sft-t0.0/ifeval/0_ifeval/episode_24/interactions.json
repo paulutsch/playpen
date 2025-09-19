@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 212,
+    "results_folder": "tulu3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-SFT",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T23:07:46.174232",
+        "action": {
+          "type": "send message",
+          "content": "Plan a 12-day trip to Italy for professionals in finance, including Rome, Florence, and Venice. Make it in a format of a list with at least one placeholder, such as [address]. The response must be in English and all lowercase letters.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:07:55.007643",
+        "action": {
+          "type": "get message",
+          "content": "- day 1: arrive in rome, check into hotel [address], explore the colosseum and roman forum\n- day 2: visit the vatican city, tour the sistine chapel and st. peter's basilica\n- day 3: explore the pantheon and piazza navona, enjoy an aperitivo at a local bar\n- day 4: travel to florence, check into hotel [address], visit the duomo and the uffizi gallery\n- day 5: tour the accademia gallery to see michelangelo's david, stroll through the oltrarno district\n- day 6: day trip to siena, explore the medieval city and its stunning cathedral\n- day 7: travel to venice, check into hotel [address], take a gondola ride through the canals\n- day 8: visit st. mark's basilica and the doge's palace, explore the rialto market\n- day 9: take a vaporetto to murano and burano islands, learn about glassmaking\n- day 10: free day to relax or explore more of venice, consider a visit to the lagoon islands\n- day 11: return to rome, enjoy a farewell dinner at a local restaurant [address]\n- day 12: depart from rome<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:07:55.007707",
+        "action": {
+          "type": "target",
+          "content": {
+            "detectable_content:number_placeholders": {
+              "num_placeholders": 1
+            },
+            "change_case:english_lowercase": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:07:55.014783",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

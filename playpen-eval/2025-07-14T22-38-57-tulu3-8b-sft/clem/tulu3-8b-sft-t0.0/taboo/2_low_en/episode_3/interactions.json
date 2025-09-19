@@ -1,0 +1,309 @@
+{
+  "meta": {
+    "game_name": "taboo",
+    "experiment_name": "low_en",
+    "game_id": 15,
+    "results_folder": "tulu3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-SFT",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "WordDescriber",
+      "model_name": "tulu3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "WordGuesser",
+      "model_name": "tulu3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T17:00:59.535257",
+        "action": {
+          "type": "send message",
+          "content": "You are playing a collaborative word guessing game in which you have to describe a target word for another player to guess.\n\nRules:\n(a) You have to reply in the form: CLUE: <some text>. Guesses from the other player will start with GUESS.\n(b) You cannot use the target word itself, parts or morphological variants of it in your description.\n(c) In addition, the same rules apply for related words which are provided below.\n\nEnd conditions:\n(i) If you use the target word or a related word in your description, then you lose.\n(ii) If the other player can guess the target word in 3 tries, you both win.\n\nLet us start.\n\nThis is the target word that you need to describe and that the other player needs to guess:\n\nhalifax\n\nRelated words are:\n\n- fax\n- yorkshire\n- virginia\n\nImportant: You are under time pressure, give short descriptions that are to the point!",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:00.533277",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: A city in Canada. Guesses from the other player will start with GUESS.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:00.533326",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:00.533513",
+        "action": {
+          "type": "valid clue",
+          "content": "a city in canada guesses from the other player will start with guessendoftext"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T17:01:00.533554",
+        "action": {
+          "type": "send message",
+          "content": "You are playing a collaborative word guessing game in which you have to guess a target word that another player describes to you.\n\nYou can make one guess at each trial. You win when you guess the target word. You lose when you cannot guess it in 3 tries.\n\nAfter each trial you will get a new hint from the other player which starts with CLUE.\n\nMake your guesses by just saying the word using the following form: GUESS: <a word>\n\nLet us start.\n",
+          "label": "initial prompt"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T17:01:00.533570",
+        "action": {
+          "type": "send message",
+          "content": "CLUE: A city in Canada. Guesses from the other player will start with GUESS.<|end_of_text|>",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:00.842315",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: Toronto<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:00.842359",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:00.842380",
+        "action": {
+          "type": "valid guess",
+          "content": "torontoendoftext"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T17:01:00.842418",
+        "action": {
+          "type": "send message",
+          "content": "GUESS: Toronto<|end_of_text|>",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:01.895610",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: It's not the capital of Canada. Guesses from the other player will start with GUESS.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:01.895657",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:01.895841",
+        "action": {
+          "type": "valid clue",
+          "content": "its not the capital of canada guesses from the other player will start with guessendoftext"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T17:01:01.895879",
+        "action": {
+          "type": "send message",
+          "content": "CLUE: It's not the capital of Canada. Guesses from the other player will start with GUESS.<|end_of_text|>",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:02.163607",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: Montreal<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:02.163653",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:02.163675",
+        "action": {
+          "type": "valid guess",
+          "content": "montrealendoftext"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T17:01:02.163715",
+        "action": {
+          "type": "send message",
+          "content": "GUESS: Montreal<|end_of_text|>",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:03.112402",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: It's not in Quebec. Guesses from the other player will start with GUESS.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:03.112451",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:03.112629",
+        "action": {
+          "type": "valid clue",
+          "content": "its not in quebec guesses from the other player will start with guessendoftext"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T17:01:03.112668",
+        "action": {
+          "type": "send message",
+          "content": "CLUE: It's not in Quebec. Guesses from the other player will start with GUESS.<|end_of_text|>",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:03.384710",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: Vancouver<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:03.384754",
+        "action": {
+          "type": "valid response",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:03.384776",
+        "action": {
+          "type": "valid guess",
+          "content": "vancouverendoftext"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T17:01:03.384801",
+        "action": {
+          "type": "max rounds reached",
+          "content": "3"
+        }
+      }
+    ]
+  ]
+}

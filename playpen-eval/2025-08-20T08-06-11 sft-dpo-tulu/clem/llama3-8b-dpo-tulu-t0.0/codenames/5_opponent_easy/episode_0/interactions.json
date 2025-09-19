@@ -1,0 +1,961 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "opponent_easy",
+    "game_id": 0,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-dpo-tulu"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:42.282227",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "suit",
+                "day",
+                "engine",
+                "forest",
+                "doctor",
+                "turkey",
+                "post",
+                "stadium",
+                "mexico"
+              ],
+              "innocent": [
+                "cast",
+                "temple",
+                "scale",
+                "amazon",
+                "gold",
+                "bill",
+                "police"
+              ],
+              "opponent": [
+                "deck",
+                "hotel",
+                "washington",
+                "paste",
+                "cap",
+                "drill",
+                "pyramid",
+                "bugle"
+              ],
+              "assassin": [
+                "spine"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:23:42.282304",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: suit, day, engine, forest, doctor, turkey, post, stadium, mexico.\nYour opponent's team words are: deck, hotel, washington, paste, cap, drill, pyramid, bugle.\nDistractor words are: cast, temple, scale, amazon, gold, bill, police.\nThe kill words are: spine.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.212306",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: uniform\nTARGETS: suit, doctor, post",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.212652",
+        "action": {
+          "type": "clue",
+          "content": "uniform"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.212686",
+        "action": {
+          "type": "targets",
+          "content": [
+            "suit",
+            "doctor",
+            "post"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.212710",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "suit",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.212730",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "doctor",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.212748",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "post",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:23:43.212970",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 3 words from the following list that best relate or are most closely associated with the word 'uniform'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nwashington, mexico, amazon, stadium, paste, police, forest, suit, bill, cast, deck, cap, hotel, post, gold, turkey, scale, day, spine, temple, pyramid, engine, drill, doctor, bugle",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.861962",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: police, suit, cap",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.862090",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "police",
+            "suit",
+            "cap"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.862132",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "police",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.862156",
+        "action": {
+          "type": "turn end after",
+          "content": "police"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.862409",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "pyramid",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:43.862448",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "suit",
+                "day",
+                "engine",
+                "forest",
+                "doctor",
+                "turkey",
+                "post",
+                "stadium",
+                "mexico"
+              ],
+              "innocent": [
+                "cast",
+                "temple",
+                "scale",
+                "amazon",
+                "gold",
+                "bill"
+              ],
+              "opponent": [
+                "deck",
+                "hotel",
+                "washington",
+                "paste",
+                "cap",
+                "drill",
+                "bugle"
+              ],
+              "assassin": [
+                "spine"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [
+                  "police"
+                ],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "pyramid"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:23:43.862517",
+        "action": {
+          "type": "send message",
+          "content": "The word police was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: suit, day, engine, forest, doctor, turkey, post, stadium, mexico.\nRemaining words for your opponent are: deck, hotel, washington, paste, cap, drill, pyramid, bugle.\nRemaining distractor words are: cast, temple, scale, amazon, gold, bill.\nRemaining kill words are: spine.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:44.812653",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: travel\nTARGETS: day, mexico, turkey",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:44.812924",
+        "action": {
+          "type": "clue",
+          "content": "travel"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:44.812957",
+        "action": {
+          "type": "targets",
+          "content": [
+            "day",
+            "mexico",
+            "turkey"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:44.812981",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "day",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:44.813001",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "mexico",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:44.813019",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "turkey",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:23:44.813248",
+        "action": {
+          "type": "send message",
+          "content": "The word police was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'travel'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nwashington, mexico, amazon, stadium, paste, forest, suit, bill, cast, deck, cap, hotel, post, gold, turkey, scale, day, spine, temple, engine, drill, doctor, bugle",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:45.489357",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: hotel, post, amazon",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:45.489482",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "hotel",
+            "post",
+            "amazon"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:45.489525",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "hotel",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:45.489548",
+        "action": {
+          "type": "turn end after",
+          "content": "hotel"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:45.489776",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "paste",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:45.489814",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "suit",
+                "day",
+                "engine",
+                "forest",
+                "doctor",
+                "turkey",
+                "post",
+                "stadium",
+                "mexico"
+              ],
+              "innocent": [
+                "cast",
+                "temple",
+                "scale",
+                "amazon",
+                "gold",
+                "bill"
+              ],
+              "opponent": [
+                "deck",
+                "washington",
+                "cap",
+                "drill",
+                "bugle"
+              ],
+              "assassin": [
+                "spine"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [
+                  "police"
+                ],
+                "opponent": [
+                  "hotel"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "pyramid",
+                  "paste"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:23:45.489883",
+        "action": {
+          "type": "send message",
+          "content": "The word hotel was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: suit, day, engine, forest, doctor, turkey, post, stadium, mexico.\nRemaining words for your opponent are: deck, washington, paste, cap, drill, bugle.\nRemaining distractor words are: cast, temple, scale, amazon, gold, bill.\nRemaining kill words are: spine.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:46.512232",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: vehicle\nTARGETS: engine, post, stadium",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:46.512508",
+        "action": {
+          "type": "clue",
+          "content": "vehicle"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:46.512550",
+        "action": {
+          "type": "targets",
+          "content": [
+            "engine",
+            "post",
+            "stadium"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:46.512574",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "engine",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:46.512593",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "post",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:46.512610",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "stadium",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:23:46.512840",
+        "action": {
+          "type": "send message",
+          "content": "The word hotel was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'vehicle'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nwashington, mexico, amazon, stadium, forest, suit, bill, cast, deck, cap, post, gold, turkey, scale, day, spine, temple, engine, drill, doctor, bugle",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:47.219520",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: engine, drill, amazon",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:47.219643",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "engine",
+            "drill",
+            "amazon"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:47.219685",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "engine",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:47.219707",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "engine",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:47.219729",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "drill",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:47.219747",
+        "action": {
+          "type": "turn end after",
+          "content": "drill"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:47.219985",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "cap",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:47.220022",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "suit",
+                "day",
+                "forest",
+                "doctor",
+                "turkey",
+                "post",
+                "stadium",
+                "mexico"
+              ],
+              "innocent": [
+                "cast",
+                "temple",
+                "scale",
+                "amazon",
+                "gold",
+                "bill"
+              ],
+              "opponent": [
+                "deck",
+                "washington",
+                "bugle"
+              ],
+              "assassin": [
+                "spine"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "engine"
+                ],
+                "innocent": [
+                  "police"
+                ],
+                "opponent": [
+                  "hotel",
+                  "drill"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "pyramid",
+                  "paste",
+                  "cap"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:23:47.220090",
+        "action": {
+          "type": "send message",
+          "content": "The word engine was guessed correctly. The word drill was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: suit, day, forest, doctor, turkey, post, stadium, mexico.\nRemaining words for your opponent are: deck, washington, cap, bugle.\nRemaining distractor words are: cast, temple, scale, amazon, gold, bill.\nRemaining kill words are: spine.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:48.288335",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: tree\nTARGETS: forest, post, suit",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:48.288594",
+        "action": {
+          "type": "clue",
+          "content": "tree"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:48.288627",
+        "action": {
+          "type": "targets",
+          "content": [
+            "forest",
+            "post",
+            "suit"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:48.288652",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "forest",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:48.288671",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "post",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:48.288688",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "suit",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:23:48.288924",
+        "action": {
+          "type": "send message",
+          "content": "The word engine was guessed correctly. The word drill was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'tree'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nwashington, mexico, amazon, stadium, forest, suit, bill, cast, deck, post, gold, turkey, scale, day, spine, temple, doctor, bugle",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:50.653370",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: forest, amazon, tree's closest associate is not in the list but 'tree' is, so I'll choose 'forest' and 'amazon'",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:50.653489",
+        "action": {
+          "type": "validation error",
+          "content": {
+            "player": "Guesser",
+            "type": "wrong number of guesses",
+            "utterance": "forest, amazon, tree's closest associate is not in the list but 'tree' is, so I'll choose 'forest' and 'amazon'",
+            "message": "You made too many guesses (4). You are only allowed to make 3 guesses!",
+            "guesses": [
+              "forest",
+              "amazon",
+              "tree's closest associate is not in the list but 'tree' is",
+              "so i'll choose 'forest' and 'amazon"
+            ],
+            "number_of_allowed_guesses": 3
+          }
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "suit",
+        "day",
+        "forest",
+        "doctor",
+        "turkey",
+        "post",
+        "stadium",
+        "mexico"
+      ],
+      "innocent": [
+        "cast",
+        "temple",
+        "scale",
+        "amazon",
+        "gold",
+        "bill"
+      ],
+      "opponent": [
+        "deck",
+        "washington",
+        "bugle"
+      ],
+      "assassin": [
+        "spine"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "engine"
+        ],
+        "innocent": [
+          "police"
+        ],
+        "opponent": [
+          "hotel",
+          "drill"
+        ],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "pyramid",
+          "paste",
+          "cap"
+        ],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 5,
+  "Aborted": true,
+  "Lose": false,
+  "Game ended through assassin": false,
+  "Request Count": 8,
+  "Parsed Request Count": 7,
+  "Violated Request Count": 1,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 2,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

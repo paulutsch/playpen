@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "game_name": "cladder",
+    "experiment_name": "full_v1.5_default",
+    "game_id": 7046,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T08:01:27.474995",
+        "action": {
+          "type": "send message",
+          "content": "You are an expert in causal inference. The following question is not a typical commonsense query, but rather a meticulously designed question created by a professor specializing in causal inference, intended to assess the students' mastery of the course content.\nImagine a self-contained, hypothetical world with only the following conditions, and without any unmentioned factors or causal relationships: Jyka has a direct effect on lirg. Hwax has a direct effect on lirg. The overall probability of jyka is 14%. For those who are not jyka, the probability of lirg is 71%. For those who are jyka, the probability of lirg is 66%. Is lirg less likely than not lirg overall?\nStart your answer with 'Yes' or 'No', followed by additional reasoning or evidence to support your explanation.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:01:45.244782",
+        "action": {
+          "type": "get message",
+          "content": "Yes. The overall probability of lirg can be calculated as follows:\n\n1. Calculate the probability of lirg for those who are jyka:\n   - Probability of jyka: 14%\n   - Probability of lirg given jyka: 66%\n   - Probability of lirg for those who are jyka: 14% * 66% = 0.0924 or 9.24%\n\n2. Calculate the probability of lirg for those who are not jyka:\n   - Probability of not jyka: 100% - 14% = 86%\n   - Probability of lirg given not jyka: 71%\n   - Probability of lirg for those who are not jyka: 86% * 71% = 0.6116 or 61.16%\n\n3. Calculate the overall probability of lirg:\n   - Overall probability of lirg = (probability of lirg for those who are jyka) + (probability of lirg for those who are not jyka)\n   - Overall probability of lirg = 9.24% + 61.16% = 70.4%\n\nSince 70.4% is greater than 50%, lirg is more likely than not lirg overall.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:01:45.244909",
+        "action": {
+          "type": "parsed",
+          "content": "Yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:01:45.244924",
+        "action": {
+          "type": "target",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:01:45.244935",
+        "action": {
+          "type": "wrong label",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

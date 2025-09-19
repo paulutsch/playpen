@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 112,
+    "results_folder": "llama3-8b-sft-initial-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft-initial",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b-success1/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-sft-initial"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T09:15:51.192388",
+        "action": {
+          "type": "send message",
+          "content": "What's a good way to ask Sonia out? Please reply with exactly 4 paragraphs and separate each paragraph with two new lines. Put double quotation marks around your entire response. The very first paragraph must start with the word \"weekend\".",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:16:13.371475",
+        "action": {
+          "type": "get message",
+          "content": "\"weekend is a great time to ask someone out, as it's a relaxed and casual setting. You could plan a fun activity or outing that you both enjoy, like going to a concert, trying a new restaurant, or taking a hike. This way, you can spend quality time together and get to know each other better in a low-pressure environment. Plus, it's a great way to break the ice and make the ask feel less formal.\"\n\n\n\"Before you ask Sonia out, make sure you've gotten to know her a bit and have a sense of her interests and preferences. This will help you tailor your ask to her tastes and make it more personal. You could also consider asking a mutual friend for advice or insight into her personality and what she might enjoy. This can help you feel more confident and prepared when you make the ask.\"\n\n\n\"when you're ready to ask Sonia out, try to be genuine and sincere in your approach. Avoid using cheesy pickup lines or trying to be overly romantic – instead, focus on expressing your genuine interest in getting to know her better. You could say something like, 'Hey Sonia, I've really enjoyed getting to know you lately, and I was wondering if you'd like to grab coffee or go on a hike with me sometime?' This approach shows that you value her as a person and are interested in spending time with her.\"\n\n\n\"remember to be respectful of Sonia's boundaries and feelings, and don't take it personally if she says no. It's okay if she's not interested, and it doesn't mean there's anything wrong with you. Just thank her for considering your ask and move on – there are plenty of other people out there who might be a great match for you.\"",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:16:13.371544",
+        "action": {
+          "type": "target",
+          "content": {
+            "length_constraints:nth_paragraph_first_word": {
+              "num_paragraphs": 4,
+              "first_word": "weekend",
+              "nth_paragraph": 1
+            },
+            "startend:quotation": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:16:13.371614",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

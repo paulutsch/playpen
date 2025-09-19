@@ -1,0 +1,831 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "abstract",
+    "game_id": 3,
+    "results_folder": "llama3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b/checkpoint-1860",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-dpo"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:07.815277",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "fakery",
+                "expertise",
+                "objectification",
+                "dilution",
+                "alienation",
+                "willingness",
+                "likelihood",
+                "insubordination",
+                "loyalty"
+              ],
+              "innocent": [
+                "justness",
+                "perceptiveness",
+                "ingratitude",
+                "desperateness",
+                "fruition",
+                "snobbery",
+                "supposition"
+              ],
+              "opponent": [
+                "meaningfulness",
+                "negation",
+                "paradigm",
+                "socialization",
+                "misrepresentation",
+                "someway",
+                "rigorousness",
+                "viewpoint"
+              ],
+              "assassin": [
+                "oversight"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:46:07.815355",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: fakery, expertise, objectification, dilution, alienation, willingness, likelihood, insubordination, loyalty.\nYour opponent's team words are: meaningfulness, negation, paradigm, socialization, misrepresentation, someway, rigorousness, viewpoint.\nDistractor words are: justness, perceptiveness, ingratitude, desperateness, fruition, snobbery, supposition.\nThe kill words are: oversight.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:08.930400",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Deception\nTARGETS: fakery, objectification, misrepresentation",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:08.930727",
+        "action": {
+          "type": "clue",
+          "content": "deception"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:08.930761",
+        "action": {
+          "type": "targets",
+          "content": [
+            "fakery",
+            "objectification",
+            "misrepresentation"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:08.930785",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "fakery",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:08.930804",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "objectification",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:08.930823",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "misrepresentation",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:46:08.931050",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 3 words from the following list that best relate or are most closely associated with the word 'deception'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nsomeway, paradigm, dilution, ingratitude, willingness, fakery, meaningfulness, negation, perceptiveness, fruition, likelihood, desperateness, alienation, viewpoint, snobbery, oversight, objectification, misrepresentation, insubordination, expertise, loyalty, rigorousness, supposition, socialization, justness",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:09.737243",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: fakery, misrepresentation, negation",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:09.737359",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "fakery",
+            "misrepresentation",
+            "negation"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:09.737400",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "fakery",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:09.737422",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "fakery",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:09.737444",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "misrepresentation",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:09.737462",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "misrepresentation",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:09.737479",
+        "action": {
+          "type": "turn end after",
+          "content": "misrepresentation"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:09.737715",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "socialization",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:09.737750",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "expertise",
+                "objectification",
+                "dilution",
+                "alienation",
+                "willingness",
+                "likelihood",
+                "insubordination",
+                "loyalty"
+              ],
+              "innocent": [
+                "justness",
+                "perceptiveness",
+                "ingratitude",
+                "desperateness",
+                "fruition",
+                "snobbery",
+                "supposition"
+              ],
+              "opponent": [
+                "meaningfulness",
+                "negation",
+                "paradigm",
+                "someway",
+                "rigorousness",
+                "viewpoint"
+              ],
+              "assassin": [
+                "oversight"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "fakery"
+                ],
+                "innocent": [],
+                "opponent": [
+                  "misrepresentation"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "socialization"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:46:09.737821",
+        "action": {
+          "type": "send message",
+          "content": "The word fakery was guessed correctly. The word misrepresentation was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: expertise, objectification, dilution, alienation, willingness, likelihood, insubordination, loyalty.\nRemaining words for your opponent are: meaningfulness, negation, paradigm, socialization, someway, rigorousness, viewpoint.\nRemaining distractor words are: justness, perceptiveness, ingratitude, desperateness, fruition, snobbery, supposition.\nRemaining kill words are: oversight.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:10.873200",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Corruption\nTARGETS: objectification, insubordination, dilution",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:10.873455",
+        "action": {
+          "type": "clue",
+          "content": "corruption"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:10.873488",
+        "action": {
+          "type": "targets",
+          "content": [
+            "objectification",
+            "insubordination",
+            "dilution"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:10.873512",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "objectification",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:10.873533",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "insubordination",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:10.873550",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "dilution",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:46:10.873786",
+        "action": {
+          "type": "send message",
+          "content": "The word fakery was guessed correctly. The word misrepresentation was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'corruption'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nsomeway, paradigm, dilution, ingratitude, willingness, meaningfulness, negation, perceptiveness, fruition, likelihood, desperateness, alienation, viewpoint, snobbery, oversight, objectification, insubordination, expertise, loyalty, rigorousness, supposition, justness",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:11.803197",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: insubordination, snobbery, objectification",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:11.803312",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "insubordination",
+            "snobbery",
+            "objectification"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:11.803352",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "insubordination",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:11.803375",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "insubordination",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:11.803396",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "snobbery",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:11.803414",
+        "action": {
+          "type": "turn end after",
+          "content": "snobbery"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:11.803648",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "viewpoint",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:11.803683",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "expertise",
+                "objectification",
+                "dilution",
+                "alienation",
+                "willingness",
+                "likelihood",
+                "loyalty"
+              ],
+              "innocent": [
+                "justness",
+                "perceptiveness",
+                "ingratitude",
+                "desperateness",
+                "fruition",
+                "supposition"
+              ],
+              "opponent": [
+                "meaningfulness",
+                "negation",
+                "paradigm",
+                "someway",
+                "rigorousness"
+              ],
+              "assassin": [
+                "oversight"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "fakery",
+                  "insubordination"
+                ],
+                "innocent": [
+                  "snobbery"
+                ],
+                "opponent": [
+                  "misrepresentation"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "socialization",
+                  "viewpoint"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:46:11.803752",
+        "action": {
+          "type": "send message",
+          "content": "The word insubordination was guessed correctly. The word snobbery was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: expertise, objectification, dilution, alienation, willingness, likelihood, loyalty.\nRemaining words for your opponent are: meaningfulness, negation, paradigm, someway, rigorousness, viewpoint.\nRemaining distractor words are: justness, perceptiveness, ingratitude, desperateness, fruition, supposition.\nRemaining kill words are: oversight.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:12.726254",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Isolation\nTARGETS: alienation, loyalty",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:12.726490",
+        "action": {
+          "type": "clue",
+          "content": "isolation"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:12.726523",
+        "action": {
+          "type": "targets",
+          "content": [
+            "alienation",
+            "loyalty"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:12.726546",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "alienation",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:12.726566",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "loyalty",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:46:12.726798",
+        "action": {
+          "type": "send message",
+          "content": "The word insubordination was guessed correctly. The word snobbery was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'isolation'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nsomeway, paradigm, dilution, ingratitude, willingness, meaningfulness, negation, perceptiveness, fruition, likelihood, desperateness, alienation, oversight, objectification, expertise, loyalty, rigorousness, supposition, justness",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:13.302691",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: alienation, oversight",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:13.302801",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "alienation",
+            "oversight"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:13.302841",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "alienation",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:13.302864",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "alienation",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:13.302886",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "oversight",
+            "assignment": "assassin"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:13.302904",
+        "action": {
+          "type": "turn end after",
+          "content": "oversight"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:13.303121",
+        "action": {
+          "type": "game end",
+          "content": "opponent has won through assassin"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:46:13.303151",
+        "action": {
+          "type": "game end",
+          "content": "opponent has won through assassin"
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "expertise",
+        "objectification",
+        "dilution",
+        "willingness",
+        "likelihood",
+        "loyalty"
+      ],
+      "innocent": [
+        "justness",
+        "perceptiveness",
+        "ingratitude",
+        "desperateness",
+        "fruition",
+        "supposition"
+      ],
+      "opponent": [
+        "meaningfulness",
+        "negation",
+        "paradigm",
+        "someway",
+        "rigorousness"
+      ],
+      "assassin": []
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "fakery",
+          "insubordination",
+          "alienation"
+        ],
+        "innocent": [
+          "snobbery"
+        ],
+        "opponent": [
+          "misrepresentation"
+        ],
+        "assassin": [
+          "oversight"
+        ]
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "socialization",
+          "viewpoint"
+        ],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 4,
+  "Aborted": false,
+  "Lose": true,
+  "Game ended through assassin": true,
+  "Request Count": 6,
+  "Parsed Request Count": 6,
+  "Violated Request Count": 0,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

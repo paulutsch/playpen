@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "game_name": "cladder",
+    "experiment_name": "full_v1.5_default",
+    "game_id": 7073,
+    "results_folder": "llama3-8b-sft-initial-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft-initial",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b-success1/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-sft-initial"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T09:07:31.493630",
+        "action": {
+          "type": "send message",
+          "content": "You are an expert in causal inference. The following question is not a typical commonsense query, but rather a meticulously designed question created by a professor specializing in causal inference, intended to assess the students' mastery of the course content.\nImagine a self-contained, hypothetical world with only the following conditions, and without any unmentioned factors or causal relationships: Jyka has a direct effect on yupt. Yupt has a direct effect on kwox. The overall probability of jyka is 25%. The probability of not jyka and kwox is 71%. The probability of jyka and kwox is 24%. Is the chance of kwox smaller when observing jyka?\nStart your answer with 'Yes' or 'No', followed by additional reasoning or evidence to support your explanation.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:07:50.408541",
+        "action": {
+          "type": "get message",
+          "content": "Yes. The probability of kwox given jyka can be calculated using Bayes' theorem. Let's denote the probability of kwox given jyka as P(kwox|jyka). We are given that P(jyka) = 0.25, P(not jyka and kwox) = 0.71, and P(jyka and kwox) = 0.24.\n\nFirst, we need to find P(kwox). We know that P(not jyka and kwox) + P(jyka and kwox) = P(kwox). Therefore, P(kwox) = 0.71 + 0.24 = 0.95.\n\nNext, we need to find P(not jyka). We know that P(jyka) + P(not jyka) = 1. Therefore, P(not jyka) = 1 - 0.25 = 0.75.\n\nNow, we can calculate P(kwox|jyka) using Bayes' theorem:\n\nP(kwox|jyka) = P(kwox and jyka) / P(jyka)\n= 0.24 / 0.25\n= 0.96\n\nP(kwox|not jyka) = P(kwox and not jyka) / P(not jyka)\n= P(k",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:07:50.408624",
+        "action": {
+          "type": "parsed",
+          "content": "Yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:07:50.408639",
+        "action": {
+          "type": "target",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:07:50.408650",
+        "action": {
+          "type": "wrong label",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

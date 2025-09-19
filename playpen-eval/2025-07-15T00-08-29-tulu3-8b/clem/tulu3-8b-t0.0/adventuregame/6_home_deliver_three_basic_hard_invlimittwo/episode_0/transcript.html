@@ -1,0 +1,1167 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+
+.game-round {
+  padding: 20px 0 20px 0;
+  background-color: #f0f8ff; /* light background for content */
+  position: relative; /* Important to position the badge */
+  border-radius: 10px;
+  margin: 10px 0 10px 0;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge in top-right corner */
+.game-round::before {
+  content: "Round " attr(data-round);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #c4c3c3;
+  padding: 0px 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for home_deliver_three_basic_hard_invlimittwo, episode 0 with tulu3-8b-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+<div class="game-round" data-round="0">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>You are playing a text adventure game. I will describe what you can perceive in the game. You write the single action you want to take in the game starting with &gt;. Only reply with an action.<br/>For example:<br/>&gt; open cupboard<br/><br/>You can have up to two objects in your inventory at the same time.<br/><br/>Your goal for this game is: Put the pillow on the counter, the book on the shelf and the plate on the table.<br/><br/>Once you have achieved your goal, write &quot;&gt; done&quot; to end the game.<br/><br/>You are in a broom closet now. There are a mop and a broom. The mop is on the floor. The broom is on the floor. There is a passage to a hallway here.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; take pillow&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 0</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 12\n\ntake pillow&lt;|end_of_text|&gt;\n           ^\nExpected one of: \n\t* PREP\n\t* WS\n\t* WORD\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="1">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look around&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 1</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 12\n\nlook around&lt;|end_of_text|&gt;\n           ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="2">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine room&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 2</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 13\n\nexamine room&lt;|end_of_text|&gt;\n            ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="3">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; inspect surroundings&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 3</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 21\n\ninspect surroundings&lt;|end_of_text|&gt;\n                    ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="4">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; explore the room&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 4</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 17\n\nexplore the room&lt;|end_of_text|&gt;\n                ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="5">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; describe the room&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 5</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 18\n\ndescribe the room&lt;|end_of_text|&gt;\n                 ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="6">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look at the room carefully&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 6</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 27\n\nlook at the room carefully&lt;|end_of_text|&gt;\n                          ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="7">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the room thoroughly&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 7</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 28\n\nexamine the room thoroughly&lt;|end_of_text|&gt;\n                           ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="8">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; observe the room closely&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 8</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 25\n\nobserve the room closely&lt;|end_of_text|&gt;\n                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="9">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; take a detailed look around the room&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 9</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 37\n\ntake a detailed look around the room&lt;|end_of_text|&gt;\n                                    ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="10">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; carefully inspect the room&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 10</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 27\n\ncarefully inspect the room&lt;|end_of_text|&gt;\n                          ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="11">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects in the room&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 11</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 29\n\nlook for objects in the room&lt;|end_of_text|&gt;\n                            ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="12">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 12</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 26\n\nsearch the room for items&lt;|end_of_text|&gt;\n                         ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="13">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for anything that can be picked up&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 13</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 40\n\nlook for anything that can be picked up&lt;|end_of_text|&gt;\n                                       ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="14">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the room for objects&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 14</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 29\n\nexamine the room for objects&lt;|end_of_text|&gt;\n                            ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="15">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for movable items in the room&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 15</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 35\n\nlook for movable items in the room&lt;|end_of_text|&gt;\n                                  ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="16">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for objects that can be taken&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 16</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 46\n\nh the room for objects that can be taken&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="17">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for items that can be picked up&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 17</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 37\n\nlook for items that can be picked up&lt;|end_of_text|&gt;\n                                    ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="18">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for anything that can be held in your hands&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 18</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 60\n\n anything that can be held in your hands&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="19">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for items that can be moved&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 19</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 33\n\nlook for items that can be moved&lt;|end_of_text|&gt;\n                                ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="20">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for objects that can be carried&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 20</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 48\n\nthe room for objects that can be carried&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="21">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for things you can pick up&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 21</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 32\n\nlook for things you can pick up&lt;|end_of_text|&gt;\n                               ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="22">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the room for items that can be taken into your possession&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 22</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 66\n\ns that can be taken into your possession&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="23">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be moved to your inventory&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 23</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 53\n\nects that can be moved to your inventory&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="24">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search for items that can be picked up and carried with you&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 24</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 60\n\nat can be picked up and carried with you&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="25">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be held in your hands and moved elsewhere&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 25</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 68\n\ne held in your hands and moved elsewhere&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="26">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and added to your inventory&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 26</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 76\n\nbe picked up and added to your inventory&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="27">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be taken and held in your hands&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 27</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 58\n\nthat can be taken and held in your hands&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="28">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and moved to your possession&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 28</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 77\n\ne picked up and moved to your possession&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="29">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be picked up and carried with you&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 29</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 60\n\nat can be picked up and carried with you&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="30">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be taken into your hands and moved to another location&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 30</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 90\n\nyour hands and moved to another location&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="31">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be picked up and moved to your personal belongings&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 31</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 77\n\nup and moved to your personal belongings&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="32">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and placed in your hands&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 32</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 73\n\nan be picked up and placed in your hands&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="33">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be moved from their current location to your hands&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 33</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 77\n\nrom their current location to your hands&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="34">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and held in your hand&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 34</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 70\n\nt can be picked up and held in your hand&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="35">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be moved from the room to your personal possession&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 35</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 77\n\nrom the room to your personal possession&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="36">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and moved to your inventory&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 36</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 76\n\nbe picked up and moved to your inventory&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="37">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be taken into your hands and moved to a place where you can carry them with you&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 37</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 106\n\n place where you can carry them with you&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="38">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and moved to your carrying capacity&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 38</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 84\n\nd up and moved to your carrying capacity&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="39">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be picked up and held in your hands to be moved elsewhere&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 39</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 84\n\nheld in your hands to be moved elsewhere&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="40">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and moved to your possession&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 40</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 77\n\ne picked up and moved to your possession&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="41">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be picked up and carried with you to another location&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 41</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 80\n\nand carried with you to another location&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="42">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and moved to your personal carrying space&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 42</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 90\n\nnd moved to your personal carrying space&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="43">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be picked up and held in your hands to be moved to another part of the game world&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 43</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 108\n\n moved to another part of the game world&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="44">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and added to your inventory&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 44</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 76\n\nbe picked up and added to your inventory&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="45">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be picked up and moved to your carrying space&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 45</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 72\n\ncked up and moved to your carrying space&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="46">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and moved to your hands to be carried elsewhere&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 46</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 96\n\ned to your hands to be carried elsewhere&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="47">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be picked up and moved to your carrying capacity&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 47</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 75\n\nd up and moved to your carrying capacity&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="48">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items that can be picked up and held in your hands to be moved to another location in the game&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 48</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 115\n\nbe moved to another location in the game&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+</div><div class="game-round" data-round="49">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects that can be picked up and moved to your personal carrying space&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 49</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 81\n\nnd moved to your personal carrying space&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: turn_limit_reached" class="msg gm-gm" style="">
+        <p>Turn limit 50 reached, end episode.</p>
+    </div>
+
+    <div speaker="Game Master: game_result" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;game_successfully_finished&#x27;: False}</p>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

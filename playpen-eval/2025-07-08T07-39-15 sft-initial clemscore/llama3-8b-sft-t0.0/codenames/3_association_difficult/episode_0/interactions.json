@@ -1,0 +1,1530 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "association_difficult",
+    "game_id": 0,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "2.5.1"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:02.755237",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "falcon",
+                "cod",
+                "birch",
+                "stick",
+                "peach",
+                "botany",
+                "cat",
+                "iron",
+                "zoology"
+              ],
+              "innocent": [
+                "silver",
+                "face",
+                "sword",
+                "tiger",
+                "canary",
+                "pine",
+                "flounder"
+              ],
+              "opponent": [
+                "lime",
+                "biology",
+                "wolf",
+                "wrist",
+                "onion",
+                "vulture",
+                "pear",
+                "mathematics"
+              ],
+              "assassin": [
+                "garlic"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:09:02.755310",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: falcon, cod, birch, stick, peach, botany, cat, iron, zoology.\nYour opponent's team words are: lime, biology, wolf, wrist, onion, vulture, pear, mathematics.\nDistractor words are: silver, face, sword, tiger, canary, pine, flounder.\nThe kill words are: garlic.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:03.749112",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: bird\nTARGETS: falcon, cat, vulture",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:03.749408",
+        "action": {
+          "type": "clue",
+          "content": "bird"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:03.749442",
+        "action": {
+          "type": "targets",
+          "content": [
+            "falcon",
+            "cat",
+            "vulture"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:03.749466",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "falcon",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:03.749486",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "cat",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:03.749503",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "vulture",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:09:03.749695",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 3 words from the following list that best relate or are most closely associated with the word 'bird'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\ncat, stick, canary, silver, botany, vulture, birch, peach, biology, tiger, mathematics, onion, falcon, zoology, wolf, iron, cod, pear, pine, flounder, lime, garlic, wrist, sword, face",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:04.554888",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: canary, vulture, falcon",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:04.554987",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "canary",
+            "vulture",
+            "falcon"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:04.555024",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "canary",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:04.555046",
+        "action": {
+          "type": "turn end after",
+          "content": "canary"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:04.555235",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "onion",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:04.555269",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "falcon",
+                "cod",
+                "birch",
+                "stick",
+                "peach",
+                "botany",
+                "cat",
+                "iron",
+                "zoology"
+              ],
+              "innocent": [
+                "silver",
+                "face",
+                "sword",
+                "tiger",
+                "pine",
+                "flounder"
+              ],
+              "opponent": [
+                "lime",
+                "biology",
+                "wolf",
+                "wrist",
+                "vulture",
+                "pear",
+                "mathematics"
+              ],
+              "assassin": [
+                "garlic"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [
+                  "canary"
+                ],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "onion"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:09:04.555331",
+        "action": {
+          "type": "send message",
+          "content": "The word canary was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: falcon, cod, birch, stick, peach, botany, cat, iron, zoology.\nRemaining words for your opponent are: lime, biology, wolf, wrist, onion, vulture, pear, mathematics.\nRemaining distractor words are: silver, face, sword, tiger, pine, flounder.\nRemaining kill words are: garlic.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:05.566814",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: tree\nTARGETS: birch, peach, botany",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:05.567043",
+        "action": {
+          "type": "clue",
+          "content": "tree"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:05.567075",
+        "action": {
+          "type": "targets",
+          "content": [
+            "birch",
+            "peach",
+            "botany"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:05.567099",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "birch",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:05.567118",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "peach",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:05.567135",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "botany",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:09:05.567320",
+        "action": {
+          "type": "send message",
+          "content": "The word canary was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'tree'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\ncat, stick, silver, botany, vulture, birch, peach, biology, tiger, mathematics, falcon, zoology, wolf, iron, cod, pear, pine, flounder, lime, garlic, wrist, sword, face",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:06.312468",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: birch, pine, botany",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:06.312582",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "birch",
+            "pine",
+            "botany"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:06.312620",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "birch",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:06.312642",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "birch",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:06.312662",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "pine",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:06.312679",
+        "action": {
+          "type": "turn end after",
+          "content": "pine"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:06.312854",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "mathematics",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:06.312887",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "falcon",
+                "cod",
+                "stick",
+                "peach",
+                "botany",
+                "cat",
+                "iron",
+                "zoology"
+              ],
+              "innocent": [
+                "silver",
+                "face",
+                "sword",
+                "tiger",
+                "flounder"
+              ],
+              "opponent": [
+                "lime",
+                "biology",
+                "wolf",
+                "wrist",
+                "vulture",
+                "pear"
+              ],
+              "assassin": [
+                "garlic"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "birch"
+                ],
+                "innocent": [
+                  "canary",
+                  "pine"
+                ],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "onion",
+                  "mathematics"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:09:06.312950",
+        "action": {
+          "type": "send message",
+          "content": "The word birch was guessed correctly. The word pine was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: falcon, cod, stick, peach, botany, cat, iron, zoology.\nRemaining words for your opponent are: lime, biology, wolf, wrist, vulture, pear, mathematics.\nRemaining distractor words are: silver, face, sword, tiger, flounder.\nRemaining kill words are: garlic.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:07.469998",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: animal\nTARGETS: falcon, cat, wolf, vulture",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:07.470215",
+        "action": {
+          "type": "clue",
+          "content": "animal"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:07.470248",
+        "action": {
+          "type": "targets",
+          "content": [
+            "falcon",
+            "cat",
+            "wolf",
+            "vulture"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:07.470272",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "falcon",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:07.470292",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "cat",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:07.470309",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "wolf",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:07.470326",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "vulture",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:09:07.470528",
+        "action": {
+          "type": "send message",
+          "content": "The word birch was guessed correctly. The word pine was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 4 words from the following list of words that best relate or are most closely associated with the word 'animal'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\ncat, stick, silver, botany, vulture, peach, biology, tiger, falcon, zoology, wolf, iron, cod, pear, flounder, lime, garlic, wrist, sword, face",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:08.289097",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: cat, vulture, tiger, wolf",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:08.289202",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "cat",
+            "vulture",
+            "tiger",
+            "wolf"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:08.289240",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "cat",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:08.289263",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "cat",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:08.289283",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "vulture",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:08.289300",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "vulture",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:08.289316",
+        "action": {
+          "type": "turn end after",
+          "content": "vulture"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:08.289515",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "lime",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:08.289549",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "falcon",
+                "cod",
+                "stick",
+                "peach",
+                "botany",
+                "iron",
+                "zoology"
+              ],
+              "innocent": [
+                "silver",
+                "face",
+                "sword",
+                "tiger",
+                "flounder"
+              ],
+              "opponent": [
+                "biology",
+                "wolf",
+                "wrist",
+                "pear"
+              ],
+              "assassin": [
+                "garlic"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "birch",
+                  "cat"
+                ],
+                "innocent": [
+                  "canary",
+                  "pine"
+                ],
+                "opponent": [
+                  "vulture"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "onion",
+                  "mathematics",
+                  "lime"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:09:08.289612",
+        "action": {
+          "type": "send message",
+          "content": "The word cat was guessed correctly. The word vulture was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: falcon, cod, stick, peach, botany, iron, zoology.\nRemaining words for your opponent are: lime, biology, wolf, wrist, pear.\nRemaining distractor words are: silver, face, sword, tiger, flounder.\nRemaining kill words are: garlic.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.111666",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: metal\nTARGETS: iron, silver",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.111876",
+        "action": {
+          "type": "clue",
+          "content": "metal"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.111913",
+        "action": {
+          "type": "targets",
+          "content": [
+            "iron",
+            "silver"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.111938",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "iron",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.111958",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "silver",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:09:09.112186",
+        "action": {
+          "type": "send message",
+          "content": "The word cat was guessed correctly. The word vulture was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'metal'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nstick, silver, botany, peach, biology, tiger, falcon, zoology, wolf, iron, cod, pear, flounder, garlic, wrist, sword, face",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.634280",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: silver, iron",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.634379",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "silver",
+            "iron"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.634416",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "silver",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.634438",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "silver",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.634455",
+        "action": {
+          "type": "turn end after",
+          "content": "silver"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.634662",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "wolf",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:09.634697",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "falcon",
+                "cod",
+                "stick",
+                "peach",
+                "botany",
+                "iron",
+                "zoology"
+              ],
+              "innocent": [
+                "face",
+                "sword",
+                "tiger",
+                "flounder"
+              ],
+              "opponent": [
+                "biology",
+                "wrist",
+                "pear"
+              ],
+              "assassin": [
+                "garlic"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "birch",
+                  "cat"
+                ],
+                "innocent": [
+                  "canary",
+                  "pine",
+                  "silver"
+                ],
+                "opponent": [
+                  "vulture"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "onion",
+                  "mathematics",
+                  "lime",
+                  "wolf"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:09:09.634761",
+        "action": {
+          "type": "send message",
+          "content": "The word silver was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: falcon, cod, stick, peach, botany, iron, zoology.\nRemaining words for your opponent are: biology, wolf, wrist, pear.\nRemaining distractor words are: face, sword, tiger, flounder.\nRemaining kill words are: garlic.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:10.650687",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: branch\nTARGETS: stick, peach, botany",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:10.650882",
+        "action": {
+          "type": "clue",
+          "content": "branch"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:10.650913",
+        "action": {
+          "type": "targets",
+          "content": [
+            "stick",
+            "peach",
+            "botany"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:10.650937",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "stick",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:10.650956",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "peach",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:10.650973",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "botany",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:09:10.651174",
+        "action": {
+          "type": "send message",
+          "content": "The word silver was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'branch'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nstick, botany, peach, biology, tiger, falcon, zoology, iron, cod, pear, flounder, garlic, wrist, sword, face",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.374707",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: stick, botany, biology",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.374809",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "stick",
+            "botany",
+            "biology"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.374846",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "stick",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.374868",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "stick",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.374888",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "botany",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.374905",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "botany",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.374923",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "biology",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.374940",
+        "action": {
+          "type": "turn end after",
+          "content": "biology"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.375147",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "pear",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:11.375180",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "falcon",
+                "cod",
+                "peach",
+                "iron",
+                "zoology"
+              ],
+              "innocent": [
+                "face",
+                "sword",
+                "tiger",
+                "flounder"
+              ],
+              "opponent": [
+                "wrist"
+              ],
+              "assassin": [
+                "garlic"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "birch",
+                  "cat",
+                  "stick",
+                  "botany"
+                ],
+                "innocent": [
+                  "canary",
+                  "pine",
+                  "silver"
+                ],
+                "opponent": [
+                  "vulture",
+                  "biology"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "onion",
+                  "mathematics",
+                  "lime",
+                  "wolf",
+                  "pear"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:09:11.375245",
+        "action": {
+          "type": "send message",
+          "content": "The words stick, botany were guessed correctly. The word biology was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: falcon, cod, peach, iron, zoology.\nRemaining words for your opponent are: wrist, pear.\nRemaining distractor words are: face, sword, tiger, flounder.\nRemaining kill words are: garlic.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.288957",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: fish\nTARGETS: cod, flounder",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.289132",
+        "action": {
+          "type": "clue",
+          "content": "fish"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.289164",
+        "action": {
+          "type": "targets",
+          "content": [
+            "cod",
+            "flounder"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.289188",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "cod",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.289207",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "flounder",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:09:12.289414",
+        "action": {
+          "type": "send message",
+          "content": "The words stick, botany were guessed correctly. The word biology was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'fish'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\npeach, tiger, falcon, zoology, iron, cod, flounder, garlic, wrist, sword, face",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.911136",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: cod, flounder",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.911235",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "cod",
+            "flounder"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.911272",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "cod",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.911294",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "cod",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.911314",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "flounder",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.911331",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "flounder",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.911347",
+        "action": {
+          "type": "turn end after",
+          "content": "flounder"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.911552",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "wrist",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:09:12.911580",
+        "action": {
+          "type": "game end",
+          "content": "opponent has won"
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "falcon",
+        "peach",
+        "iron",
+        "zoology"
+      ],
+      "innocent": [
+        "face",
+        "sword",
+        "tiger"
+      ],
+      "opponent": [],
+      "assassin": [
+        "garlic"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "birch",
+          "cat",
+          "stick",
+          "botany",
+          "cod"
+        ],
+        "innocent": [
+          "canary",
+          "pine",
+          "silver",
+          "flounder"
+        ],
+        "opponent": [
+          "vulture",
+          "biology"
+        ],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "onion",
+          "mathematics",
+          "lime",
+          "wolf",
+          "pear",
+          "wrist"
+        ],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 7,
+  "Aborted": false,
+  "Lose": true,
+  "Game ended through assassin": false,
+  "Request Count": 12,
+  "Parsed Request Count": 12,
+  "Violated Request Count": 0,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

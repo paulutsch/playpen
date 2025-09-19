@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 309,
+    "results_folder": "tulu3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-DPO",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T00:04:28.599233",
+        "action": {
+          "type": "send message",
+          "content": "Can you create a list of mega trends in the tech industry? Wrap your entire response with double quotation marks. Also, make sure the letter o appears at least 25 times in your response.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:04:33.399033",
+        "action": {
+          "type": "get message",
+          "content": "\"Ongoing technological advancements are shaping the future, with mega trends like the rise of artificial intelligence, which offers opportunities for optimization and automation across various sectors. The internet of things (IoT) is expanding, connecting objects to offer seamless data flow and operational efficiency. Cloud computing continues to grow, allowing organizations to outsource their computational needs and focus on innovation. The demand for data security and privacy is soaring, as organizations strive to protect sensitive information in an increasingly interconnected world. Open source software is thriving, fostering collaboration and innovation while reducing costs. The obsession with online experiences is driving the development of immersive technologies like virtual and augmented reality. Overcoming obstacles in these areas will be crucial for staying competitive in the tech industry, where opportunities and challenges abound.\"<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:04:33.399087",
+        "action": {
+          "type": "target",
+          "content": {
+            "startend:quotation": {},
+            "keywords:letter_frequency": {
+              "let_relation": "at least",
+              "letter": "o",
+              "let_frequency": 25
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:04:33.399198",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

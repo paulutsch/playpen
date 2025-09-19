@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 263,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T08:16:44.065778",
+        "action": {
+          "type": "send message",
+          "content": "Create an itinerary for a 3-day trip to Moscow that uses the word founding less than twice. Don't add anything before and after the JSON code. Your entire output should just contain a JSON code block.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:16:54.730308",
+        "action": {
+          "type": "get message",
+          "content": "{\"day1\": {\"morning\": \"Visit the Kremlin and the Red Square\", \"afternoon\": \"Explore the Tretyakov Gallery\", \"evening\": \"Enjoy a traditional Russian dinner and watch a ballet performance\"}, \"day2\": {\"morning\": \"Visit the Moscow Metro and take a tour of the city's underground stations\", \"afternoon\": \"Visit the Pushkin Museum of Fine Arts\", \"evening\": \"Take a stroll along the Moskva River and enjoy the city's nightlife\"}, \"day3\": {\"morning\": \"Visit the Novodevichy Convent and the Museum of Russian Impressionism\", \"afternoon\": \"Visit the Gorky Park and take a boat ride on the Moskva River\", \"evening\": \"Enjoy a farewell dinner at a traditional Russian restaurant\"}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:16:54.730395",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:frequency": {
+              "relation": "less than",
+              "keyword": "founding",
+              "frequency": 2
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:16:54.730466",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

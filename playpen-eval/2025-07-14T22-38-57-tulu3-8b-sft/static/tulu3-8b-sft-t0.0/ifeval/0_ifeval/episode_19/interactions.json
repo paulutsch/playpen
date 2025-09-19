@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 176,
+    "results_folder": "tulu3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-SFT",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T23:06:42.575317",
+        "action": {
+          "type": "send message",
+          "content": "I'm a new puppy owner and I'm looking for some advice on how to train my puppy. Can you help me? Give me a few options. In particular, I need you to end your response with \"Which one you choose?\".",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:06:49.254818",
+        "action": {
+          "type": "get message",
+          "content": "Sure, I'd be happy to help you with that. Here are a few options for training your puppy:\n\n1. Positive reinforcement training: This method involves rewarding your puppy for good behavior with treats, praise, or playtime. It's a gentle and effective way to teach your puppy basic commands and good manners.\n\n2. Clicker training: This method uses a clicker to mark the exact moment your puppy performs a desired behavior, followed by a reward. It's a quick and efficient way to train your puppy and can be used for a variety of commands and tricks.\n\n3. Crate training: Crate training involves teaching your puppy to feel comfortable and safe in a crate, which can be a useful tool for housebreaking and providing a safe space for your puppy when you can't supervise them.\n\n4. Socialization: Socializing your puppy early on is important for their overall development and can help prevent behavioral issues later on. Expose your puppy to a variety of people, animals, and environments to help them become well-adjusted and confident.\n\nWhich one you choose?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:06:49.254884",
+        "action": {
+          "type": "target",
+          "content": {
+            "startend:end_checker": {
+              "end_phrase": "Which one you choose?"
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:06:49.254921",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

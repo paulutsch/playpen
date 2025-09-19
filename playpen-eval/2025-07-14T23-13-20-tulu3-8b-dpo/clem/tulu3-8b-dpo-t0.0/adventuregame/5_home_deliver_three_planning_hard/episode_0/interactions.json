@@ -1,0 +1,907 @@
+{
+  "meta": {
+    "game_name": "adventuregame",
+    "experiment_name": "home_deliver_three_planning_hard",
+    "game_id": 7,
+    "results_folder": "tulu3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-DPO",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Adventurer",
+      "model_name": "tulu3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:15:25.903543",
+        "action": {
+          "type": "send message",
+          "content": "You are playing a text adventure game. I will describe what you can perceive in the game. You write the single action you want to take in the game starting with >. Write your plan for your next actions on the line below your action, starting with \"Next actions:\".\nFor example:\n> open cupboard\nNext actions: take orange, eat orange\n\nYour goal for this game is: Put the potted plant in the freezer, the plate on the table and the mop in the refrigerator.\n\nOnce you have achieved your goal, write \"> done\" to end the game.\n\nYou are in a bedroom now. There are a wardrobe and a bed. The wardrobe is closed. There is a passage to a hallway here.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:26.906204",
+        "action": {
+          "type": "get message",
+          "content": "> open wardrobe\nNext actions: look inside the wardrobe for the potted plant, take potted plant, go to the kitchen<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:26.906254",
+        "action": {
+          "type": "metadata",
+          "content": "Round: 0"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:26.906274",
+        "action": {
+          "type": "turn_plan",
+          "content": [
+            "look inside the wardrobe for the potted plant",
+            "take potted plant",
+            "go to the kitchen<|end_of_text|>"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:26.910625",
+        "action": {
+          "type": "action_info",
+          "content": {
+            "action_type": "open",
+            "exploration_info": {
+              "action_epistemic": true,
+              "action_pragmatic": true,
+              "effective_epistemic_gain_facts": [
+                [
+                  "in",
+                  "pillow1",
+                  "wardrobe1"
+                ],
+                [
+                  "open",
+                  "wardrobe1"
+                ],
+                [
+                  "at",
+                  "pillow1",
+                  "bedroom1"
+                ]
+              ],
+              "effective_epistemic_gain_amount": 3,
+              "known_entities": [
+                [
+                  "at",
+                  "bed1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "wardrobe1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "player1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "pillow1",
+                  "bedroom1"
+                ]
+              ],
+              "known_entities_ratio": 0.13793103448275862,
+              "visited_rooms": [
+                "bedroom1"
+              ],
+              "visited_rooms_ratio": 0.16666666666666666,
+              "known_goal_entities": [],
+              "known_goal_entities_ratio": 0.0
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:26.910680",
+        "action": {
+          "type": "goal_status",
+          "content": {
+            "goal_states_achieved": [],
+            "turn_goal_score": 0
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:26.910697",
+        "action": {
+          "type": "current_plan",
+          "content": "['look inside the wardrobe for the potted plant', 'take potted plant', 'go to the kitchen<|end_of_text|>']"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:26.910708",
+        "action": {
+          "type": "plan_length",
+          "content": 3
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:26.914404",
+        "action": {
+          "type": "plan_results",
+          "content": [
+            [
+              [],
+              "I don't know how to interpret this 'look' action.",
+              {
+                "phase": "parsing",
+                "fail_type": "undefined_action_verb",
+                "arg": "look",
+                "exploration_info": {
+                  "action_epistemic": false,
+                  "action_pragmatic": false,
+                  "effective_epistemic_gain_amount": 0,
+                  "known_entities": [
+                    [
+                      "at",
+                      "bed1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "wardrobe1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "player1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "pillow1",
+                      "bedroom1"
+                    ]
+                  ],
+                  "known_entities_ratio": 0.13793103448275862,
+                  "visited_rooms": [
+                    "bedroom1"
+                  ],
+                  "visited_rooms_ratio": 0.16666666666666666,
+                  "known_goal_entities": [],
+                  "known_goal_entities_ratio": 0.0
+                }
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:26.914456",
+        "action": {
+          "type": "plan_command_success_ratio",
+          "content": 0.0
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:15:26.914499",
+        "action": {
+          "type": "send message",
+          "content": "The wardrobe is now open. In the wardrobe there is a pillow.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.806641",
+        "action": {
+          "type": "get message",
+          "content": "> take potted plant\nNext actions: go to the kitchen, put the potted plant in the freezer<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.806687",
+        "action": {
+          "type": "metadata",
+          "content": "Round: 1"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.806705",
+        "action": {
+          "type": "turn_plan",
+          "content": [
+            "go to the kitchen",
+            "put the potted plant in the freezer<|end_of_text|>"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.810355",
+        "action": {
+          "type": "action_fail",
+          "content": {
+            "phase": "resolution",
+            "fail_type": "entity_not_accessible",
+            "arg": {
+              "failed_action_type": "take",
+              "failed_precon_predicate": {
+                "predicate_tuple": [
+                  "at",
+                  "pottedplant1",
+                  "bedroom1"
+                ],
+                "fulfilled": false,
+                "precon_idx": 1
+              }
+            },
+            "exploration_info": {
+              "action_epistemic": false,
+              "action_pragmatic": true,
+              "effective_epistemic_gain_amount": 0,
+              "known_entities": [
+                [
+                  "at",
+                  "bed1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "wardrobe1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "player1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "pillow1",
+                  "bedroom1"
+                ]
+              ],
+              "known_entities_ratio": 0.13793103448275862,
+              "visited_rooms": [
+                "bedroom1"
+              ],
+              "visited_rooms_ratio": 0.16666666666666666,
+              "known_goal_entities": [],
+              "known_goal_entities_ratio": 0.0
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.810412",
+        "action": {
+          "type": "goal_status",
+          "content": {
+            "goal_states_achieved": [],
+            "turn_goal_score": 0
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.810428",
+        "action": {
+          "type": "current_plan",
+          "content": "['go to the kitchen', 'put the potted plant in the freezer<|end_of_text|>']"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.810439",
+        "action": {
+          "type": "plan_length",
+          "content": 2
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.815245",
+        "action": {
+          "type": "plan_results",
+          "content": [
+            [
+              [],
+              "You can't go to a kitchen from here.",
+              {
+                "phase": "resolution",
+                "fail_type": "no_exit_to",
+                "arg": {
+                  "failed_action_type": "go",
+                  "failed_precon_predicate": {
+                    "predicate_tuple": [
+                      "exit",
+                      "bedroom1",
+                      "kitchen1"
+                    ],
+                    "fulfilled": false,
+                    "precon_idx": 2
+                  }
+                },
+                "exploration_info": {
+                  "action_epistemic": true,
+                  "action_pragmatic": true,
+                  "effective_epistemic_gain_facts": [],
+                  "effective_epistemic_gain_amount": 0,
+                  "known_entities": [
+                    [
+                      "at",
+                      "bed1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "wardrobe1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "player1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "pillow1",
+                      "bedroom1"
+                    ]
+                  ],
+                  "known_entities_ratio": 0.13793103448275862,
+                  "visited_rooms": [
+                    "bedroom1"
+                  ],
+                  "visited_rooms_ratio": 0.16666666666666666,
+                  "known_goal_entities": [],
+                  "known_goal_entities_ratio": 0.0
+                }
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.815305",
+        "action": {
+          "type": "plan_command_success_ratio",
+          "content": 0.0
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:27.815318",
+        "action": {
+          "type": "plan_followed",
+          "content": 0
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:15:27.815359",
+        "action": {
+          "type": "send message",
+          "content": "You can't see a potted plant here.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.893049",
+        "action": {
+          "type": "get message",
+          "content": "> look around the bedroom for the potted plant\nNext actions: If you find the potted plant, take it and go to the kitchen to put it in the freezer. If not, search other rooms or areas in the game for the potted plant.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.893100",
+        "action": {
+          "type": "metadata",
+          "content": "Round: 2"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.893119",
+        "action": {
+          "type": "turn_plan",
+          "content": [
+            "If you find the potted plant",
+            "take it and go to the kitchen to put it in the freezer. If not",
+            "search other rooms or areas in the game for the potted plant.<|end_of_text|>"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.896593",
+        "action": {
+          "type": "action_fail",
+          "content": {
+            "phase": "parsing",
+            "fail_type": "undefined_action_verb",
+            "arg": "look",
+            "exploration_info": {
+              "action_epistemic": false,
+              "action_pragmatic": false,
+              "effective_epistemic_gain_amount": 0,
+              "known_entities": [
+                [
+                  "at",
+                  "bed1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "wardrobe1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "player1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "pillow1",
+                  "bedroom1"
+                ]
+              ],
+              "known_entities_ratio": 0.13793103448275862,
+              "visited_rooms": [
+                "bedroom1"
+              ],
+              "visited_rooms_ratio": 0.16666666666666666,
+              "known_goal_entities": [],
+              "known_goal_entities_ratio": 0.0
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.896641",
+        "action": {
+          "type": "goal_status",
+          "content": {
+            "goal_states_achieved": [],
+            "turn_goal_score": 0
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.896659",
+        "action": {
+          "type": "current_plan",
+          "content": "['If you find the potted plant', 'take it and go to the kitchen to put it in the freezer. If not', 'search other rooms or areas in the game for the potted plant.<|end_of_text|>']"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.896670",
+        "action": {
+          "type": "plan_length",
+          "content": 3
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.899775",
+        "action": {
+          "type": "plan_results",
+          "content": [
+            [
+              [],
+              "I don't know how to interpret this 'if' action.",
+              {
+                "phase": "parsing",
+                "fail_type": "undefined_action_verb",
+                "arg": "if",
+                "exploration_info": {
+                  "action_epistemic": false,
+                  "action_pragmatic": false,
+                  "effective_epistemic_gain_amount": 0,
+                  "known_entities": [
+                    [
+                      "at",
+                      "bed1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "wardrobe1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "player1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "pillow1",
+                      "bedroom1"
+                    ]
+                  ],
+                  "known_entities_ratio": 0.13793103448275862,
+                  "visited_rooms": [
+                    "bedroom1"
+                  ],
+                  "visited_rooms_ratio": 0.16666666666666666,
+                  "known_goal_entities": [],
+                  "known_goal_entities_ratio": 0.0
+                }
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.899827",
+        "action": {
+          "type": "plan_command_success_ratio",
+          "content": 0.0
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:29.899840",
+        "action": {
+          "type": "plan_followed",
+          "content": 0
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:15:29.899878",
+        "action": {
+          "type": "send message",
+          "content": "I don't know how to interpret this 'look' action.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.222321",
+        "action": {
+          "type": "get message",
+          "content": "> examine the wardrobe more closely\nNext actions: If the potted plant is visible upon closer inspection, take it. If not, continue searching the bedroom for any other clues or objects that might lead you to the potted plant. If you find it, take it and proceed to the kitchen to put it in the freezer. If not, consider other rooms or areas in the game that might contain the potted plant.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.222372",
+        "action": {
+          "type": "metadata",
+          "content": "Round: 3"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.222393",
+        "action": {
+          "type": "turn_plan",
+          "content": [
+            "If the potted plant is visible upon closer inspection",
+            "take it. If not",
+            "continue searching the bedroom for any other clues or objects that might lead you to the potted plant. If you find it",
+            "take it and proceed to the kitchen to put it in the freezer. If not",
+            "consider other rooms or areas in the game that might contain the potted plant.<|end_of_text|>"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.225548",
+        "action": {
+          "type": "action_fail",
+          "content": {
+            "phase": "parsing",
+            "fail_type": "malformed_command",
+            "arg": "{'type': 'unknown', 'arg1': 'examine'}",
+            "exploration_info": {
+              "action_epistemic": false,
+              "action_pragmatic": false,
+              "effective_epistemic_gain_amount": 0,
+              "known_entities": [
+                [
+                  "at",
+                  "bed1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "wardrobe1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "player1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "pillow1",
+                  "bedroom1"
+                ]
+              ],
+              "known_entities_ratio": 0.13793103448275862,
+              "visited_rooms": [
+                "bedroom1"
+              ],
+              "visited_rooms_ratio": 0.16666666666666666,
+              "known_goal_entities": [],
+              "known_goal_entities_ratio": 0.0
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.225597",
+        "action": {
+          "type": "goal_status",
+          "content": {
+            "goal_states_achieved": [],
+            "turn_goal_score": 0
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.225616",
+        "action": {
+          "type": "current_plan",
+          "content": "['If the potted plant is visible upon closer inspection', 'take it. If not', 'continue searching the bedroom for any other clues or objects that might lead you to the potted plant. If you find it', 'take it and proceed to the kitchen to put it in the freezer. If not', 'consider other rooms or areas in the game that might contain the potted plant.<|end_of_text|>']"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.225627",
+        "action": {
+          "type": "plan_length",
+          "content": 5
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.229670",
+        "action": {
+          "type": "plan_results",
+          "content": [
+            [
+              [],
+              "I don't know how to interpret this 'if' action.",
+              {
+                "phase": "parsing",
+                "fail_type": "undefined_action_verb",
+                "arg": "if",
+                "exploration_info": {
+                  "action_epistemic": false,
+                  "action_pragmatic": false,
+                  "effective_epistemic_gain_amount": 0,
+                  "known_entities": [
+                    [
+                      "at",
+                      "bed1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "wardrobe1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "player1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "pillow1",
+                      "bedroom1"
+                    ]
+                  ],
+                  "known_entities_ratio": 0.13793103448275862,
+                  "visited_rooms": [
+                    "bedroom1"
+                  ],
+                  "visited_rooms_ratio": 0.16666666666666666,
+                  "known_goal_entities": [],
+                  "known_goal_entities_ratio": 0.0
+                }
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.229721",
+        "action": {
+          "type": "plan_command_success_ratio",
+          "content": 0.0
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:33.229734",
+        "action": {
+          "type": "plan_followed",
+          "content": 0
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:15:33.229773",
+        "action": {
+          "type": "send message",
+          "content": "I don't know what you mean.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:37.261639",
+        "action": {
+          "type": "get message",
+          "content": "Apologies for the confusion. Let's simplify the action:\n\n> search the wardrobe thoroughly\nNext actions: If you find the potted plant, take it and proceed to the kitchen to put it in the freezer. If not, continue searching the bedroom for any other clues or objects that might lead you to the potted plant. If you find it elsewhere in the bedroom, take it and go to the kitchen. If not, consider exploring other rooms or areas in the game that might contain the potted plant.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:37.261690",
+        "action": {
+          "type": "metadata",
+          "content": "Round: 4"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:37.261714",
+        "action": {
+          "type": "invalid_format",
+          "content": "command_tag_missing"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:15:37.261728",
+        "action": {
+          "type": "game_result",
+          "content": {
+            "goal_states_achieved": [],
+            "game_successfully_finished": false
+          }
+        }
+      }
+    ]
+  ],
+  "adventure_info": {
+    "variant": "plan",
+    "max_turns": 50,
+    "optimal_turns": 20,
+    "goal_count": 3
+  }
+}

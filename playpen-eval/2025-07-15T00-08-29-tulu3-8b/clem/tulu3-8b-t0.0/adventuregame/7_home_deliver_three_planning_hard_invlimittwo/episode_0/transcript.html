@@ -1,0 +1,2363 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+
+.game-round {
+  padding: 20px 0 20px 0;
+  background-color: #f0f8ff; /* light background for content */
+  position: relative; /* Important to position the badge */
+  border-radius: 10px;
+  margin: 10px 0 10px 0;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge in top-right corner */
+.game-round::before {
+  content: "Round " attr(data-round);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #c4c3c3;
+  padding: 0px 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for home_deliver_three_planning_hard_invlimittwo, episode 2 with tulu3-8b-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+<div class="game-round" data-round="0">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>You are playing a text adventure game. I will describe what you can perceive in the game. You write the single action you want to take in the game starting with &gt;. Write your plan for your next actions on the line below your action, starting with &quot;Next actions:&quot;.<br/>For example:<br/>&gt; open cupboard<br/>Next actions: take orange, eat orange<br/><br/>You can have up to two objects in your inventory at the same time.<br/><br/>Your goal for this game is: Put the banana in the freezer, the book on the side table and the plate on the table.<br/><br/>Once you have achieved your goal, write &quot;&gt; done&quot; to end the game.<br/><br/>You are in a broom closet now. There are a mop and a broom. The mop is on the floor. The broom is on the floor. There is a passage to a hallway here.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; pick up mop<br/>Next actions: examine mop&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 0</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;examine mop&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_info" class="msg gm-gm" style="">
+        <p>{&#x27;action_type&#x27;: &#x27;take&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: True, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;examine mop&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 12\n\nexamine mop&lt;|end_of_text|&gt;\n           ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+</div><div class="game-round" data-round="1">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>You take the mop. In your inventory you have a mop.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; put mop down<br/>Next actions: examine surroundings for other objects&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 1</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;examine surroundings for other objects&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;down&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;examine surroundings for other objects&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 39\n\nexamine surroundings for other objects&lt;|end_of_text|&gt;\n                                      ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="2">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;down&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; put mop on the floor<br/>Next actions: look for other objects in the room&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 2</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;look for other objects in the room&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;resolution&#x27;, &#x27;fail_type&#x27;: &#x27;entity_not_accessible&#x27;, &#x27;arg&#x27;: {&#x27;failed_action_type&#x27;: &#x27;put&#x27;, &#x27;failed_precon_predicate&#x27;: {&#x27;predicate_tuple&#x27;: [&#x27;at&#x27;, &#x27;kitchen1floor1&#x27;, &#x27;broomcloset1&#x27;], &#x27;fulfilled&#x27;: False, &#x27;precon_idx&#x27;: 2}}, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: True, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;look for other objects in the room&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 35\n\nlook for other objects in the room&lt;|end_of_text|&gt;\n                                  ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="3">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>You can&#x27;t see a floor here.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the room<br/>Next actions: Identify potential objects and plan their interaction&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 3</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Identify potential objects and plan their interaction&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Identify potential objects and plan their interaction&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 54\n\nntial objects and plan their interaction&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="4">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look around<br/>Next actions: Observe the environment for any objects that can be interacted with&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 4</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Observe the environment for any objects that can be interacted with&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Observe the environment for any objects that can be interacted with&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;&lt;&#x27; in the current parser context, at line 1 col 68\n\n any objects that can be interacted with&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="5">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; inspect the area<br/>Next actions: Carefully observe the broom closet for any objects that might be relevant to the goal.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 5</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully observe the broom closet for any objects that might be relevant to the goal.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;area&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully observe the broom closet for any objects that might be relevant to the goal.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;.&#x27; in the current parser context, at line 1 col 86\n\njects that might be relevant to the goal.&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="6">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;area&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the surroundings<br/>Next actions: Pay close attention to the details in the broom closet to find any objects that can be picked up or interacted with.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 6</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Pay close attention to the details in the broom closet to find any objects that can be picked up or interacted with.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;surroundings&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Pay close attention to the details in the broom closet to find any objects that can be picked up or interacted with.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;.&#x27; in the current parser context, at line 1 col 116\n\nthat can be picked up or interacted with.&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="7">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;surroundings&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look closely<br/>Next actions: Focus on the immediate vicinity and any objects that might be present in the broom closet.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 7</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Focus on the immediate vicinity and any objects that might be present in the broom closet.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Focus on the immediate vicinity and any objects that might be present in the broom closet.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;.&#x27; in the current parser context, at line 1 col 90\n\nhat might be present in the broom closet.&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="8">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; carefully observe the broom closet<br/>Next actions: Try to identify any objects within the broom closet that could be picked up or moved to achieve the goal.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 8</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Try to identify any objects within the broom closet that could be picked up or moved to achieve the goal.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Try to identify any objects within the broom closet that could be picked up or moved to achieve the goal.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;.&#x27; in the current parser context, at line 1 col 105\n\ne picked up or moved to achieve the goal.&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="9">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; inspect the broom closet thoroughly<br/>Next actions: Take a detailed look at every part of the broom closet to find any objects that could be used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 9</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take a detailed look at every part of the broom closet to find any objects that could be used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;inspect&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take a detailed look at every part of the broom closet to find any objects that could be used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;take&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="10">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;inspect&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; scrutinize the broom closet<br/>Next actions: Pay close attention to every detail in the broom closet to find any objects that can be picked up and used to achieve the goal.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 10</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Pay close attention to every detail in the broom closet to find any objects that can be picked up and used to achieve the goal.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;scrutinize&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Pay close attention to every detail in the broom closet to find any objects that can be picked up and used to achieve the goal.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;.&#x27; in the current parser context, at line 1 col 127\n\ne picked up and used to achieve the goal.&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="11">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;scrutinize&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the broom closet closely<br/>Next actions: Look very carefully at the broom closet to identify any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 11</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look very carefully at the broom closet to identify any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;examine&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look very carefully at the broom closet to identify any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;look&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="12">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look at everything in the broom closet<br/>Next actions: Take a detailed look at all the items and features in the broom closet to find any objects that can be moved or used to achieve the goal.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 12</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take a detailed look at all the items and features in the broom closet to find any objects that can be moved or used to achieve the goal.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take a detailed look at all the items and features in the broom closet to find any objects that can be moved or used to achieve the goal.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>1</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;lark_exception&#x27;, &#x27;arg&#x27;: &quot;No terminal matches &#x27;.&#x27; in the current parser context, at line 1 col 137\n\ncan be moved or used to achieve the goal.&lt;|end_of_text|&gt;\n                                        ^\nExpected one of: \n\t* WORD\n\t* WS\n&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="13">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the contents of the broom closet<br/>Next actions: Carefully inspect the broom closet to identify any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 13</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully inspect the broom closet to identify any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;examine&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully inspect the broom closet to identify any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="14">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects in the broom closet<br/>Next actions: Search the broom closet for any items that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 14</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the broom closet for any items that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the broom closet for any items that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;search&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="15">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the broom closet<br/>Next actions: Thoroughly search the broom closet for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 15</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Thoroughly search the broom closet for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;resolution&#x27;, &#x27;fail_type&#x27;: &#x27;domain_type_discrepancy&#x27;, &#x27;arg&#x27;: {&#x27;failed_action_type&#x27;: &#x27;examine&#x27;, &#x27;failed_parameter&#x27;: &#x27;broomcloset&#x27;}, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: True, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_facts&#x27;: [], &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Thoroughly search the broom closet for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;thoroughly&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;thoroughly&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="16">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>Broomcloset is not an entity. (this should not occur.)</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look around the room<br/>Next actions: Examine the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 16</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Examine the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Examine the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;examine&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="17">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; inspect the room<br/>Next actions: Carefully examine the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 17</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully examine the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully examine the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="18">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the surroundings<br/>Next actions: Look closely at the area around you for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 18</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look closely at the area around you for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;surroundings&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look closely at the area around you for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;look&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="19">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;surroundings&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects<br/>Next actions: Search the immediate vicinity for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 19</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the immediate vicinity for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the immediate vicinity for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;search&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="20">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search for items<br/>Next actions: Carefully look around for any items that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 20</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully look around for any items that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;for items&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully look around for any items that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="21">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;for items&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the area<br/>Next actions: Thoroughly search the area for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 21</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Thoroughly search the area for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;area&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Thoroughly search the area for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;thoroughly&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;thoroughly&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="22">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;area&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for objects in the room<br/>Next actions: Carefully examine the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 22</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully examine the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully examine the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="23">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; inspect the room for items<br/>Next actions: Thoroughly inspect the room to identify any items that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 23</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Thoroughly inspect the room to identify any items that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;inspect&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Thoroughly inspect the room to identify any items that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;thoroughly&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;thoroughly&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="24">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;inspect&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; carefully examine the room<br/>Next actions: Look closely at every part of the room to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 24</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look closely at every part of the room to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look closely at every part of the room to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;look&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="25">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; thoroughly search the room<br/>Next actions: Search the room methodically to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 25</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room methodically to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;thoroughly&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room methodically to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;search&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="26">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;thoroughly&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room carefully<br/>Next actions: Search the room with attention to detail to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 26</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room with attention to detail to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room with attention to detail to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;search&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="27">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room carefully&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room methodically<br/>Next actions: Search the room step by step, examining each area thoroughly to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 27</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room step by step&#x27;, &#x27;examining each area thoroughly to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room methodically&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room step by step&#x27;, &#x27;examining each area thoroughly to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>4</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;search&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="28">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room methodically&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room systematically<br/>Next actions: Search the room in an organized manner, checking every corner and potential hiding spot to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 28</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room in an organized manner&#x27;, &#x27;checking every corner and potential hiding spot to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room systematically&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room in an organized manner&#x27;, &#x27;checking every corner and potential hiding spot to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>4</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;search&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="29">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room systematically&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room carefully and thoroughly<br/>Next actions: Take your time to look at every part of the room, paying close attention to detail, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 29</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to look at every part of the room&#x27;, &#x27;paying close attention to detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to look at every part of the room&#x27;, &#x27;paying close attention to detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;take&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="30">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;search&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the room closely<br/>Next actions: Look very closely at the room, checking every inch to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 30</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look very closely at the room&#x27;, &#x27;checking every inch to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room closely&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look very closely at the room&#x27;, &#x27;checking every inch to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>4</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;look&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="31">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room closely&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; inspect the room carefully<br/>Next actions: Inspect the room with great attention to detail, looking for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 31</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Inspect the room with great attention to detail&#x27;, &#x27;looking for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Inspect the room with great attention to detail&#x27;, &#x27;looking for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>4</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;inspect&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;inspect&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="32">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room carefully&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; thoroughly inspect the room<br/>Next actions: Inspect the room completely, making sure to look at every part and corner, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 32</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Inspect the room completely&#x27;, &#x27;making sure to look at every part and corner&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;thoroughly&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Inspect the room completely&#x27;, &#x27;making sure to look at every part and corner&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what &#x27;room completely&#x27; means.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room completely&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="33">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;thoroughly&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; carefully examine the room<br/>Next actions: Examine the room with great care, looking at every detail and potential hiding spot for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 33</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Examine the room with great care&#x27;, &#x27;looking at every detail and potential hiding spot for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Examine the room with great care&#x27;, &#x27;looking at every detail and potential hiding spot for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>4</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;examine&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="34">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; inspect the room with attention to detail<br/>Next actions: Look at the room very closely, paying attention to every detail, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 34</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look at the room very closely&#x27;, &#x27;paying attention to every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;inspect&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look at the room very closely&#x27;, &#x27;paying attention to every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;look&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="35">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;inspect&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the room closely<br/>Next actions: Look at the room very carefully, checking every part and corner, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 35</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look at the room very carefully&#x27;, &#x27;checking every part and corner&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room closely&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look at the room very carefully&#x27;, &#x27;checking every part and corner&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;look&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="36">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room closely&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look at the room very carefully<br/>Next actions: Take your time to examine the room, focusing on every detail, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 36</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to examine the room&#x27;, &#x27;focusing on every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to examine the room&#x27;, &#x27;focusing on every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;take&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="37">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; scrutinize the room<br/>Next actions: Examine the room closely, paying close attention to every detail, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 37</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Examine the room closely&#x27;, &#x27;paying close attention to every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;scrutinize&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Examine the room closely&#x27;, &#x27;paying close attention to every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what &#x27;room closely&#x27; means.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room closely&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="38">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;scrutinize&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the room in detail<br/>Next actions: Look at the room very carefully, checking every inch and corner, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 38</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look at the room very carefully&#x27;, &#x27;checking every inch and corner&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;examine&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Look at the room very carefully&#x27;, &#x27;checking every inch and corner&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;look&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="39">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look around the room slowly<br/>Next actions: Take your time to look at every part of the room, examining it slowly and carefully, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 39</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to look at every part of the room&#x27;, &#x27;examining it slowly and carefully&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to look at every part of the room&#x27;, &#x27;examining it slowly and carefully&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;take&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="40">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; carefully scan the room<br/>Next actions: Slowly and methodically scan the room, paying close attention to every detail, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 40</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Slowly and methodically scan the room&#x27;, &#x27;paying close attention to every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Slowly and methodically scan the room&#x27;, &#x27;paying close attention to every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;slowly&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;slowly&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="41">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; thoroughly scan the room<br/>Next actions: Take your time to thoroughly examine the room, checking every corner and potential hiding spot, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 41</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to thoroughly examine the room&#x27;, &#x27;checking every corner and potential hiding spot&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;thoroughly&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to thoroughly examine the room&#x27;, &#x27;checking every corner and potential hiding spot&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;take&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="42">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;thoroughly&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the room methodically<br/>Next actions: Search the room step by step, making sure to look at every part and detail, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 42</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room step by step&#x27;, &#x27;making sure to look at every part and detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room methodically&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room step by step&#x27;, &#x27;making sure to look at every part and detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;search&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="43">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room methodically&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room systematically<br/>Next actions: Search the room in an organized manner, checking each area and corner systematically, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 43</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room in an organized manner&#x27;, &#x27;checking each area and corner systematically&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_repr_str&#x27;, &#x27;arg&#x27;: &#x27;room systematically&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Search the room in an organized manner&#x27;, &#x27;checking each area and corner systematically&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;search&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="44">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what &#x27;room systematically&#x27; means.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room carefully and thoroughly<br/>Next actions: Take your time to look at every part of the room, paying close attention to detail, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 44</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to look at every part of the room&#x27;, &#x27;paying close attention to detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take your time to look at every part of the room&#x27;, &#x27;paying close attention to detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;take&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="45">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;search&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look for items in the room<br/>Next actions: Carefully look around the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 45</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully look around the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully look around the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="46">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; inspect the room for objects<br/>Next actions: Thoroughly inspect the room to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 46</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Thoroughly inspect the room to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;inspect&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Thoroughly inspect the room to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;thoroughly&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;thoroughly&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="47">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;inspect&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; examine the room for items<br/>Next actions: Carefully examine the room to identify any items that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 47</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully examine the room to identify any items that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;examine&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully examine the room to identify any items that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="48">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know what you mean.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; look around the room for objects<br/>Next actions: Take a moment to look around the room, paying attention to every detail, to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 48</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take a moment to look around the room&#x27;, &#x27;paying attention to every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;look&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Take a moment to look around the room&#x27;, &#x27;paying attention to every detail&#x27;, &#x27;to find any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>5</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know what you mean.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;malformed_command&#x27;, &#x27;arg&#x27;: &quot;{&#x27;type&#x27;: &#x27;unknown&#x27;, &#x27;arg1&#x27;: &#x27;take&#x27;}&quot;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+</div><div class="game-round" data-round="49">
+    <div speaker="GM (Game Master) to Player 1 (Adventurer)" class="msg gm-a" style="">
+        <p>I don&#x27;t know how to interpret this &#x27;look&#x27; action.</p>
+    </div>
+
+    <div speaker="Player 1 (Adventurer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>&gt; search the room for items<br/>Next actions: Carefully search the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer, the book on the side table, and the plate on the table.&lt;|end_of_text|&gt;</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>Round: 49</p>
+    </div>
+
+    <div speaker="Game Master: turn_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully search the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: action_fail" class="msg gm-gm" style="">
+        <p>{&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;search&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}</p>
+    </div>
+
+    <div speaker="Game Master: goal_status" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;turn_goal_score&#x27;: 0}</p>
+    </div>
+
+    <div speaker="Game Master: current_plan" class="msg gm-gm" style="">
+        <p>[&#x27;Carefully search the room for any objects that can be picked up and used to achieve the goal of putting the banana in the freezer&#x27;, &#x27;the book on the side table&#x27;, &#x27;and the plate on the table.&lt;|end_of_text|&gt;&#x27;]</p>
+    </div>
+
+    <div speaker="Game Master: plan_length" class="msg gm-gm" style="">
+        <p>3</p>
+    </div>
+
+    <div speaker="Game Master: plan_results" class="msg gm-gm" style="">
+        <p>[[[], &quot;I don&#x27;t know how to interpret this &#x27;carefully&#x27; action.&quot;, {&#x27;phase&#x27;: &#x27;parsing&#x27;, &#x27;fail_type&#x27;: &#x27;undefined_action_verb&#x27;, &#x27;arg&#x27;: &#x27;carefully&#x27;, &#x27;exploration_info&#x27;: {&#x27;action_epistemic&#x27;: False, &#x27;action_pragmatic&#x27;: False, &#x27;effective_epistemic_gain_amount&#x27;: 0, &#x27;known_entities&#x27;: [[&#x27;at&#x27;, &#x27;player1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;broom1&#x27;, &#x27;broomcloset1&#x27;], [&#x27;at&#x27;, &#x27;mop1&#x27;, &#x27;broomcloset1&#x27;]], &#x27;known_entities_ratio&#x27;: 0.10344827586206896, &#x27;visited_rooms&#x27;: [&#x27;broomcloset1&#x27;], &#x27;visited_rooms_ratio&#x27;: 0.16666666666666666, &#x27;known_goal_entities&#x27;: [], &#x27;known_goal_entities_ratio&#x27;: 0.0}}]]</p>
+    </div>
+
+    <div speaker="Game Master: plan_command_success_ratio" class="msg gm-gm" style="">
+        <p>0.0</p>
+    </div>
+
+    <div speaker="Game Master: plan_followed" class="msg gm-gm" style="">
+        <p>0</p>
+    </div>
+
+    <div speaker="Game Master: turn_limit_reached" class="msg gm-gm" style="">
+        <p>Turn limit 50 reached, end episode.</p>
+    </div>
+
+    <div speaker="Game Master: game_result" class="msg gm-gm" style="">
+        <p>{&#x27;goal_states_achieved&#x27;: [], &#x27;game_successfully_finished&#x27;: False}</p>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

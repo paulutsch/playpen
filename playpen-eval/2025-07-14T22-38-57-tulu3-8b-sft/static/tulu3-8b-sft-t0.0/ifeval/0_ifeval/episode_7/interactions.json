@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 54,
+    "results_folder": "tulu3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-SFT",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T23:04:32.117528",
+        "action": {
+          "type": "send message",
+          "content": "Take the text below as a starting point, and make it a complete article: \"You may have to meet with a helper to work out a parenting plan. The first would be to estimate how many time you have everyday for parenting, and is that enough....\"\nAvoid using the following keywords: sleep, cook, feed\nMention the keyword 'schedule' for more than 5 times.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:04:41.134364",
+        "action": {
+          "type": "get message",
+          "content": "You may have to meet with a helper to work out a parenting plan. The first would be to estimate how many hours you have everyday for parenting, and is that enough. \n\nThe next step is to create a schedule. This schedule should include all the activities that you and your helper will be doing with your child. This schedule should be flexible and can be changed as needed. \n\nThe schedule should also include time for play, learning, and relaxation. It is important to make sure that your child has enough time for each of these activities. \n\nYou should also make sure that your schedule includes time for yourself. This is important so that you can take care of yourself and have enough energy to take care of your child. \n\nIt is also important to make sure that your schedule is realistic. This means that you should not try to do too much in one day. It is important to have a balance between work and play. \n\nIf you find that your schedule is too busy, you may need to make some changes. This may mean cutting back on some activities or finding a new helper. \n\nIt is important to remember that parenting is a team effort. You and your helper should work together to create a schedule that works for both of you. \n\nBy working together, you can create a schedule that is realistic and flexible. This will help you to be a better parent and help your child to have a happy and healthy childhood.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:04:41.134457",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:forbidden_words": {
+              "forbidden_words": [
+                "sleep",
+                "cook",
+                "feed"
+              ]
+            },
+            "keywords:frequency": {
+              "relation": "at least",
+              "keyword": "schedule",
+              "frequency": 6
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:04:41.134680",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

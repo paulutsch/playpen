@@ -1,0 +1,517 @@
+{
+  "meta": {
+    "game_name": "matchit_ascii",
+    "experiment_name": "similar_grid_2",
+    "game_id": 9,
+    "results_folder": "tulu3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "MatchItPlayer",
+      "model_name": "tulu3-8b"
+    },
+    "Player 2": {
+      "game_role": "MatchItPlayer",
+      "model_name": "tulu3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:38:18.454584",
+        "action": {
+          "type": "send message",
+          "content": "You are participating in a collaborative guessing game.\nThe goal is to find out whether this grid and another picture only I can see, are the same.\nPlease describe your grid first. Then, I will provide my description and we can ask each other questions about the grids to figure out whether they are the same. Now start your short grid description with \"DESCRIPTION:\" followed by the description. Do not add anything else. This is your grid:\nX ▢ ▢ ▢ X\nX ▢ ▢ X ▢\nX X X ▢ ▢\nX ▢ ▢ X ▢\nX ▢ ▢ ▢ X",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:21.047442",
+        "action": {
+          "type": "get message",
+          "content": "DESCRIPTION: The grid is a 5x5 square with varying symbols. The symbols are 'X' and '▢'. The 'X' marks are positioned in a pattern that forms a cross or plus sign (+) diagonally across the grid, with 'X' at the top-left, bottom-right, and '▢' in the center of each side.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:21.047507",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T21:38:21.047573",
+        "action": {
+          "type": "send message",
+          "content": "You are participating in a collaborative guessing game.\nThe goal is to find out whether this grid and another picture only I can see, are the same.\nPlease describe your grid first. Then, I will provide my description and we can ask each other questions about the grids to figure out whether they are the same. Now start your short grid description with \"DESCRIPTION:\" followed by the description. Do not add anything else. This is your grid:\nX ▢ ▢ ▢ X\nX ▢ ▢ X ▢\nX X X X ▢\nX ▢ ▢ X ▢\nX ▢ ▢ X X",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:24.168910",
+        "action": {
+          "type": "get message",
+          "content": "DESCRIPTION: The grid consists of 5 rows and 5 columns. The symbols used are 'X' and '▢'. The 'X' marks are positioned at the following coordinates: (1,1), (1,5), (2,3), (3,2), (4,1), (4,5), (5,3), (5,4). The '▢' marks are positioned at the remaining cells.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:24.168971",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T21:38:24.169033",
+        "action": {
+          "type": "send message",
+          "content": "This is my DESCRIPTION: The grid is a 5x5 square with varying symbols. The symbols are 'X' and '▢'. The 'X' marks are positioned in a pattern that forms a cross or plus sign (+) diagonally across the grid, with 'X' at the top-left, bottom-right, and '▢' in the center of each side.<|end_of_text|>\nNow ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:24.819292",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Are there any 'X' marks in the second row, third column?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:24.819347",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:38:24.819437",
+        "action": {
+          "type": "send message",
+          "content": "This is my DESCRIPTION: The grid consists of 5 rows and 5 columns. The symbols used are 'X' and '▢'. The 'X' marks are positioned at the following coordinates: (1,1), (1,5), (2,3), (3,2), (4,1), (4,5), (5,3), (5,4). The '▢' marks are positioned at the remaining cells.<|end_of_text|>\nQUESTION: Are there any 'X' marks in the second row, third column?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:25.569171",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No, there are no 'X' marks in the second row, third column.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:25.569226",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:38:25.569286",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:26.235282",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Are there any 'X' marks in the fourth row, second column?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:26.235337",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T21:38:26.235402",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No, there are no 'X' marks in the second row, third column.<|end_of_text|>\nQUESTION: Are there any 'X' marks in the fourth row, second column?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:27.006437",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes, there is an 'X' mark in the fourth row, second column.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:27.006494",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T21:38:27.006551",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:27.679285",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Are there any 'X' marks in the third row, fourth column?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:27.679339",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:38:27.679416",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: Yes, there is an 'X' mark in the fourth row, second column.<|end_of_text|>\nQUESTION: Are there any 'X' marks in the third row, fourth column?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:28.456837",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No, there are no 'X' marks in the third row, fourth column.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:28.456892",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:38:28.456953",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:29.152220",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Are there any 'X' marks in the first row, third column?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:29.152277",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T21:38:29.152342",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No, there are no 'X' marks in the third row, fourth column.<|end_of_text|>\nQUESTION: Are there any 'X' marks in the first row, third column?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:29.955753",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No, there are no 'X' marks in the first row, third column.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:29.955810",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T21:38:29.955872",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:30.667236",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Are there any 'X' marks in the fifth row, first column?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:30.667293",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:38:30.667371",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No, there are no 'X' marks in the first row, third column.<|end_of_text|>\nQUESTION: Are there any 'X' marks in the fifth row, first column?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:31.496000",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No, there are no 'X' marks in the fifth row, first column.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:31.496056",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:38:31.496114",
+        "action": {
+          "type": "send message",
+          "content": "Now ask a question in order to find out new aspects of my grid that may be different to your grid. Start with \"QUESTION:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:32.198787",
+        "action": {
+          "type": "get message",
+          "content": "QUESTION: Are there any 'X' marks in the third row, first column?<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:32.198844",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T21:38:32.198910",
+        "action": {
+          "type": "send message",
+          "content": "ANSWER: No, there are no 'X' marks in the fifth row, first column.<|end_of_text|>\nQUESTION: Are there any 'X' marks in the third row, first column?<|end_of_text|> Start your answer with \"ANSWER:\" and do not add anything else.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:33.010553",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: No, there are no 'X' marks in the third row, first column.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:33.010610",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T21:38:33.010669",
+        "action": {
+          "type": "send message",
+          "content": "Now come to a decision. What do you think: are your grid and the other grid described the same?  Write \"DECISION: same grid\" if you think they are the same grid or \"DECISION: different grids\" if you think they are different grids. Do not add anything else.\n",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:33.348261",
+        "action": {
+          "type": "get message",
+          "content": "DECISION: different grids<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:33.348316",
+        "action": {
+          "type": "valid format",
+          "content": "continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:33.348332",
+        "action": {
+          "type": "invalid content",
+          "content": "abort, wrong message content."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:38:33.348380",
+        "action": {
+          "type": "Game over",
+          "content": "Aborted"
+        }
+      }
+    ]
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 389,
+    "results_folder": "tulu3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-SFT",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T23:10:44.016000",
+        "action": {
+          "type": "send message",
+          "content": "Write a JSON schema for a beta cruiser that includes at least one placeholder represented by square brackets. The response must be in English and all lowercase letters.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:11:00.982073",
+        "action": {
+          "type": "get message",
+          "content": "```json\n{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"beta cruiser\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"the name of the beta cruiser\"\n    },\n    \"class\": {\n      \"type\": \"string\",\n      \"description\": \"the class of the beta cruiser\"\n    },\n    \"size\": {\n      \"type\": \"number\",\n      \"description\": \"the size of the beta cruiser in meters\"\n    },\n    \"speed\": {\n      \"type\": \"number\",\n      \"description\": \"the speed of the beta cruiser in km/h\"\n    },\n    \"weapons\": {\n      \"type\": \"array\",\n      \"description\": \"the weapons of the beta cruiser\",\n      \"items\": {\n        \"type\": \"string\",\n        \"description\": \"a weapon of the beta cruiser\"\n      }\n    },\n    \"engines\": {\n      \"type\": \"array\",\n      \"description\": \"the engines of the beta cruiser\",\n      \"items\": {\n        \"type\": \"string\",\n        \"description\": \"an engine of the beta cruiser\"\n      }\n    },\n    \"shielding\": {\n      \"type\": \"object\",\n      \"description\": \"the shielding of the beta cruiser\",\n      \"properties\": {\n        \"type\": {\n          \"type\": \"string\",\n          \"description\": \"the type of shielding\"\n        },\n        \"efficiency\": {\n          \"type\": \"number\",\n          \"description\": \"the efficiency of the shielding\"\n        }\n      },\n      \"required\": [\"type\", \"efficiency\"]\n    },\n    \"crew\": {\n      \"type\": \"number\",\n      \"description\": \"the number of crew members\"\n    },\n    \"cargo_capacity\": {\n      \"type\": \"number\",\n      \"description\": \"the cargo capacity in tons\"\n    },\n    \"launched\": {\n      \"type\": \"string\",\n      \"description\": \"the date the beta cruiser was launched\"\n    },\n    \"status\": {\n      \"type\": \"string\",\n      \"description\": \"the current status of the beta cruiser\",\n      \"enum\": [\"active\", \"retired\", \"under maintenance\"]\n    },\n    \"comments\": {\n      \"type\": \"string\",\n      \"description\": \"additional comments about the beta cruiser\"\n    }\n  },\n  \"required\": [\"name\", \"class\", \"size\", \"speed\", \"weapons\", \"engines\", \"shielding\", \"crew\", \"cargo_capacity\", \"launched\", \"status\"]\n}\n```<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:11:00.982137",
+        "action": {
+          "type": "target",
+          "content": {
+            "detectable_content:number_placeholders": {
+              "num_placeholders": 1
+            },
+            "change_case:english_lowercase": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:11:00.989087",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

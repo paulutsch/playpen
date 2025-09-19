@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 185,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T11:41:19.901703",
+        "action": {
+          "type": "send message",
+          "content": "Write a story from a perspective of a man. Include some conversation in the story. Avoid using the letter i more than twice.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:41:50.337200",
+        "action": {
+          "type": "get message",
+          "content": "The sun was setting over the small town, casting a warm orange glow over the streets. I stood outside the local diner, sipping on a cold beer. The smell of burgers and fries wafted out, making my stomach growl with hunger.\n\nI pushed open the door and stepped inside. The bell above the door rang out, and the patrons turned to look at me. I spotted a familiar face at the counter - my old friend, Tom.\n\n\"Hey, man,\" Tom said, nodding at me. \"What brings you here?\"\n\n\"Just grabbing a bite to eat,\" I replied, taking a seat next to him. \"How's life been treating you?\"\n\n\"Not bad,\" Tom said, taking a sip of his coffee. \"Just working hard and trying to make ends meet. You know how it is.\"\n\nThe waitress, a friendly woman named Sarah, came over to take our order. \"What can I get for you boys?\" she asked, her pen poised over her notepad.\n\n\"I'll have a burger and fries,\" I said, looking at Tom. \"What about you?\"\n\n\"Just a coffee, thanks,\" Tom replied.\n\nSarah nodded and headed off to put in our order. Tom turned to me and said, \"So, what's new with you? You've been gone for a while.\"\n\n\"Not much,\" I said, taking a sip of my beer. \"Just been traveling and seeing the world. You know how it is.\"\n\nTom nodded, his eyes lighting up with interest. \"Yeah, I do. I've always wanted to do that. Maybe someday I'll make it happen.\"\n\nSarah came back with our food, and we dug in, savoring the taste of the burgers and fries. As we ate, we talked about everything from sports to music to our favorite TV shows.\n\nAs the night wore on, the diner started to empty out, and Tom and I were left alone at the counter. \"Thanks for catching up with me, man,\" Tom said, clapping me on the back.\n\n\"No problem,\" I replied, smiling. \"It's always good to see you.\"\n\nI finished my beer and stood up, ready to head out into the night. Tom nodded at me, and I headed out into the cool evening air, feeling grateful for the chance to reconnect with an old friend.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:41:50.337268",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:letter_frequency": {
+              "let_relation": "less than",
+              "letter": "i",
+              "let_frequency": 3
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:41:50.337420",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 92,
+    "results_folder": "tulu3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-SFT",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T23:05:26.409143",
+        "action": {
+          "type": "send message",
+          "content": "Generate a forum thread about several people waiting to hear the latest local news. All sentences should be short. Refrain from using any commas. Use placeholders to represent different usernames. Use square brackets for placeholders, like [username1], [username2]. Please include at least 20 placeholders in the thread.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:05:36.686723",
+        "action": {
+          "type": "get message",
+          "content": "[username1] What's the latest news about the [city] weather?\n\n[username2] I heard it's going to be [temperature] degrees today.\n\n[username3] Does anyone know if the [local event] is still happening?\n\n[username4] I think it's been postponed until [date].\n\n[username5] Has anyone seen the new [restaurant] menu?\n\n[username6] I heard they have a special [dish] on the menu.\n\n[username7] What's the latest update on the [local sports team] game?\n\n[username8] I think they're playing against [opponent] this weekend.\n\n[username9] Does anyone know if the [local store] is open today?\n\n[username10] I saw a sign that said they're closed for [reason].\n\n[username11] What's the latest news about the [city] weather?\n\n[username12] I heard it's going to be [temperature] degrees today.\n\n[username13] Does anyone know if the [local event] is still happening?\n\n[username14] I think it's been postponed until [date].\n\n[username15] Has anyone seen the new [restaurant] menu?\n\n[username16] I heard they have a special [dish] on the menu.\n\n[username17] What's the latest update on the [local sports team] game?\n\n[username18] I think they're playing against [opponent] this weekend.\n\n[username19] Does anyone know if the [local store] is open today?\n\n[username20] I saw a sign that said they're closed for [reason].<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:05:36.686781",
+        "action": {
+          "type": "target",
+          "content": {
+            "detectable_content:number_placeholders": {
+              "num_placeholders": 20
+            },
+            "punctuation:no_comma": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:05:36.686850",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,827 @@
+{
+  "meta": {
+    "game_name": "adventuregame",
+    "experiment_name": "home_deliver_three_planning_easy_invlimittwo",
+    "game_id": 0,
+    "results_folder": "tulu3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Adventurer",
+      "model_name": "tulu3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:29:19.768910",
+        "action": {
+          "type": "send message",
+          "content": "You are playing a text adventure game. I will describe what you can perceive in the game. You write the single action you want to take in the game starting with >. Write your plan for your next actions on the line below your action, starting with \"Next actions:\".\nFor example:\n> open cupboard\nNext actions: take orange, eat orange\n\nYou can have up to two objects in your inventory at the same time.\n\nYour goal for this game is: Put the pillow on the table, the book on the table and the plate on the table.\n\nOnce you have achieved your goal, write \"> done\" to end the game.\n\nYou are in a bedroom now. There are a bed, a pillow and a wardrobe. The pillow is on the bed. The wardrobe is closed. There is a passage to a hallway here.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.343546",
+        "action": {
+          "type": "get message",
+          "content": "> take pillow\nNext actions: move to hallway, put pillow on table<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.343599",
+        "action": {
+          "type": "metadata",
+          "content": "Round: 0"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.343621",
+        "action": {
+          "type": "turn_plan",
+          "content": [
+            "move to hallway",
+            "put pillow on table<|end_of_text|>"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.348075",
+        "action": {
+          "type": "action_info",
+          "content": {
+            "action_type": "take",
+            "exploration_info": {
+              "action_epistemic": false,
+              "action_pragmatic": true,
+              "effective_epistemic_gain_amount": 0,
+              "known_entities": [
+                [
+                  "at",
+                  "bed1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "wardrobe1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "pillow1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "player1",
+                  "bedroom1"
+                ]
+              ],
+              "known_entities_ratio": 0.13793103448275862,
+              "visited_rooms": [
+                "bedroom1"
+              ],
+              "visited_rooms_ratio": 0.16666666666666666,
+              "known_goal_entities": [
+                [
+                  "at",
+                  "pillow1",
+                  "bedroom1"
+                ]
+              ],
+              "known_goal_entities_ratio": 0.25
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.348128",
+        "action": {
+          "type": "goal_status",
+          "content": {
+            "goal_states_achieved": [],
+            "turn_goal_score": 0
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.348145",
+        "action": {
+          "type": "current_plan",
+          "content": "['move to hallway', 'put pillow on table<|end_of_text|>']"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.348157",
+        "action": {
+          "type": "plan_length",
+          "content": 2
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.356794",
+        "action": {
+          "type": "plan_results",
+          "content": [
+            [
+              [],
+              "You are in a hallway now. There is a potted plant. The potted plant is on the floor. There are passages to a kitchen, a bedroom and a broom closet here.",
+              {
+                "action_type": "go",
+                "exploration_info": {
+                  "action_epistemic": true,
+                  "action_pragmatic": true,
+                  "effective_epistemic_gain_facts": [
+                    [
+                      "on",
+                      "pottedplant1",
+                      "hallway1floor1"
+                    ],
+                    [
+                      "exit",
+                      "hallway1",
+                      "kitchen1"
+                    ],
+                    [
+                      "at",
+                      "player1",
+                      "hallway1"
+                    ],
+                    [
+                      "exit",
+                      "hallway1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "pillow1",
+                      "hallway1"
+                    ],
+                    [
+                      "exit",
+                      "hallway1",
+                      "broomcloset1"
+                    ],
+                    [
+                      "at",
+                      "pottedplant1",
+                      "hallway1"
+                    ]
+                  ],
+                  "effective_epistemic_gain_amount": 7,
+                  "known_entities": [
+                    [
+                      "at",
+                      "player1",
+                      "hallway1"
+                    ],
+                    [
+                      "at",
+                      "pillow1",
+                      "hallway1"
+                    ],
+                    [
+                      "at",
+                      "bed1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "wardrobe1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "pottedplant1",
+                      "hallway1"
+                    ]
+                  ],
+                  "known_entities_ratio": 0.1724137931034483,
+                  "visited_rooms": [
+                    "hallway1",
+                    "bedroom1"
+                  ],
+                  "visited_rooms_ratio": 0.3333333333333333,
+                  "known_goal_entities": [
+                    [
+                      "at",
+                      "pillow1",
+                      "hallway1"
+                    ]
+                  ],
+                  "known_goal_entities_ratio": 0.25
+                }
+              }
+            ],
+            [
+              [],
+              "I don't know what you mean.",
+              {
+                "phase": "parsing",
+                "fail_type": "lark_exception",
+                "arg": "No terminal matches '<' in the current parser context, at line 1 col 20\n\nput pillow on table<|end_of_text|>\n                   ^\nExpected one of: \n\t* WORD\n\t* WS\n",
+                "exploration_info": {
+                  "action_epistemic": false,
+                  "action_pragmatic": false,
+                  "effective_epistemic_gain_amount": 0,
+                  "known_entities": [
+                    [
+                      "at",
+                      "player1",
+                      "hallway1"
+                    ],
+                    [
+                      "at",
+                      "pillow1",
+                      "hallway1"
+                    ],
+                    [
+                      "at",
+                      "bed1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "wardrobe1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "pottedplant1",
+                      "hallway1"
+                    ]
+                  ],
+                  "known_entities_ratio": 0.1724137931034483,
+                  "visited_rooms": [
+                    "hallway1",
+                    "bedroom1"
+                  ],
+                  "visited_rooms_ratio": 0.3333333333333333,
+                  "known_goal_entities": [
+                    [
+                      "at",
+                      "pillow1",
+                      "hallway1"
+                    ]
+                  ],
+                  "known_goal_entities_ratio": 0.25
+                }
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.356903",
+        "action": {
+          "type": "plan_command_success_ratio",
+          "content": 0.5
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:29:20.356948",
+        "action": {
+          "type": "send message",
+          "content": "You take the pillow. In your inventory you have a pillow.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.964174",
+        "action": {
+          "type": "get message",
+          "content": "> move to hallway\nNext actions: look for table, put pillow on table<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.964225",
+        "action": {
+          "type": "metadata",
+          "content": "Round: 1"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.964244",
+        "action": {
+          "type": "turn_plan",
+          "content": [
+            "look for table",
+            "put pillow on table<|end_of_text|>"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.969131",
+        "action": {
+          "type": "action_info",
+          "content": {
+            "action_type": "go",
+            "exploration_info": {
+              "action_epistemic": true,
+              "action_pragmatic": true,
+              "effective_epistemic_gain_facts": [],
+              "effective_epistemic_gain_amount": 0,
+              "known_entities": [
+                [
+                  "at",
+                  "player1",
+                  "hallway1"
+                ],
+                [
+                  "at",
+                  "pillow1",
+                  "hallway1"
+                ],
+                [
+                  "at",
+                  "bed1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "wardrobe1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "pottedplant1",
+                  "hallway1"
+                ]
+              ],
+              "known_entities_ratio": 0.1724137931034483,
+              "visited_rooms": [
+                "hallway1",
+                "bedroom1"
+              ],
+              "visited_rooms_ratio": 0.3333333333333333,
+              "known_goal_entities": [
+                [
+                  "at",
+                  "pillow1",
+                  "hallway1"
+                ]
+              ],
+              "known_goal_entities_ratio": 0.25
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.969188",
+        "action": {
+          "type": "goal_status",
+          "content": {
+            "goal_states_achieved": [],
+            "turn_goal_score": 0
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.969205",
+        "action": {
+          "type": "current_plan",
+          "content": "['look for table', 'put pillow on table<|end_of_text|>']"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.969217",
+        "action": {
+          "type": "plan_length",
+          "content": 2
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.971408",
+        "action": {
+          "type": "plan_results",
+          "content": [
+            [
+              [],
+              "I don't know how to interpret this 'look' action.",
+              {
+                "phase": "parsing",
+                "fail_type": "undefined_action_verb",
+                "arg": "look",
+                "exploration_info": {
+                  "action_epistemic": false,
+                  "action_pragmatic": false,
+                  "effective_epistemic_gain_amount": 0,
+                  "known_entities": [
+                    [
+                      "at",
+                      "player1",
+                      "hallway1"
+                    ],
+                    [
+                      "at",
+                      "pillow1",
+                      "hallway1"
+                    ],
+                    [
+                      "at",
+                      "bed1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "wardrobe1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "pottedplant1",
+                      "hallway1"
+                    ]
+                  ],
+                  "known_entities_ratio": 0.1724137931034483,
+                  "visited_rooms": [
+                    "hallway1",
+                    "bedroom1"
+                  ],
+                  "visited_rooms_ratio": 0.3333333333333333,
+                  "known_goal_entities": [
+                    [
+                      "at",
+                      "pillow1",
+                      "hallway1"
+                    ]
+                  ],
+                  "known_goal_entities_ratio": 0.25
+                }
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.971465",
+        "action": {
+          "type": "plan_command_success_ratio",
+          "content": 0.0
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:20.971479",
+        "action": {
+          "type": "plan_followed",
+          "content": 1
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:29:20.971520",
+        "action": {
+          "type": "send message",
+          "content": "You are in a hallway now. There is a potted plant. The potted plant is on the floor. There are passages to a kitchen, a bedroom and a broom closet here.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.686936",
+        "action": {
+          "type": "get message",
+          "content": "> look for table\nNext actions: examine each room for a table, starting with the kitchen<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.686987",
+        "action": {
+          "type": "metadata",
+          "content": "Round: 2"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.687007",
+        "action": {
+          "type": "turn_plan",
+          "content": [
+            "examine each room for a table",
+            "starting with the kitchen<|end_of_text|>"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.689053",
+        "action": {
+          "type": "action_fail",
+          "content": {
+            "phase": "parsing",
+            "fail_type": "undefined_action_verb",
+            "arg": "look",
+            "exploration_info": {
+              "action_epistemic": false,
+              "action_pragmatic": false,
+              "effective_epistemic_gain_amount": 0,
+              "known_entities": [
+                [
+                  "at",
+                  "player1",
+                  "hallway1"
+                ],
+                [
+                  "at",
+                  "pillow1",
+                  "hallway1"
+                ],
+                [
+                  "at",
+                  "bed1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "wardrobe1",
+                  "bedroom1"
+                ],
+                [
+                  "at",
+                  "pottedplant1",
+                  "hallway1"
+                ]
+              ],
+              "known_entities_ratio": 0.1724137931034483,
+              "visited_rooms": [
+                "hallway1",
+                "bedroom1"
+              ],
+              "visited_rooms_ratio": 0.3333333333333333,
+              "known_goal_entities": [
+                [
+                  "at",
+                  "pillow1",
+                  "hallway1"
+                ]
+              ],
+              "known_goal_entities_ratio": 0.25
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.689107",
+        "action": {
+          "type": "goal_status",
+          "content": {
+            "goal_states_achieved": [],
+            "turn_goal_score": 0
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.689125",
+        "action": {
+          "type": "current_plan",
+          "content": "['examine each room for a table', 'starting with the kitchen<|end_of_text|>']"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.689136",
+        "action": {
+          "type": "plan_length",
+          "content": 2
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.692740",
+        "action": {
+          "type": "plan_results",
+          "content": [
+            [
+              [],
+              "I don't know what you mean.",
+              {
+                "phase": "parsing",
+                "fail_type": "malformed_command",
+                "arg": "{'type': 'unknown', 'arg1': 'examine'}",
+                "exploration_info": {
+                  "action_epistemic": false,
+                  "action_pragmatic": false,
+                  "effective_epistemic_gain_amount": 0,
+                  "known_entities": [
+                    [
+                      "at",
+                      "player1",
+                      "hallway1"
+                    ],
+                    [
+                      "at",
+                      "pillow1",
+                      "hallway1"
+                    ],
+                    [
+                      "at",
+                      "bed1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "wardrobe1",
+                      "bedroom1"
+                    ],
+                    [
+                      "at",
+                      "pottedplant1",
+                      "hallway1"
+                    ]
+                  ],
+                  "known_entities_ratio": 0.1724137931034483,
+                  "visited_rooms": [
+                    "hallway1",
+                    "bedroom1"
+                  ],
+                  "visited_rooms_ratio": 0.3333333333333333,
+                  "known_goal_entities": [
+                    [
+                      "at",
+                      "pillow1",
+                      "hallway1"
+                    ]
+                  ],
+                  "known_goal_entities_ratio": 0.25
+                }
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.692798",
+        "action": {
+          "type": "plan_command_success_ratio",
+          "content": 0.0
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:21.692812",
+        "action": {
+          "type": "plan_followed",
+          "content": 1
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:29:21.692852",
+        "action": {
+          "type": "send message",
+          "content": "I don't know how to interpret this 'look' action.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:23.055510",
+        "action": {
+          "type": "get message",
+          "content": "Apologies for the confusion. Let's clarify the action:\n\n> examine kitchen\nNext actions: look inside the kitchen for a table, then decide the next step based on what you find.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:23.055561",
+        "action": {
+          "type": "metadata",
+          "content": "Round: 3"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:23.055583",
+        "action": {
+          "type": "invalid_format",
+          "content": "command_tag_missing"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:29:23.055597",
+        "action": {
+          "type": "game_result",
+          "content": {
+            "goal_states_achieved": [],
+            "game_successfully_finished": false
+          }
+        }
+      }
+    ]
+  ],
+  "adventure_info": {
+    "variant": "plan",
+    "max_turns": 50,
+    "optimal_turns": 10,
+    "goal_count": 3
+  }
+}

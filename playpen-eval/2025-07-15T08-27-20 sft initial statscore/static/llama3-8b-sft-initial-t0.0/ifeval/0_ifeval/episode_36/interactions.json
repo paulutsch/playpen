@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 332,
+    "results_folder": "llama3-8b-sft-initial-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft-initial",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b-success1/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-sft-initial"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T09:25:18.903944",
+        "action": {
+          "type": "send message",
+          "content": "Write a description for the Pixel 3A smartphone with at least 400 words. Wrap your entire response with double quotation marks.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:25:55.483307",
+        "action": {
+          "type": "get message",
+          "content": "\"Google Pixel 3A is a mid-range smartphone that was released in 2019. It is part of the Pixel series, which is known for its high-quality cameras and timely software updates. The Pixel 3A is designed to offer a more affordable option for users who want a Google smartphone without the high price tag of the flagship models.\n\nThe Pixel 3A has a 5.6-inch OLED display with a resolution of 1080 x 2220 pixels. The screen is protected by Gorilla Glass 3 and has a 18.5:9 aspect ratio. The phone is powered by a Qualcomm Snapdragon 670 processor, which provides a smooth performance for everyday tasks. It comes with 4GB of RAM and 64GB of internal storage, which can be expanded up to 512GB using a microSD card.\n\nOne of the standout features of the Pixel 3A is its camera. It has a single 12.2-megapixel rear camera with a f/1.8 aperture, which is capable of capturing high-quality photos in various lighting conditions. The camera also features optical and electronic image stabilization, which helps to reduce camera shake and blur. The front camera is a 8-megapixel sensor with a f/2.0 aperture, which is suitable for selfies and video calls.\n\nThe Pixel 3A runs on Android 9.0 (Pie) out of the box, but it is eligible for timely software updates, including the latest Android 13. The phone also supports Google Assistant, which can be accessed using the dedicated button on the side. The phone has a 3000mAh battery, which provides a full day of use with moderate usage. It also supports fast charging, which can charge the battery up to 50% in just 30 minutes.\n\nThe Pixel 3A has a compact design with a 68.2mm x 147.3mm x 7.9mm body and weighs 147 grams. It has a polycarbonate back and a glass front, which gives it a premium look and feel. The phone is available in three colors: Just Black, Clearly White, and Purple-ish.\n\nIn terms of connectivity, the Pixel 3A supports Wi-Fi 802.11 a/b/g/n/ac, Bluetooth 5.0, NFC, and USB-C. It also has a 3.5mm headphone jack, which is a rare feature in modern smartphones. The phone is IP53 rated, which means it is resistant to dust and water splashes.\n\nOverall, the Pixel 3A is a great option for users who want a high-quality camera, timely software updates, and a compact design without breaking the bank. It is available for purchase from various online retailers and carriers, and it is a great choice for anyone looking for a reliable and feature-packed smartphone.\"",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:25:55.483407",
+        "action": {
+          "type": "target",
+          "content": {
+            "length_constraints:number_words": {
+              "relation": "at least",
+              "num_words": 400
+            },
+            "startend:quotation": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:25:55.483654",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

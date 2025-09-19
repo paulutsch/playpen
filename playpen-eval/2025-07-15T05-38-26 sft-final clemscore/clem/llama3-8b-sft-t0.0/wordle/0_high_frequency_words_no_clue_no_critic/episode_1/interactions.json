@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "game_name": "wordle",
+    "experiment_name": "high_frequency_words_no_clue_no_critic",
+    "game_id": 8,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "WordGuesser",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:18:49.375570",
+        "action": {
+          "type": "send message",
+          "content": "You are a language wizard who likes to guess words by using the given rules.\n\nWelcome to Wordle! You have six attempts to guess the target word, a valid English word of five lowercase letters (a-z). Please use the tags \"explanation:\" and \"guess:\" to provide a concise explanation for each guess.\n\nFor instance, if your guess is \"apple\", your response should be\nexplanation: this is a common five-letter English word, and I am starting my guess with this word.\nguess: apple\n\nAfter each guess, your answer will be validated, and you will receive feedback indicating which letters are correct (green), which letters are correct but in the wrong position (yellow), and which letters are incorrect (red). This feedback can be useful in determining which letters to include or exclude in your next guess.\n\nFor example, the feedback for \"apple\" might be:\nguess_feedback: a<yellow> p<yellow> p<green> l<yellow> e<red>\n\nThe explanation should contain details about how the guess_feedback is used to arrive at a new guess.\n\nDo not generate any other text.\n\nLet's begin with your first guess.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:18:51.971671",
+        "action": {
+          "type": "get message",
+          "content": "explanation: I'm starting with a common five-letter English word that contains frequently used vowels and consonants to maximize the chances of getting at least one correct letter in the right position.\nguess: crane",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:18:51.971872",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 1\ntarget_word = staff\nguess = crane\nguess_feedback = c<red> r<red> a<green> n<red> e<red>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:18:51.971920",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: c<red> r<red> a<green> n<red> e<red>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:18:56.462914",
+        "action": {
+          "type": "get message",
+          "content": "explanation: The feedback indicates that the letter 'a' is in the correct position (second letter), while 'c', 'r', 'n', and 'e' are not in the word. I'll choose a new word that keeps 'a' in the second position and introduces new letters to find more correct ones.\nguess: slant",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:18:56.463350",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 2\ntarget_word = staff\nguess = slant\nguess_feedback = s<green> l<red> a<green> n<red> t<yellow>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:18:56.463399",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: s<green> l<red> a<green> n<red> t<yellow>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:19:02.426359",
+        "action": {
+          "type": "get message",
+          "content": "explanation: The feedback shows that's' and 'a' are in the correct positions (first and second letters), while 'l' and 'n' are not in the word. 't' is in the word but in the wrong position. I'll choose a new word that keeps's' and 'a' in the first and second positions, respectively, and introduces new letters to find the correct position of 't'.\nguess: staid",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:19:02.426863",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 3\ntarget_word = staff\nguess = staid\nguess_feedback = s<green> t<green> a<green> i<red> d<red>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:19:02.426917",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: s<green> t<green> a<green> i<red> d<red>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:19:08.269663",
+        "action": {
+          "type": "get message",
+          "content": "explanation: The feedback indicates that's', 't', and 'a' are in the correct positions (first, second, and third letters), while 'i' and 'd' are not in the word. I'll choose a new word that keeps's', 't', and 'a' in the first, second, and third positions, respectively, and introduces new letters to find the correct fourth and fifth letters.\nguess: start",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:19:08.270109",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 4\ntarget_word = staff\nguess = start\nguess_feedback = s<green> t<green> a<green> r<red> t<red>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:19:08.270158",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: s<green> t<green> a<green> r<red> t<red>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:19:14.004743",
+        "action": {
+          "type": "get message",
+          "content": "explanation: The feedback shows that's', 't', and 'a' are in the correct positions (first, second, and third letters), while 'r' and 't' are not in the word. I'll choose a new word that keeps's', 't', and 'a' in the first, second, and third positions, respectively, and introduces new letters to find the correct fourth and fifth letters.\nguess: state",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:19:14.005206",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 5\ntarget_word = staff\nguess = state\nguess_feedback = s<green> t<green> a<green> t<red> e<red>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T07:19:14.005255",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: s<green> t<green> a<green> t<red> e<red>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:19:19.758824",
+        "action": {
+          "type": "get message",
+          "content": "explanation: The feedback indicates that's', 't', and 'a' are in the correct positions (first, second, and third letters), while 't' and 'e' are not in the word. I'll choose a new word that keeps's', 't', and 'a' in the first, second, and third positions, respectively, and introduces new letters to find the correct fourth and fifth letters.\nguess: stamp",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:19:19.759288",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 6\ntarget_word = staff\nguess = stamp\nguess_feedback = s<green> t<green> a<green> m<red> p<red>"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T07:19:19.759305",
+        "action": {
+          "type": "max rounds played",
+          "content": "game_result = LOSS"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 6,
+  "Parsed Request Count": 6,
+  "Violated Request Count": 0,
+  "Guesser Guesses": [
+    "crane",
+    "slant",
+    "staid",
+    "start",
+    "state",
+    "stamp"
+  ],
+  "Guesser Feedbacks": [
+    "c<red> r<red> a<green> n<red> e<red>",
+    "s<green> l<red> a<green> n<red> t<yellow>",
+    "s<green> t<green> a<green> i<red> d<red>",
+    "s<green> t<green> a<green> r<red> t<red>",
+    "s<green> t<green> a<green> t<red> e<red>",
+    "s<green> t<green> a<green> m<red> p<red>"
+  ],
+  "Guesser Explanations": [
+    "I'm starting with a common five-letter English word that contains frequently used vowels and consonants to maximize the chances of getting at least one correct letter in the right position.",
+    "The feedback indicates that the letter 'a' is in the correct position (second letter), while 'c', 'r', 'n', and 'e' are not in the word. I'll choose a new word that keeps 'a' in the second position and introduces new letters to find more correct ones.",
+    "The feedback shows that's' and 'a' are in the correct positions (first and second letters), while 'l' and 'n' are not in the word. 't' is in the word but in the wrong position. I'll choose a new word that keeps's' and 'a' in the first and second positions, respectively, and introduces new letters to find the correct position of 't'.",
+    "The feedback indicates that's', 't', and 'a' are in the correct positions (first, second, and third letters), while 'i' and 'd' are not in the word. I'll choose a new word that keeps's', 't', and 'a' in the first, second, and third positions, respectively, and introduces new letters to find the correct fourth and fifth letters.",
+    "The feedback shows that's', 't', and 'a' are in the correct positions (first, second, and third letters), while 'r' and 't' are not in the word. I'll choose a new word that keeps's', 't', and 'a' in the first, second, and third positions, respectively, and introduces new letters to find the correct fourth and fifth letters.",
+    "The feedback indicates that's', 't', and 'a' are in the correct positions (first, second, and third letters), while 't' and 'e' are not in the word. I'll choose a new word that keeps's', 't', and 'a' in the first, second, and third positions, respectively, and introduces new letters to find the correct fourth and fifth letters."
+  ]
+}

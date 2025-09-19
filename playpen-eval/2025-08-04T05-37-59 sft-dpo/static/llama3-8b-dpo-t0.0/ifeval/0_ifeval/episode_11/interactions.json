@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 92,
+    "results_folder": "llama3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b/checkpoint-1860",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T08:47:19.391287",
+        "action": {
+          "type": "send message",
+          "content": "Generate a forum thread about several people waiting to hear the latest local news. All sentences should be short. Refrain from using any commas. Use placeholders to represent different usernames. Use square brackets for placeholders, like [username1], [username2]. Please include at least 20 placeholders in the thread.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T08:47:54.192540",
+        "action": {
+          "type": "get message",
+          "content": "**Thread Title:** Waiting for Local News Update\n\n**[username1]**: News is supposed to come out at 8 PM. I'm getting impatient.\n\n**[username2]**: I know right [username1]. I've been refreshing the website for 20 minutes.\n\n**[username3]**: Has anyone tried calling the news station? Maybe they can give us a hint.\n\n**[username4]**: I tried calling but they just said it's coming out at 8 PM like everyone else.\n\n**[username5]**: I'm starting to think it's going to be a boring update. Nothing ever happens in this town.\n\n**[username6]**: You never know [username5]. Maybe they'll announce a new business moving in.\n\n**[username7]**: I hope it's not just a bunch of traffic updates. I already know the roads are bad.\n\n**[username8]**: I'm more worried about the school budget. I heard they're cutting programs.\n\n**[username9]**: I heard the same thing [username8]. I'm getting worried about my kid's education.\n\n**[username10]**: Let's not jump to conclusions. We'll know soon enough.\n\n**[username11]**: 7:55 PM. Only 5 minutes to go.\n\n**[username12]**: I'm going to go make some popcorn. This is going to be a long wait.\n\n**[username13]**: Don't get too excited [username12]. It might be a letdown.\n\n**[username14]**: I'm just excited to see what's going on. It's been a while since we've had any news.\n\n**[username15]**: 8:00 PM. It's finally here.\n\n**[username16]**: Let's see what they have to say. I'm on the edge of my seat.\n\n**[username17]**: I'm not seeing anything on the website. Is it just me?\n\n**[username18]**: I'm seeing a countdown timer. It's going to start in 3...2...1...\n\n**[username19]**: Here it comes. The news is starting to play.\n\n**[username20]**: Oh wow. They're announcing a new development project. This is big.\n\n**[username21]**: I knew it [username20]. I told you it wouldn't be boring.\n\n**[username22]**: What's the project about? Let's hear more.\n\n**[username23]**: Apparently it's a new shopping center. It's going to be huge.\n\n**[username24]**: This is amazing news. I'm so excited.\n\n**[username25]**: Me too [username24]. This is going to change our town for the better.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T08:47:54.192603",
+        "action": {
+          "type": "target",
+          "content": {
+            "detectable_content:number_placeholders": {
+              "num_placeholders": 20
+            },
+            "punctuation:no_comma": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T08:47:54.192687",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

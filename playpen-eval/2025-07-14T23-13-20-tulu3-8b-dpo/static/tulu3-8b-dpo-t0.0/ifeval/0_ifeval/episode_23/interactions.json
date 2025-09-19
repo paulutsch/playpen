@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 185,
+    "results_folder": "tulu3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-DPO",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T00:02:39.922421",
+        "action": {
+          "type": "send message",
+          "content": "Write a story from a perspective of a man. Include some conversation in the story. Avoid using the letter i more than twice.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:02:58.685501",
+        "action": {
+          "type": "get message",
+          "content": "The sun was setting, casting a warm glow over the city. I stood on the balcony of my apartment, sipping a glass of whiskey. The hum of the city below was a comforting backdrop to my solitude. My thoughts wandered to old times, to memories that seemed to grow more vivid with each passing year.\n\n\"Hey, you're up late,\" a voice called from the doorway. It was my friend Mark, leaning against the frame with a grin. \"Join me for a drink?\"\n\n\"Always,\" I replied, gesturing to the glass in my hand. \"Just contemplating the day.\"\n\nMark stepped out, closing the door behind him. He took a seat beside me, his eyes following the path of the setting sun. \"Contemplating or drowning your sorrows?\"\n\n\"Neither,\" I said, though the truth was a bit more complex. \"Just thinking about the past. About people and choices.\"\n\nHe nodded, understanding. \"We all do that, don't we? Wonder about the roads not taken.\"\n\n\"Exactly,\" I agreed. \"Sometimes I wonder if I made the right ones.\"\n\nMark chuckled. \"You always were the philosophical type. But you know what they say, right? Hindsight is 20/20.\"\n\nI smiled at his attempt to lighten the mood. \"True. But it's the now that counts, isn't it?\"\n\n\"Absolutely,\" Mark said, raising his own glass. \"To now, then. May it be as good as the past and better than the future.\"\n\nWe clinked glasses, the sound crisp in the evening air. We sat in comfortable silence for a while, each lost in our own thoughts, yet together in the moment.\n\n\"Speaking of the future,\" Mark began, breaking the silence, \"I've been thinking about taking a trip. Maybe somewhere I've never been.\"\n\nI turned to him, intrigued. \"Where were you thinking?\"\n\nHe shrugged. \"Somewhere far. Maybe the mountains or the coast. Somewhere to clear my head.\"\n\n\"Sounds like a good plan,\" I said. \"Life's too short not to explore.\"\n\nMark nodded in agreement. \"Yeah, it is. And you know, you should come with me. It'd be good to get away together.\"\n\nThe idea appealed to me. The thought of escaping the routine, even if just for a while, was tempting. \"Let's do it,\" I said, the decision made in that instant.\n\n\"Great!\" Mark's face lit up. \"We'll plan it out. Somewhere peaceful, where we can just be.\"\n\nAs the night deepened, we continued to talk, our conversation ranging from memories to dreams. The city lights twinkled below, a reminder of the world that awaited us beyond the balcony. For now, though, we had each other and the promise of an adventure to come.\n\nThe night was young, and the future seemed full of possibilities.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:02:58.685589",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:letter_frequency": {
+              "let_relation": "less than",
+              "letter": "i",
+              "let_frequency": 3
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:02:58.685760",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,364 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "frequency_high",
+    "game_id": 2,
+    "results_folder": "llama3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.225676",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "girl",
+                "system",
+                "officer",
+                "date",
+                "street",
+                "office",
+                "honey",
+                "meeting",
+                "lawyer"
+              ],
+              "innocent": [
+                "security",
+                "evening",
+                "murder",
+                "trip",
+                "case",
+                "miss",
+                "sister"
+              ],
+              "opponent": [
+                "sex",
+                "stuff",
+                "future",
+                "christmas",
+                "store",
+                "charge",
+                "son",
+                "honor"
+              ],
+              "assassin": [
+                "army"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:21:41.225760",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: girl, system, officer, date, street, office, honey, meeting, lawyer.\nYour opponent's team words are: sex, stuff, future, christmas, store, charge, son, honor.\nDistractor words are: security, evening, murder, trip, case, miss, sister.\nThe kill words are: army.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.672939",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Uniform\nTARGETS: officer, lawyer, system",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.673239",
+        "action": {
+          "type": "clue",
+          "content": "uniform"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.673267",
+        "action": {
+          "type": "targets",
+          "content": [
+            "officer",
+            "lawyer",
+            "system"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.673291",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "officer",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.673311",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "lawyer",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.673328",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "system",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:21:41.673502",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 3 words from the following list that best relate or are most closely associated with the word 'uniform'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nofficer, date, christmas, army, system, son, murder, sister, street, lawyer, stuff, trip, security, case, honor, meeting, charge, miss, girl, office, evening, honey, store, future, sex",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.989257",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: officer, army, security",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.989354",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "officer",
+            "army",
+            "security"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.989386",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "officer",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.989409",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "officer",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.989431",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "army",
+            "assignment": "assassin"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.989450",
+        "action": {
+          "type": "turn end after",
+          "content": "army"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.989597",
+        "action": {
+          "type": "game end",
+          "content": "opponent has won through assassin"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:21:41.989628",
+        "action": {
+          "type": "game end",
+          "content": "opponent has won through assassin"
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "girl",
+        "system",
+        "date",
+        "street",
+        "office",
+        "honey",
+        "meeting",
+        "lawyer"
+      ],
+      "innocent": [
+        "security",
+        "evening",
+        "murder",
+        "trip",
+        "case",
+        "miss",
+        "sister"
+      ],
+      "opponent": [
+        "sex",
+        "stuff",
+        "future",
+        "christmas",
+        "store",
+        "charge",
+        "son",
+        "honor"
+      ],
+      "assassin": []
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "officer"
+        ],
+        "innocent": [],
+        "opponent": [],
+        "assassin": [
+          "army"
+        ]
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 2,
+  "Aborted": false,
+  "Lose": true,
+  "Game ended through assassin": true,
+  "Request Count": 2,
+  "Parsed Request Count": 2,
+  "Violated Request Count": 0,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

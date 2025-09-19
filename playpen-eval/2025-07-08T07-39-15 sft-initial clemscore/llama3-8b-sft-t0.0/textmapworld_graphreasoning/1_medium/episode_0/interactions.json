@@ -1,0 +1,721 @@
+{
+  "meta": {
+    "game_name": "textmapworld_graphreasoning",
+    "experiment_name": "medium",
+    "game_id": 13,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "2.5.1"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "PathGuesser",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "PathDescriber",
+      "model_name": "programmatic"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:25:14.880787",
+        "action": {
+          "type": "send message",
+          "content": "Please help me with the following task. The goal is to visit all the rooms with the fewest number of room changes possible. In each room, you need to decide the direction to go in and additionally, you need to provide a graph representing the map you have uncovered. Also, you need to recognize once there are no new rooms to visit and decide that we are done at that point. Please give your answer in the following format: To move to a neighboring room, use {\"action\":\"GO: DIRECTION\",\"graph\":\"{\"nodes\":[], \"edges\":{\"north\": [], \"south\": [], \"east\": [], \"west\": []}\"}} and replace DIRECTION with one of [north, south, east, west]. To stop the exploration, answer with \"DONE\" instead. Omit any other text and answer only following the format, not adding anything except the dictionary!\nHere is an example: \nYou are in the Living Room. Currently available directions: south, west. What is your next instruction?\n{\"action\":\"GO: west\", \"graph\": {\"nodes\":[\"Living Room\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}\nYou have made a step and entered a Library. Currently available directions: east, north. What is your next instruction?\n{\"action\":\"GO: north\", \"graph\":{\"nodes\":[\"Living Room\", \"Library\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[(\"Living Room\", \"Library\")]}}}\nYou have made a step and entered a Kitchen. Currently available directions: south, east. What is your next instruction?\n{\"action\":\"GO: east\", \"graph\":{\"nodes\": [\"Living Room\", \"Library\", \"Kitchen\"], \"edges\":{\"north\": [(\"Library\", \"Kitchen\")],\"south\": [],\"east\": [],\"west\": [(\"Living Room\", \"Library\")]}}}\n...\nYou have made a step and entered a Bedroom. Currently available directions: south, west. What is your next instruction?\n{\"action\": \"DONE\", \"graph\": {...}}\nLet us start.\nYou are in the Studio. Currently available directions: north. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:16.784282",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\":{\"nodes\":[\"Studio\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:16.784374",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\":{\"nodes\":[\"Studio\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:25:16.784408",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\":{\"nodes\":[\"Studio\"],\"edges\":{\"north\":[],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:16.785091",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Bedroom. Currently available directions: south, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:16.785125",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:16.785165",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Studio\", \"new\": \"Bedroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:16.785181",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Studio'], 'edges': {'north': [], 'south': [], 'east': [], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:25:16.785203",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Bedroom. Currently available directions: south, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:19.381173",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\")],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:19.381264",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\")],\"south\":[],\"east\":[],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:25:19.381298",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\")],\"south\":[],\"east\":[],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:19.381768",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Billiard room. Currently available directions: west, north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:19.381801",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:19.381842",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Bedroom\", \"new\": \"Billiard room\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:19.381859",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Studio', 'Bedroom'], 'edges': {'north': [('Studio', 'Bedroom')], 'south': [], 'east': [], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:25:19.381881",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Billiard room. Currently available directions: west, north, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:23.253529",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: north\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\")],\"east\":[],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:23.253625",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: north\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\")],\"east\":[],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:25:23.253659",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: north\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\")],\"east\":[],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:23.254128",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Mudroom. Currently available directions: west, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:23.254162",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:23.254201",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Billiard room\", \"new\": \"Mudroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:23.254221",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Studio', 'Bedroom', 'Billiard room'], 'edges': {'north': [('Studio', 'Bedroom'), ('Billiard room', 'Studio')], 'south': [('Bedroom', 'Studio')], 'east': [], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:25:23.254243",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Mudroom. Currently available directions: west, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:28.085695",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\")],\"east\":[],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:28.085795",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\")],\"east\":[],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:25:28.085832",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\")],\"east\":[],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:28.086305",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Cellar. Currently available directions: east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:28.086340",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:28.086380",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Mudroom\", \"new\": \"Cellar\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:28.086400",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Studio', 'Bedroom', 'Billiard room', 'Mudroom'], 'edges': {'north': [('Studio', 'Bedroom'), ('Billiard room', 'Studio')], 'south': [('Bedroom', 'Studio'), ('Mudroom', 'Billiard room')], 'east': [], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:25:28.086422",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Cellar. Currently available directions: east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:33.754670",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: east\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:33.754772",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: east\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:25:33.754811",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: east\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:33.755288",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Mudroom. Currently available directions: west, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:33.755322",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:33.755364",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Cellar\", \"new\": \"Mudroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:33.755384",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Studio', 'Bedroom', 'Billiard room', 'Mudroom', 'Cellar'], 'edges': {'north': [('Studio', 'Bedroom'), ('Billiard room', 'Studio')], 'south': [('Bedroom', 'Studio'), ('Mudroom', 'Billiard room')], 'east': [('Cellar', 'Mudroom')], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:25:33.755407",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Mudroom. Currently available directions: west, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:39.994566",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:39.994686",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:25:39.994730",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:39.995277",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Billiard room. Currently available directions: west, north, south. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:39.995312",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:39.995353",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Mudroom\", \"new\": \"Billiard room\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:39.995374",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Studio', 'Bedroom', 'Billiard room', 'Mudroom', 'Cellar'], 'edges': {'north': [('Studio', 'Bedroom'), ('Billiard room', 'Studio')], 'south': [('Bedroom', 'Studio'), ('Mudroom', 'Billiard room'), ('Mudroom', 'Cellar')], 'east': [('Cellar', 'Mudroom')], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:25:39.995398",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Billiard room. Currently available directions: west, north, south. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:46.251620",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: west\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:46.251720",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: west\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:25:46.251754",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: west\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:46.252254",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Bedroom. Currently available directions: south, east. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:46.252289",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:46.252330",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Billiard room\", \"new\": \"Bedroom\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:46.252351",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Studio', 'Bedroom', 'Billiard room', 'Mudroom', 'Cellar'], 'edges': {'north': [('Studio', 'Bedroom'), ('Billiard room', 'Studio')], 'south': [('Bedroom', 'Studio'), ('Mudroom', 'Billiard room'), ('Mudroom', 'Cellar')], 'east': [('Cellar', 'Mudroom')], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:25:46.252373",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Bedroom. Currently available directions: south, east. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:52.525541",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"GO: south\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:52.525676",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"GO: south\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:25:52.525712",
+        "action": {
+          "type": "send message",
+          "content": "{\"action\":\"GO: south\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:52.526324",
+        "action": {
+          "type": "get message",
+          "content": "You have made a step and entered Studio. Currently available directions: north. What is your next instruction?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:52.526359",
+        "action": {
+          "type": "Valid format",
+          "content": "Continue"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:52.526415",
+        "action": {
+          "type": "move",
+          "content": "{\"old\": \"Bedroom\", \"new\": \"Studio\"}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:52.526436",
+        "action": {
+          "type": "graph",
+          "content": "{'nodes': ['Studio', 'Bedroom', 'Billiard room', 'Mudroom', 'Cellar'], 'edges': {'north': [('Studio', 'Bedroom'), ('Billiard room', 'Studio')], 'south': [('Bedroom', 'Studio'), ('Mudroom', 'Billiard room'), ('Mudroom', 'Cellar')], 'east': [('Cellar', 'Mudroom')], 'west': []}}"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:25:52.526458",
+        "action": {
+          "type": "send message",
+          "content": "You have made a step and entered Studio. Currently available directions: north. What is your next instruction?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:58.685878",
+        "action": {
+          "type": "get message",
+          "content": "{\"action\":\"DONE\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:58.685971",
+        "action": {
+          "type": "parse",
+          "content": "{\"action\":\"DONE\", \"graph\":{\"nodes\":[\"Studio\", \"Bedroom\", \"Billiard room\", \"Mudroom\", \"Cellar\"],\"edges\":{\"north\":[(\"Studio\", \"Bedroom\"), (\"Billiard room\", \"Studio\")],\"south\":[(\"Bedroom\", \"Studio\"), (\"Mudroom\", \"Billiard room\"), (\"Mudroom\", \"Cellar\")],\"east\":[(\"Cellar\", \"Mudroom\")],\"west\":[]}}}"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:25:58.685996",
+        "action": {
+          "type": "stop",
+          "content": "The guesser decided to stop the game"
+        }
+      }
+    ]
+  ]
+}

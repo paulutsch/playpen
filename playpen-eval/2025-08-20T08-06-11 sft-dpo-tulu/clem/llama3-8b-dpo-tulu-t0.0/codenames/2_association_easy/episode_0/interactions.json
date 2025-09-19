@@ -1,0 +1,960 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "association_easy",
+    "game_id": 0,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-dpo-tulu"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:04.740188",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "attic",
+                "mule",
+                "beam",
+                "cheetah",
+                "guppy",
+                "foot",
+                "carp",
+                "roof",
+                "kilometer"
+              ],
+              "innocent": [
+                "assault",
+                "grenade",
+                "solar",
+                "coal",
+                "spear",
+                "robbery",
+                "battery"
+              ],
+              "opponent": [
+                "france",
+                "organ",
+                "nightstand",
+                "apricot",
+                "trumpet",
+                "australia",
+                "couch",
+                "lemon"
+              ],
+              "assassin": [
+                "softball"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:23:04.740267",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: attic, mule, beam, cheetah, guppy, foot, carp, roof, kilometer.\nYour opponent's team words are: france, organ, nightstand, apricot, trumpet, australia, couch, lemon.\nDistractor words are: assault, grenade, solar, coal, spear, robbery, battery.\nThe kill words are: softball.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:05.956147",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: structure\nTARGETS: attic, beam, roof, foot, carp",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:05.956515",
+        "action": {
+          "type": "clue",
+          "content": "structure"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:05.956565",
+        "action": {
+          "type": "targets",
+          "content": [
+            "attic",
+            "beam",
+            "roof",
+            "foot",
+            "carp"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:05.956591",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "attic",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:05.956611",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "beam",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:05.956629",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "roof",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:05.956646",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "foot",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:05.956665",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "carp",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:23:05.956896",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 5 words from the following list that best relate or are most closely associated with the word 'structure'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nattic, grenade, apricot, carp, roof, beam, mule, battery, australia, foot, spear, assault, kilometer, coal, robbery, organ, france, lemon, trumpet, guppy, couch, nightstand, solar, cheetah, softball",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.885888",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: beam, roof, carp, solar, battery",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886020",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "beam",
+            "roof",
+            "carp",
+            "solar",
+            "battery"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886063",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "beam",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886086",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "beam",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886107",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "roof",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886125",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "roof",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886144",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "carp",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886161",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "carp",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886180",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "solar",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886198",
+        "action": {
+          "type": "turn end after",
+          "content": "solar"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886436",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "apricot",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:06.886476",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "attic",
+                "mule",
+                "cheetah",
+                "guppy",
+                "foot",
+                "kilometer"
+              ],
+              "innocent": [
+                "assault",
+                "grenade",
+                "coal",
+                "spear",
+                "robbery",
+                "battery"
+              ],
+              "opponent": [
+                "france",
+                "organ",
+                "nightstand",
+                "trumpet",
+                "australia",
+                "couch",
+                "lemon"
+              ],
+              "assassin": [
+                "softball"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "beam",
+                  "roof",
+                  "carp"
+                ],
+                "innocent": [
+                  "solar"
+                ],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "apricot"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:23:06.886547",
+        "action": {
+          "type": "send message",
+          "content": "The words beam, roof, carp were guessed correctly. The word solar was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: attic, mule, cheetah, guppy, foot, kilometer.\nRemaining words for your opponent are: france, organ, nightstand, apricot, trumpet, australia, couch, lemon.\nRemaining distractor words are: assault, grenade, coal, spear, robbery, battery.\nRemaining kill words are: softball.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:08.145913",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: animal\nTARGETS: mule, cheetah, guppy",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:08.146218",
+        "action": {
+          "type": "clue",
+          "content": "animal"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:08.146258",
+        "action": {
+          "type": "targets",
+          "content": [
+            "mule",
+            "cheetah",
+            "guppy"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:08.146283",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "mule",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:08.146303",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "cheetah",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:08.146321",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "guppy",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:23:08.146574",
+        "action": {
+          "type": "send message",
+          "content": "The words beam, roof, carp were guessed correctly. The word solar was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'animal'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nattic, grenade, mule, battery, australia, foot, spear, assault, kilometer, coal, robbery, organ, france, lemon, trumpet, guppy, couch, nightstand, cheetah, softball",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097129",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: mule, guppy, cheetah",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097257",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "mule",
+            "guppy",
+            "cheetah"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097298",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "mule",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097322",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "mule",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097343",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "guppy",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097361",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "guppy",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097379",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "cheetah",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097396",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "cheetah",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097646",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "organ",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:09.097684",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "attic",
+                "foot",
+                "kilometer"
+              ],
+              "innocent": [
+                "assault",
+                "grenade",
+                "coal",
+                "spear",
+                "robbery",
+                "battery"
+              ],
+              "opponent": [
+                "france",
+                "nightstand",
+                "trumpet",
+                "australia",
+                "couch",
+                "lemon"
+              ],
+              "assassin": [
+                "softball"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "beam",
+                  "roof",
+                  "carp",
+                  "mule",
+                  "guppy",
+                  "cheetah"
+                ],
+                "innocent": [
+                  "solar"
+                ],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "apricot",
+                  "organ"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:23:09.097755",
+        "action": {
+          "type": "send message",
+          "content": "The words mule, guppy, cheetah were guessed correctly. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: attic, foot, kilometer.\nRemaining words for your opponent are: france, organ, nightstand, trumpet, australia, couch, lemon.\nRemaining distractor words are: assault, grenade, coal, spear, robbery, battery.\nRemaining kill words are: softball.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.196725",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: elevation\nTARGETS: attic, foot, kilometer",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.196963",
+        "action": {
+          "type": "clue",
+          "content": "elevation"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.196995",
+        "action": {
+          "type": "targets",
+          "content": [
+            "attic",
+            "foot",
+            "kilometer"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.197019",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "attic",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.197039",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "foot",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.197056",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "kilometer",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:23:10.197288",
+        "action": {
+          "type": "send message",
+          "content": "The words mule, guppy, cheetah were guessed correctly. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'elevation'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nattic, grenade, battery, australia, foot, spear, assault, kilometer, coal, robbery, france, lemon, trumpet, couch, nightstand, softball",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.984788",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: kilometer, foot, attic",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.984912",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "kilometer",
+            "foot",
+            "attic"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.984953",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "kilometer",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.984977",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "kilometer",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.984998",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "foot",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.985015",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "foot",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.985033",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "attic",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.985050",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "attic",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.985265",
+        "action": {
+          "type": "game end",
+          "content": "team has won"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:10.985300",
+        "action": {
+          "type": "game end",
+          "content": "team has won"
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [],
+      "innocent": [
+        "assault",
+        "grenade",
+        "coal",
+        "spear",
+        "robbery",
+        "battery"
+      ],
+      "opponent": [
+        "france",
+        "nightstand",
+        "trumpet",
+        "australia",
+        "couch",
+        "lemon"
+      ],
+      "assassin": [
+        "softball"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "beam",
+          "roof",
+          "carp",
+          "mule",
+          "guppy",
+          "cheetah",
+          "kilometer",
+          "foot",
+          "attic"
+        ],
+        "innocent": [
+          "solar"
+        ],
+        "opponent": [],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "apricot",
+          "organ"
+        ],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 4,
+  "Aborted": false,
+  "Lose": false,
+  "Game ended through assassin": false,
+  "Request Count": 6,
+  "Parsed Request Count": 6,
+  "Violated Request Count": 0,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

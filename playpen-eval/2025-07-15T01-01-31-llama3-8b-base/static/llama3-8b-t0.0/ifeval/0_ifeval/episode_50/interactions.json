@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 504,
+    "results_folder": "llama3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T02:00:28.267175",
+        "action": {
+          "type": "send message",
+          "content": "Write an XML document describing the release of the latest Google Pixel phone. The document must contain at least three placeholders, such as [price], and you must not use commas in your response.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T02:00:37.155069",
+        "action": {
+          "type": "get message",
+          "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<phone-release>\n  <model>Google Pixel 8</model>\n  <release-date>September 2024</release-date>\n  <features>\n    <camera>\n      <resolution>50MP</resolution>\n      <features>\n        <night-sight>Yes</night-sight>\n        <portrait-mode>Yes</portrait-mode>\n      </features>\n    </camera>\n    <battery>\n      <capacity>4500mAh</capacity>\n      <fast-charging>Yes</fast-charging>\n    </battery>\n  </features>\n  <specifications>\n    <processor>Qualcomm Snapdragon 8 Gen 2</processor>\n    <ram>12GB</ram>\n    <storage>\n      <options>128GB 256GB 512GB</options>\n    </storage>\n  </specifications>\n  <pricing>\n    <base-price>[price]</base-price>\n    <storage-upgrades>\n      <upgrade>128GB to 256GB: [price]</upgrade>\n      <upgrade>256GB to 512GB: [price]</upgrade>\n    </storage-upgrades>\n  </pricing>\n  <availability>\n    <regions>US UK Australia Canada</regions>\n    <release-method>Online and in-store</release-method>\n  </availability>\n</phone-release>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T02:00:37.155129",
+        "action": {
+          "type": "target",
+          "content": {
+            "detectable_content:number_placeholders": {
+              "num_placeholders": 3
+            },
+            "punctuation:no_comma": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T02:00:37.155202",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 185,
+    "results_folder": "llama3-8b-sft-initial-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft-initial",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b-success1/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-sft-initial"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T09:20:23.105605",
+        "action": {
+          "type": "send message",
+          "content": "Write a story from a perspective of a man. Include some conversation in the story. Avoid using the letter i more than twice.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:20:35.337750",
+        "action": {
+          "type": "get message",
+          "content": "I sat on the couch, staring at the wall. My wife, Sarah, walked into the room. \"Hey, what's wrong?\" she asked. I shook my head. \"Nothing,\" I said. She sat down beside me. \"You've been acting strange all day,\" she said. I shrugged. \"I don't know,\" I said. She put her hand on my arm. \"Maybe you should talk to someone,\" she said. I looked at her. \"Who?\" I asked. She shrugged. \"I don't know,\" she said. \"Maybe a therapist?\" I shook my head. \"I don't think that's necessary,\" I said. She nodded. \"Okay,\" she said. \"But if you need to talk, I'm here.\" I nodded. \"Thanks,\" I said. She leaned over and kissed me. \"I love you,\" she said. I smiled. \"I love you too,\" I said.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:20:35.337808",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:letter_frequency": {
+              "let_relation": "less than",
+              "letter": "i",
+              "let_frequency": 3
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:20:35.337908",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

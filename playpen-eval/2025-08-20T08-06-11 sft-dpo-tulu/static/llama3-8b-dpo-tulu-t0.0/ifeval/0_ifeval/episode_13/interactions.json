@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 112,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T11:37:09.609011",
+        "action": {
+          "type": "send message",
+          "content": "What's a good way to ask Sonia out? Please reply with exactly 4 paragraphs and separate each paragraph with two new lines. Put double quotation marks around your entire response. The very first paragraph must start with the word \"weekend\".",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:37:27.182743",
+        "action": {
+          "type": "get message",
+          "content": "\"Weekend plans are always more fun when you have someone to share them with, and I was thinking that maybe you'd like to join me for a casual dinner or a walk in the park. I've really enjoyed getting to know you lately, and I think we could have a great time together. It would be a great opportunity for us to talk and get to know each other better in a relaxed setting.\n\n \n\nI was thinking we could try out that new restaurant that just opened up downtown, or maybe take a walk along the river and enjoy the scenery. Either way, I think it would be a great way to spend some time together and see where things go. I'm not looking for anything too serious, just a chance to hang out and have some fun.\n\n \n\nIf you're interested, let me know and we can start making plans. I'm pretty flexible, so we can work out a time that suits you. I just thought it would be nice to ask you out and see if you'd like to join me. I'm looking forward to hearing from you and hopefully spending some time together soon.\n\n \n\nI hope you'll consider it, and I look forward to hearing from you. Either way, I hope you have a great day and I'll talk to you soon. Take care, and I hope to hear from you soon.\"",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:37:27.182807",
+        "action": {
+          "type": "target",
+          "content": {
+            "length_constraints:nth_paragraph_first_word": {
+              "num_paragraphs": 4,
+              "first_word": "weekend",
+              "nth_paragraph": 1
+            },
+            "startend:quotation": {}
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:37:27.182884",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,1207 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "concrete",
+    "game_id": 9,
+    "results_folder": "llama3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:00.552541",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "thyme",
+                "kleenex",
+                "flute",
+                "leopard",
+                "kidney",
+                "headphone",
+                "pastry",
+                "trousers",
+                "meteor"
+              ],
+              "innocent": [
+                "cradle",
+                "pitchfork",
+                "icicle",
+                "foghorn",
+                "rain",
+                "laundry",
+                "tractor"
+              ],
+              "opponent": [
+                "rafter",
+                "thumb",
+                "dandelion",
+                "birdseed",
+                "armchair",
+                "bandanna",
+                "popcorn",
+                "chest"
+              ],
+              "assassin": [
+                "doll"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:00.552622",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: thyme, kleenex, flute, leopard, kidney, headphone, pastry, trousers, meteor.\nYour opponent's team words are: rafter, thumb, dandelion, birdseed, armchair, bandanna, popcorn, chest.\nDistractor words are: cradle, pitchfork, icicle, foghorn, rain, laundry, tractor.\nThe kill words are: doll.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:00.970533",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Herb\nTARGETS: thyme, pastry",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:00.970799",
+        "action": {
+          "type": "clue",
+          "content": "herb"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:00.970829",
+        "action": {
+          "type": "targets",
+          "content": [
+            "thyme",
+            "pastry"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:00.970852",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "thyme",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:00.970872",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "pastry",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:00.971059",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 2 words from the following list that best relate or are most closely associated with the word 'herb'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nrain, kidney, cradle, rafter, flute, tractor, chest, doll, bandanna, pitchfork, foghorn, armchair, leopard, dandelion, kleenex, icicle, headphone, popcorn, meteor, laundry, trousers, birdseed, pastry, thyme, thumb",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.317498",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: thyme, dandelion",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.317604",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "thyme",
+            "dandelion"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.317638",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "thyme",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.317658",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "thyme",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.317678",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "dandelion",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.317696",
+        "action": {
+          "type": "turn end after",
+          "content": "dandelion"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.317883",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "popcorn",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.317919",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "kleenex",
+                "flute",
+                "leopard",
+                "kidney",
+                "headphone",
+                "pastry",
+                "trousers",
+                "meteor"
+              ],
+              "innocent": [
+                "cradle",
+                "pitchfork",
+                "icicle",
+                "foghorn",
+                "rain",
+                "laundry",
+                "tractor"
+              ],
+              "opponent": [
+                "rafter",
+                "thumb",
+                "birdseed",
+                "armchair",
+                "bandanna",
+                "chest"
+              ],
+              "assassin": [
+                "doll"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "thyme"
+                ],
+                "innocent": [],
+                "opponent": [
+                  "dandelion"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "popcorn"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:01.317987",
+        "action": {
+          "type": "send message",
+          "content": "The word thyme was guessed correctly. The word dandelion was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: kleenex, flute, leopard, kidney, headphone, pastry, trousers, meteor.\nRemaining words for your opponent are: rafter, thumb, birdseed, armchair, bandanna, popcorn, chest.\nRemaining distractor words are: cradle, pitchfork, icicle, foghorn, rain, laundry, tractor.\nRemaining kill words are: doll.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.878619",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Fabric\nTARGETS: kleenex, trousers, bandanna",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.878868",
+        "action": {
+          "type": "clue",
+          "content": "fabric"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.878907",
+        "action": {
+          "type": "targets",
+          "content": [
+            "kleenex",
+            "trousers",
+            "bandanna"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.878932",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "kleenex",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.878953",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "trousers",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:01.878971",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "bandanna",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:01.879203",
+        "action": {
+          "type": "send message",
+          "content": "The word thyme was guessed correctly. The word dandelion was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'fabric'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nrain, kidney, cradle, rafter, flute, tractor, chest, doll, bandanna, pitchfork, foghorn, armchair, leopard, kleenex, icicle, headphone, meteor, laundry, trousers, birdseed, pastry, thumb",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.262570",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: bandanna, armchair, laundry",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.262671",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "bandanna",
+            "armchair",
+            "laundry"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.262704",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "bandanna",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.262727",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "bandanna",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.262745",
+        "action": {
+          "type": "turn end after",
+          "content": "bandanna"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.262952",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "birdseed",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.262987",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "kleenex",
+                "flute",
+                "leopard",
+                "kidney",
+                "headphone",
+                "pastry",
+                "trousers",
+                "meteor"
+              ],
+              "innocent": [
+                "cradle",
+                "pitchfork",
+                "icicle",
+                "foghorn",
+                "rain",
+                "laundry",
+                "tractor"
+              ],
+              "opponent": [
+                "rafter",
+                "thumb",
+                "armchair",
+                "chest"
+              ],
+              "assassin": [
+                "doll"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "thyme"
+                ],
+                "innocent": [],
+                "opponent": [
+                  "dandelion",
+                  "bandanna"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "popcorn",
+                  "birdseed"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:02.263054",
+        "action": {
+          "type": "send message",
+          "content": "The word bandanna was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: kleenex, flute, leopard, kidney, headphone, pastry, trousers, meteor.\nRemaining words for your opponent are: rafter, thumb, birdseed, armchair, chest.\nRemaining distractor words are: cradle, pitchfork, icicle, foghorn, rain, laundry, tractor.\nRemaining kill words are: doll.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.679049",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Musical\nTARGETS: flute, headphone",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.679267",
+        "action": {
+          "type": "clue",
+          "content": "musical"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.679295",
+        "action": {
+          "type": "targets",
+          "content": [
+            "flute",
+            "headphone"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.679317",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "flute",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.679336",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "headphone",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:02.679519",
+        "action": {
+          "type": "send message",
+          "content": "The word bandanna was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'musical'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nrain, kidney, cradle, rafter, flute, tractor, chest, doll, pitchfork, foghorn, armchair, leopard, kleenex, icicle, headphone, meteor, laundry, trousers, pastry, thumb",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.981473",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: flute, foghorn",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.981577",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "flute",
+            "foghorn"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.981611",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "flute",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.981633",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "flute",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.981653",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "foghorn",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.981671",
+        "action": {
+          "type": "turn end after",
+          "content": "foghorn"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.981859",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "rafter",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:02.981893",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "kleenex",
+                "leopard",
+                "kidney",
+                "headphone",
+                "pastry",
+                "trousers",
+                "meteor"
+              ],
+              "innocent": [
+                "cradle",
+                "pitchfork",
+                "icicle",
+                "rain",
+                "laundry",
+                "tractor"
+              ],
+              "opponent": [
+                "thumb",
+                "armchair",
+                "chest"
+              ],
+              "assassin": [
+                "doll"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "thyme",
+                  "flute"
+                ],
+                "innocent": [
+                  "foghorn"
+                ],
+                "opponent": [
+                  "dandelion",
+                  "bandanna"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "popcorn",
+                  "birdseed",
+                  "rafter"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:02.981961",
+        "action": {
+          "type": "send message",
+          "content": "The word flute was guessed correctly. The word foghorn was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: kleenex, leopard, kidney, headphone, pastry, trousers, meteor.\nRemaining words for your opponent are: rafter, thumb, armchair, chest.\nRemaining distractor words are: cradle, pitchfork, icicle, rain, laundry, tractor.\nRemaining kill words are: doll.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.420580",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Organ\nTARGETS: kidney, leopard",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.420792",
+        "action": {
+          "type": "clue",
+          "content": "organ"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.420821",
+        "action": {
+          "type": "targets",
+          "content": [
+            "kidney",
+            "leopard"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.420844",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "kidney",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.420864",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "leopard",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:03.421063",
+        "action": {
+          "type": "send message",
+          "content": "The word flute was guessed correctly. The word foghorn was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'organ'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nrain, kidney, cradle, tractor, chest, doll, pitchfork, armchair, leopard, kleenex, icicle, headphone, meteor, laundry, trousers, pastry, thumb",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.730521",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: chest, armchair",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.730619",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "chest",
+            "armchair"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.730653",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "chest",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.730675",
+        "action": {
+          "type": "turn end after",
+          "content": "chest"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.730862",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "thumb",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:03.730897",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "kleenex",
+                "leopard",
+                "kidney",
+                "headphone",
+                "pastry",
+                "trousers",
+                "meteor"
+              ],
+              "innocent": [
+                "cradle",
+                "pitchfork",
+                "icicle",
+                "rain",
+                "laundry",
+                "tractor"
+              ],
+              "opponent": [
+                "armchair"
+              ],
+              "assassin": [
+                "doll"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "thyme",
+                  "flute"
+                ],
+                "innocent": [
+                  "foghorn"
+                ],
+                "opponent": [
+                  "dandelion",
+                  "bandanna",
+                  "chest"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "popcorn",
+                  "birdseed",
+                  "rafter",
+                  "thumb"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:22:03.730964",
+        "action": {
+          "type": "send message",
+          "content": "The word chest was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: kleenex, leopard, kidney, headphone, pastry, trousers, meteor.\nRemaining words for your opponent are: thumb, armchair.\nRemaining distractor words are: cradle, pitchfork, icicle, rain, laundry, tractor.\nRemaining kill words are: doll.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.179705",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Space\nTARGETS: meteor, headphone",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.179917",
+        "action": {
+          "type": "clue",
+          "content": "space"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.179945",
+        "action": {
+          "type": "targets",
+          "content": [
+            "meteor",
+            "headphone"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.179968",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "meteor",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.179987",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "headphone",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T22:22:04.180185",
+        "action": {
+          "type": "send message",
+          "content": "The word chest was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'space'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nrain, kidney, cradle, tractor, doll, pitchfork, armchair, leopard, kleenex, icicle, headphone, meteor, laundry, trousers, pastry",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.502769",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: meteor, icicle",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.502867",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "meteor",
+            "icicle"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.502900",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "meteor",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.502922",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "meteor",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.502942",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "icicle",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.502960",
+        "action": {
+          "type": "turn end after",
+          "content": "icicle"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.503155",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "armchair",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:22:04.503182",
+        "action": {
+          "type": "game end",
+          "content": "opponent has won"
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "kleenex",
+        "leopard",
+        "kidney",
+        "headphone",
+        "pastry",
+        "trousers"
+      ],
+      "innocent": [
+        "cradle",
+        "pitchfork",
+        "rain",
+        "laundry",
+        "tractor"
+      ],
+      "opponent": [],
+      "assassin": [
+        "doll"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "thyme",
+          "flute",
+          "meteor"
+        ],
+        "innocent": [
+          "foghorn",
+          "icicle"
+        ],
+        "opponent": [
+          "dandelion",
+          "bandanna",
+          "chest"
+        ],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "popcorn",
+          "birdseed",
+          "rafter",
+          "thumb",
+          "armchair"
+        ],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 6,
+  "Aborted": false,
+  "Lose": true,
+  "Game ended through assassin": false,
+  "Request Count": 10,
+  "Parsed Request Count": 10,
+  "Violated Request Count": 0,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

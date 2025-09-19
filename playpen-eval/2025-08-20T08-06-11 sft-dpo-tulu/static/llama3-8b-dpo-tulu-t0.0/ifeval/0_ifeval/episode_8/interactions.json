@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 64,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T11:34:33.139341",
+        "action": {
+          "type": "send message",
+          "content": "Write a funny article about why the dinosaurs went extinct and put double quotations marks around your whole response. Include exactly 8 bullet points in your response. The bullet points should be in the form of:\n* This is bullet 1\n* This is bullet 2\n...",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:35:11.308791",
+        "action": {
+          "type": "get message",
+          "content": "\"**The Great Dino-Mite Extinction: A Hilarious Explanation**\"\n\n\"Ah, the dinosaurs - the original kings of the earth. They ruled with an iron fist, or rather, an iron claw. But, as we all know, their reign came to an abrupt end. But why, you ask? Well, let me tell you, it's a tale of epic proportions, full of drama, romance, and a dash of bad luck.\n\n* This is bullet 1: **The Great Asteroid Party**: It's said that a massive asteroid came crashing down to earth, causing a massive extinction event. But, let's be real, who doesn't love a good party? The dinosaurs were probably like, 'Oh, an asteroid? That's so last season.'\n* This is bullet 2: **The Volcanic Eruption Extravaganza**: Around the same time, there were a series of massive volcanic eruptions that spewed out toxic gases and made the air unbreathable. It's like the earth was trying to give the dinosaurs a bad case of gas.\n* This is bullet 3: **The Dino-Mite Dance-Off**: Some scientists believe that the dinosaurs' love of dancing might have contributed to their demise. I mean, who needs to worry about asteroids and volcanoes when you've got the Macarena to worry about?\n* This is bullet 4: **The Great Dino-Disco Disaster**: Speaking of dancing, it's said that the dinosaurs' love of disco music might have led to their downfall. I mean, who needs to worry about extinction when you've got the Bee Gees to worry about?\n* This is bullet 5: **The T-Rex Tantrum**: Some experts believe that the Tyrannosaurus Rex's infamous temper might have led to the extinction of the dinosaurs. I mean, who needs to worry about asteroids and volcanoes when you've got a T-Rex throwing a tantrum?\n* This is bullet 6: **The Dino- Drama Queen**: It's said that the dinosaurs' love of drama and soap operas might have led to their downfall. I mean, who needs to worry about extinction when you've got a never-ending supply of drama and catfights?\n* This is bullet 7: **The Great Dino-Heist**: Some scientists believe that the dinosaurs' love of shiny objects might have led to their demise. I mean, who needs to worry about asteroids and volcanoes when you've got a T-Rex trying to steal the world's largest diamond?\n* This is bullet 8: **The Dino- Apocalypse Now**: And finally, it's said that the dinosaurs' love of 80s movies might have led to their downfall. I mean, who needs to worry about extinction when you've got a T-Rex quoting 'I'll be back'?\"",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:35:11.308862",
+        "action": {
+          "type": "target",
+          "content": {
+            "startend:quotation": {},
+            "detectable_format:number_bullet_lists": {
+              "num_bullets": 8
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:35:11.308953",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

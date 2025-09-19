@@ -1,0 +1,719 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "opponent_none",
+    "game_id": 6,
+    "results_folder": "llama3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b/checkpoint-1860",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-dpo"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:32.445051",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "square",
+                "life",
+                "marble",
+                "mexico",
+                "copper",
+                "file",
+                "server",
+                "bar",
+                "undertaker"
+              ],
+              "innocent": [
+                "nut",
+                "parachute",
+                "washer",
+                "glove",
+                "iron",
+                "cell",
+                "cover"
+              ],
+              "opponent": [
+                "cast",
+                "death",
+                "nurse",
+                "log",
+                "button",
+                "berry",
+                "crash",
+                "scorpion"
+              ],
+              "assassin": [
+                "mint"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:44:32.445129",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: square, life, marble, mexico, copper, file, server, bar, undertaker.\nYour opponent's team words are: cast, death, nurse, log, button, berry, crash, scorpion.\nDistractor words are: nut, parachute, washer, glove, iron, cell, cover.\nThe kill words are: mint.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.312849",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: tile\nTARGETS: square, marble, bar",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.313126",
+        "action": {
+          "type": "clue",
+          "content": "tile"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.313159",
+        "action": {
+          "type": "targets",
+          "content": [
+            "square",
+            "marble",
+            "bar"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.313184",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "square",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.313205",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "marble",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.313222",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "bar",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:44:33.313453",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 3 words from the following list that best relate or are most closely associated with the word 'tile'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nmarble, copper, cast, bar, mint, crash, scorpion, cover, iron, undertaker, cell, life, nut, button, log, square, berry, mexico, glove, server, nurse, file, washer, parachute, death",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.935136",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: cast, square, cover",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.935257",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "cast",
+            "square",
+            "cover"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.935302",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "cast",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.935326",
+        "action": {
+          "type": "turn end after",
+          "content": "cast"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:33.935569",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "square",
+                "life",
+                "marble",
+                "mexico",
+                "copper",
+                "file",
+                "server",
+                "bar",
+                "undertaker"
+              ],
+              "innocent": [
+                "nut",
+                "parachute",
+                "washer",
+                "glove",
+                "iron",
+                "cell",
+                "cover"
+              ],
+              "opponent": [
+                "death",
+                "nurse",
+                "log",
+                "button",
+                "berry",
+                "crash",
+                "scorpion"
+              ],
+              "assassin": [
+                "mint"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "cast"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:44:33.935645",
+        "action": {
+          "type": "send message",
+          "content": "The word cast was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: square, life, marble, mexico, copper, file, server, bar, undertaker.\nRemaining words for your opponent are: death, nurse, log, button, berry, crash, scorpion.\nRemaining distractor words are: nut, parachute, washer, glove, iron, cell, cover.\nRemaining kill words are: mint.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:34.882441",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: tomb\nTARGETS: undertaker, marble, bar",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:34.882691",
+        "action": {
+          "type": "clue",
+          "content": "tomb"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:34.882724",
+        "action": {
+          "type": "targets",
+          "content": [
+            "undertaker",
+            "marble",
+            "bar"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:34.882748",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "undertaker",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:34.882768",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "marble",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:34.882786",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "bar",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:44:34.883019",
+        "action": {
+          "type": "send message",
+          "content": "The word cast was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'tomb'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nmarble, copper, bar, mint, crash, scorpion, cover, iron, undertaker, cell, life, nut, button, log, square, berry, mexico, glove, server, nurse, file, washer, parachute, death",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:35.565563",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: undertaker, cell, death",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:35.565680",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "undertaker",
+            "cell",
+            "death"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:35.565721",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "undertaker",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:35.565743",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "undertaker",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:35.565765",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "cell",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:35.565782",
+        "action": {
+          "type": "turn end after",
+          "content": "cell"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:35.566013",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "square",
+                "life",
+                "marble",
+                "mexico",
+                "copper",
+                "file",
+                "server",
+                "bar"
+              ],
+              "innocent": [
+                "nut",
+                "parachute",
+                "washer",
+                "glove",
+                "iron",
+                "cover"
+              ],
+              "opponent": [
+                "death",
+                "nurse",
+                "log",
+                "button",
+                "berry",
+                "crash",
+                "scorpion"
+              ],
+              "assassin": [
+                "mint"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "undertaker"
+                ],
+                "innocent": [
+                  "cell"
+                ],
+                "opponent": [
+                  "cast"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T06:44:35.566087",
+        "action": {
+          "type": "send message",
+          "content": "The word undertaker was guessed correctly. The word cell was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: square, life, marble, mexico, copper, file, server, bar.\nRemaining words for your opponent are: death, nurse, log, button, berry, crash, scorpion.\nRemaining distractor words are: nut, parachute, washer, glove, iron, cover.\nRemaining kill words are: mint.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:36.472938",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: monument\nTARGETS: square, marble, bar",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:36.473174",
+        "action": {
+          "type": "clue",
+          "content": "monument"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:36.473206",
+        "action": {
+          "type": "targets",
+          "content": [
+            "square",
+            "marble",
+            "bar"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:36.473230",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "square",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:36.473249",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "marble",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:36.473267",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "bar",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-04T06:44:36.473491",
+        "action": {
+          "type": "send message",
+          "content": "The word undertaker was guessed correctly. The word cell was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'monument'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nmarble, copper, bar, mint, crash, scorpion, cover, iron, life, nut, button, log, square, berry, mexico, glove, server, nurse, file, washer, parachute, death",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:40.932267",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: marble, monument is closely associated with a'monument' but that is the target word, so I will exclude it,  marble is a material often used in monuments,  so I will include it,  and I will include'square' as a monument can be square in shape. \n\nGUESS: marble, square",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T06:44:40.932377",
+        "action": {
+          "type": "validation error",
+          "content": {
+            "player": "Guesser",
+            "type": "rambling error",
+            "utterance": "GUESS: marble, monument is closely associated with a'monument' but that is the target word, so I will exclude it,  marble is a material often used in monuments,  so I will include it,  and I will include'square' as a monument can be square in shape. \n\nGUESS: marble, square",
+            "message": "Your answer contained more than one line, please only give one round of guesses on one line."
+          }
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "square",
+        "life",
+        "marble",
+        "mexico",
+        "copper",
+        "file",
+        "server",
+        "bar"
+      ],
+      "innocent": [
+        "nut",
+        "parachute",
+        "washer",
+        "glove",
+        "iron",
+        "cover"
+      ],
+      "opponent": [
+        "death",
+        "nurse",
+        "log",
+        "button",
+        "berry",
+        "crash",
+        "scorpion"
+      ],
+      "assassin": [
+        "mint"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "undertaker"
+        ],
+        "innocent": [
+          "cell"
+        ],
+        "opponent": [
+          "cast"
+        ],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 4,
+  "Aborted": true,
+  "Lose": false,
+  "Game ended through assassin": false,
+  "Request Count": 6,
+  "Parsed Request Count": 5,
+  "Violated Request Count": 1,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

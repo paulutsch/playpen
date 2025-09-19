@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 309,
+    "results_folder": "tulu3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T00:57:48.210317",
+        "action": {
+          "type": "send message",
+          "content": "Can you create a list of mega trends in the tech industry? Wrap your entire response with double quotation marks. Also, make sure the letter o appears at least 25 times in your response.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:57:53.881139",
+        "action": {
+          "type": "get message",
+          "content": "\"Ongoing advancements in artificial intelligence and machine learning are reshaping industries, offering opportunities for optimization and automation. The rise of the Internet of Things (IoT) is connecting devices, generating vast amounts of data, and opening new avenues for innovation and optimization. Cloud computing continues to grow, offering scalable solutions and enabling businesses to operate more efficiently. The ongoing shift to remote work and online interactions is driving demand for better connectivity and more robust digital infrastructure. Open source technologies are gaining momentum, fostering collaboration and accelerating the pace of innovation. The focus on sustainability and eco-friendly technologies is growing, with tech companies seeking to optimize their operations and develop more sustainable products. Over time, these mega trends will continue to overlap and influence one another, offering numerous opportunities for growth and transformation. Overall, the tech industry is undergoing a profound overhaul, with ongoing developments promising to redefine how we live, work, and interact.\"<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:57:53.881192",
+        "action": {
+          "type": "target",
+          "content": {
+            "startend:quotation": {},
+            "keywords:letter_frequency": {
+              "let_relation": "at least",
+              "letter": "o",
+              "let_frequency": 25
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T00:57:53.881311",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

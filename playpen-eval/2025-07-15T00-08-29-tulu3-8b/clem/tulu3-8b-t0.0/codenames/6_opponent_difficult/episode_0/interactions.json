@@ -1,0 +1,252 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "opponent_difficult",
+    "game_id": 5,
+    "results_folder": "tulu3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "tulu3-8b"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "tulu3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:36:15.522472",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "tokyo",
+                "tablet",
+                "ball",
+                "disease",
+                "eagle",
+                "web",
+                "missile",
+                "telescope",
+                "life"
+              ],
+              "innocent": [
+                "board",
+                "washington",
+                "needle",
+                "hawk",
+                "platypus",
+                "bomb",
+                "slip"
+              ],
+              "opponent": [
+                "lion",
+                "africa",
+                "model",
+                "king",
+                "boom",
+                "contract",
+                "pipe",
+                "heart"
+              ],
+              "assassin": [
+                "novel"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T21:36:15.522550",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: tokyo, tablet, ball, disease, eagle, web, missile, telescope, life.\nYour opponent's team words are: lion, africa, model, king, boom, contract, pipe, heart.\nDistractor words are: board, washington, needle, hawk, platypus, bomb, slip.\nThe kill words are: novel.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:36:16.100068",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: city\nTARGETS: tokyo, eagle, life<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T21:36:16.100310",
+        "action": {
+          "type": "validation error",
+          "content": {
+            "player": "Cluegiver",
+            "type": "target is hallucination",
+            "utterance": "CLUE: city\nTARGETS: tokyo, eagle, life<|end_of_text|>",
+            "message": "Targeted word 'life<|end_of_text|' was not listed, you can only target words provided in the lists.",
+            "target": "life<|end_of_text|",
+            "previous_targets": [],
+            "remaining_words": [
+              "pipe",
+              "novel",
+              "boom",
+              "model",
+              "heart",
+              "missile",
+              "telescope",
+              "contract",
+              "platypus",
+              "king",
+              "tablet",
+              "ball",
+              "life",
+              "lion",
+              "web",
+              "bomb",
+              "board",
+              "eagle",
+              "needle",
+              "washington",
+              "africa",
+              "hawk",
+              "tokyo",
+              "disease",
+              "slip"
+            ]
+          }
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "tokyo",
+        "tablet",
+        "ball",
+        "disease",
+        "eagle",
+        "web",
+        "missile",
+        "telescope",
+        "life"
+      ],
+      "innocent": [
+        "board",
+        "washington",
+        "needle",
+        "hawk",
+        "platypus",
+        "bomb",
+        "slip"
+      ],
+      "opponent": [
+        "lion",
+        "africa",
+        "model",
+        "king",
+        "boom",
+        "contract",
+        "pipe",
+        "heart"
+      ],
+      "assassin": [
+        "novel"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [],
+        "innocent": [],
+        "opponent": [],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 1,
+  "Aborted": true,
+  "Lose": false,
+  "Game ended through assassin": false,
+  "Request Count": 1,
+  "Parsed Request Count": 0,
+  "Violated Request Count": 1,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 1,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 64,
+    "results_folder": "tulu3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-DPO",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "tulu3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T23:59:24.295680",
+        "action": {
+          "type": "send message",
+          "content": "Write a funny article about why the dinosaurs went extinct and put double quotations marks around your whole response. Include exactly 8 bullet points in your response. The bullet points should be in the form of:\n* This is bullet 1\n* This is bullet 2\n...",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:59:34.292342",
+        "action": {
+          "type": "get message",
+          "content": "\"Once upon a time, in a land far, far away, the dinosaurs ruled the Earth with an iron beak and a tail that could knock out a T-Rex-sized headache. But then, *poof*—they were gone. Here's why, according to the most hilarious theories ever imagined:\n\n* This is bullet 1: They were all just too busy arguing about who had the biggest tail feathers to notice the asteroid coming.\n* This is bullet 2: Dinosaurs tried to start a band but couldn't agree on a name, so they all just went extinct in a huff.\n* This is bullet 3: The dinosaurs were secretly allergic to ferns, and all that pollen finally did them in.\n* This is bullet 4: They were all just waiting for the next 'Jurassic Park' sequel to come out, and time ran out.\n* This is bullet 5: The dinosaurs' favorite snack was comet ice cream, and they ate themselves to extinction.\n* This is bullet 6: They were all just too busy trying to outdo each other in a 'who can roar the loudest' contest.\n* This is bullet 7: A giant dinosaur-sized sneeze finally shook the Earth so hard, it ended their reign.\n* This is bullet 8: The dinosaurs were actually just really bad at playing hide and seek, and the asteroid was the ultimate 'it.'\"\n\n\"Remember, kids, always keep an eye out for falling space rocks, and never underestimate the power of a good band name.\"<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:59:34.292398",
+        "action": {
+          "type": "target",
+          "content": {
+            "startend:quotation": {},
+            "detectable_format:number_bullet_lists": {
+              "num_bullets": 8
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:59:34.292475",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

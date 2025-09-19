@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "game_name": "cladder",
+    "experiment_name": "full_v1.5_default",
+    "game_id": 8207,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T11:24:33.628114",
+        "action": {
+          "type": "send message",
+          "content": "You are an expert in causal inference. The following question is not a typical commonsense query, but rather a meticulously designed question created by a professor specializing in causal inference, intended to assess the students' mastery of the course content.\nImagine a self-contained, hypothetical world with only the following conditions, and without any unmentioned factors or causal relationships: Tijv has a direct effect on tijw and xevo. Xevo has a direct effect on gyzp. Tijw has a direct effect on gyzp. For those who are not tijv and are not xevo, the probability of gyzp is 29%. For those who are not tijv and are xevo, the probability of gyzp is 14%. For those who are tijv and are not xevo, the probability of gyzp is 11%. For those who are tijv and are xevo, the probability of gyzp is 16%. The overall probability of tijv is 88%. Will xevo increase the chance of gyzp?\nStart your answer with 'Yes' or 'No', followed by additional reasoning or evidence to support your explanation.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:24:52.937532",
+        "action": {
+          "type": "get message",
+          "content": "No, xevo will not increase the chance of gyzp. \n\nTo assess the effect of xevo on gyzp, we need to compare the probability of gyzp among those who are xevo to the probability of gyzp among those who are not xevo, while controlling for the effect of tijv. \n\nWe can use the counterfactual framework to estimate the causal effect of xevo on gyzp. Let's define the following groups:\n\n- Group 1: Not tijv and not xevo (reference group)\n- Group 2: Not tijv and xevo\n- Group 3: Tijv and not xevo\n- Group 4: Tijv and xevo\n\nThe probability of gyzp in each group is given:\n\n- Group 1: 29%\n- Group 2: 14%\n- Group 3: 11%\n- Group 4: 16%\n\nTo estimate the causal effect of xevo on gyzp, we need to compare the probability of gyzp in Group 2 to the probability of gyzp in Group 1, while controlling for the effect of tijv. We can do this by comparing the difference in probabilities between Group 2 and Group 1 to the difference in probabilities between Group 3 and Group 1.\n\nThe difference in probabilities between Group 2 and Group 1 is 14% - 29% = -15",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:24:52.937676",
+        "action": {
+          "type": "parsed",
+          "content": "No"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:24:52.937692",
+        "action": {
+          "type": "target",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:24:52.937703",
+        "action": {
+          "type": "wrong label",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

@@ -1,0 +1,1220 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "association_difficult",
+    "game_id": 5,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:05.376993",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "onion",
+                "knife",
+                "rabbi",
+                "decade",
+                "recliner",
+                "peru",
+                "reverend",
+                "apple",
+                "raspberry"
+              ],
+              "innocent": [
+                "bishop",
+                "scotland",
+                "bourbon",
+                "stool",
+                "cherry",
+                "peppers",
+                "missile"
+              ],
+              "opponent": [
+                "month",
+                "banana",
+                "minister",
+                "margarita",
+                "cucumber",
+                "minute",
+                "korea",
+                "dresser"
+              ],
+              "assassin": [
+                "eggplant"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:47:05.377073",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: onion, knife, rabbi, decade, recliner, peru, reverend, apple, raspberry.\nYour opponent's team words are: month, banana, minister, margarita, cucumber, minute, korea, dresser.\nDistractor words are: bishop, scotland, bourbon, stool, cherry, peppers, missile.\nThe kill words are: eggplant.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.252460",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: fruit\nTARGETS: apple, raspberry, onion",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.252770",
+        "action": {
+          "type": "clue",
+          "content": "fruit"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.252802",
+        "action": {
+          "type": "targets",
+          "content": [
+            "apple",
+            "raspberry",
+            "onion"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.252827",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "apple",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.252848",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "raspberry",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.252865",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "onion",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:47:06.253059",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 3 words from the following list that best relate or are most closely associated with the word 'fruit'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nmissile, month, korea, raspberry, eggplant, reverend, minister, rabbi, stool, banana, onion, peppers, margarita, scotland, cucumber, decade, bourbon, apple, bishop, dresser, minute, peru, cherry, recliner, knife",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.878761",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: banana, apple, cherry",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.878870",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "banana",
+            "apple",
+            "cherry"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.878907",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "banana",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.878931",
+        "action": {
+          "type": "turn end after",
+          "content": "banana"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.879124",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "cucumber",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:06.879161",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "onion",
+                "knife",
+                "rabbi",
+                "decade",
+                "recliner",
+                "peru",
+                "reverend",
+                "apple",
+                "raspberry"
+              ],
+              "innocent": [
+                "bishop",
+                "scotland",
+                "bourbon",
+                "stool",
+                "cherry",
+                "peppers",
+                "missile"
+              ],
+              "opponent": [
+                "month",
+                "minister",
+                "margarita",
+                "minute",
+                "korea",
+                "dresser"
+              ],
+              "assassin": [
+                "eggplant"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "banana"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "cucumber"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:47:06.879230",
+        "action": {
+          "type": "send message",
+          "content": "The word banana was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: onion, knife, rabbi, decade, recliner, peru, reverend, apple, raspberry.\nRemaining words for your opponent are: month, minister, margarita, cucumber, minute, korea, dresser.\nRemaining distractor words are: bishop, scotland, bourbon, stool, cherry, peppers, missile.\nRemaining kill words are: eggplant.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:07.772394",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: clergy\nTARGETS: rabbi, reverend",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:07.772628",
+        "action": {
+          "type": "clue",
+          "content": "clergy"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:07.772656",
+        "action": {
+          "type": "targets",
+          "content": [
+            "rabbi",
+            "reverend"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:07.772678",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "rabbi",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:07.772698",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "reverend",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:47:07.772877",
+        "action": {
+          "type": "send message",
+          "content": "The word banana was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'clergy'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nmissile, month, korea, raspberry, eggplant, reverend, minister, rabbi, stool, onion, peppers, margarita, scotland, decade, bourbon, apple, bishop, dresser, minute, peru, cherry, recliner, knife",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:08.334851",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: reverend, bishop",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:08.334947",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "reverend",
+            "bishop"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:08.334980",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "reverend",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:08.335003",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "reverend",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:08.335024",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "bishop",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:08.335043",
+        "action": {
+          "type": "turn end after",
+          "content": "bishop"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:08.335211",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "margarita",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:08.335246",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "onion",
+                "knife",
+                "rabbi",
+                "decade",
+                "recliner",
+                "peru",
+                "apple",
+                "raspberry"
+              ],
+              "innocent": [
+                "scotland",
+                "bourbon",
+                "stool",
+                "cherry",
+                "peppers",
+                "missile"
+              ],
+              "opponent": [
+                "month",
+                "minister",
+                "minute",
+                "korea",
+                "dresser"
+              ],
+              "assassin": [
+                "eggplant"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "reverend"
+                ],
+                "innocent": [
+                  "bishop"
+                ],
+                "opponent": [
+                  "banana"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "cucumber",
+                  "margarita"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:47:08.335313",
+        "action": {
+          "type": "send message",
+          "content": "The word reverend was guessed correctly. The word bishop was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: onion, knife, rabbi, decade, recliner, peru, apple, raspberry.\nRemaining words for your opponent are: month, minister, margarita, minute, korea, dresser.\nRemaining distractor words are: scotland, bourbon, stool, cherry, peppers, missile.\nRemaining kill words are: eggplant.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.187448",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: furniture\nTARGETS: recliner, stool",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.187664",
+        "action": {
+          "type": "clue",
+          "content": "furniture"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.187693",
+        "action": {
+          "type": "targets",
+          "content": [
+            "recliner",
+            "stool"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.187715",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "recliner",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.187735",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "stool",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:47:09.187915",
+        "action": {
+          "type": "send message",
+          "content": "The word reverend was guessed correctly. The word bishop was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'furniture'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nmissile, month, korea, raspberry, eggplant, minister, rabbi, stool, onion, peppers, scotland, decade, bourbon, apple, dresser, minute, peru, cherry, recliner, knife",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.700647",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: stool, dresser",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.700746",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "stool",
+            "dresser"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.700781",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "stool",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.700803",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "stool",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.700822",
+        "action": {
+          "type": "turn end after",
+          "content": "stool"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.700998",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "minute",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:09.701033",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "onion",
+                "knife",
+                "rabbi",
+                "decade",
+                "recliner",
+                "peru",
+                "apple",
+                "raspberry"
+              ],
+              "innocent": [
+                "scotland",
+                "bourbon",
+                "cherry",
+                "peppers",
+                "missile"
+              ],
+              "opponent": [
+                "month",
+                "minister",
+                "korea",
+                "dresser"
+              ],
+              "assassin": [
+                "eggplant"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "reverend"
+                ],
+                "innocent": [
+                  "bishop",
+                  "stool"
+                ],
+                "opponent": [
+                  "banana"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "cucumber",
+                  "margarita",
+                  "minute"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:47:09.701103",
+        "action": {
+          "type": "send message",
+          "content": "The word stool was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: onion, knife, rabbi, decade, recliner, peru, apple, raspberry.\nRemaining words for your opponent are: month, minister, minute, korea, dresser.\nRemaining distractor words are: scotland, bourbon, cherry, peppers, missile.\nRemaining kill words are: eggplant.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:10.647620",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: fruit\nTARGETS: apple, raspberry, onion",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:10.647840",
+        "action": {
+          "type": "clue",
+          "content": "fruit"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:10.647871",
+        "action": {
+          "type": "targets",
+          "content": [
+            "apple",
+            "raspberry",
+            "onion"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:10.647894",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "apple",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:10.647914",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "raspberry",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:10.647931",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "onion",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:47:10.648134",
+        "action": {
+          "type": "send message",
+          "content": "The word stool was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'fruit'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nmissile, month, korea, raspberry, eggplant, minister, rabbi, onion, peppers, scotland, decade, bourbon, apple, dresser, peru, cherry, recliner, knife",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296009",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: raspberry, apple, cherry",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296111",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "raspberry",
+            "apple",
+            "cherry"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296149",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "raspberry",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296172",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "raspberry",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296193",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "apple",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296210",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "apple",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296228",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "cherry",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296246",
+        "action": {
+          "type": "turn end after",
+          "content": "cherry"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296440",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "minister",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:11.296475",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "onion",
+                "knife",
+                "rabbi",
+                "decade",
+                "recliner",
+                "peru"
+              ],
+              "innocent": [
+                "scotland",
+                "bourbon",
+                "peppers",
+                "missile"
+              ],
+              "opponent": [
+                "month",
+                "korea",
+                "dresser"
+              ],
+              "assassin": [
+                "eggplant"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "reverend",
+                  "raspberry",
+                  "apple"
+                ],
+                "innocent": [
+                  "bishop",
+                  "stool",
+                  "cherry"
+                ],
+                "opponent": [
+                  "banana"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "cucumber",
+                  "margarita",
+                  "minute",
+                  "minister"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T06:47:11.296556",
+        "action": {
+          "type": "send message",
+          "content": "The words raspberry, apple were guessed correctly. The word cherry was guessed but is an innocent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: onion, knife, rabbi, decade, recliner, peru.\nRemaining words for your opponent are: month, minister, korea, dresser.\nRemaining distractor words are: scotland, bourbon, peppers, missile.\nRemaining kill words are: eggplant.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.130811",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: food\nTARGETS: onion, knife",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.131005",
+        "action": {
+          "type": "clue",
+          "content": "food"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.131035",
+        "action": {
+          "type": "targets",
+          "content": [
+            "onion",
+            "knife"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.131059",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "onion",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.131079",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "knife",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-15T06:47:12.131270",
+        "action": {
+          "type": "send message",
+          "content": "The words raspberry, apple were guessed correctly. The word cherry was guessed but is an innocent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'food'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nmissile, month, korea, eggplant, rabbi, onion, peppers, scotland, decade, bourbon, dresser, peru, recliner, knife",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.734737",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: eggplant, peppers",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.734837",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "eggplant",
+            "peppers"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.734875",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "eggplant",
+            "assignment": "assassin"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.734899",
+        "action": {
+          "type": "turn end after",
+          "content": "eggplant"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.735066",
+        "action": {
+          "type": "game end",
+          "content": "opponent has won through assassin"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T06:47:12.735101",
+        "action": {
+          "type": "game end",
+          "content": "opponent has won through assassin"
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "onion",
+        "knife",
+        "rabbi",
+        "decade",
+        "recliner",
+        "peru"
+      ],
+      "innocent": [
+        "scotland",
+        "bourbon",
+        "peppers",
+        "missile"
+      ],
+      "opponent": [
+        "month",
+        "korea",
+        "dresser"
+      ],
+      "assassin": []
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "reverend",
+          "raspberry",
+          "apple"
+        ],
+        "innocent": [
+          "bishop",
+          "stool",
+          "cherry"
+        ],
+        "opponent": [
+          "banana"
+        ],
+        "assassin": [
+          "eggplant"
+        ]
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "cucumber",
+          "margarita",
+          "minute",
+          "minister"
+        ],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 6,
+  "Aborted": false,
+  "Lose": true,
+  "Game ended through assassin": true,
+  "Request Count": 10,
+  "Parsed Request Count": 10,
+  "Violated Request Count": 0,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

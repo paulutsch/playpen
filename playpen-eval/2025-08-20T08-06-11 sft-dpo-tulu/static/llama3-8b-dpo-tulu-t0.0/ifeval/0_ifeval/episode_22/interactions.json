@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 183,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T11:40:47.715324",
+        "action": {
+          "type": "send message",
+          "content": "Write a story about the importance of understanding the truths that are not obvious. Add stress words which are capitalized. Limit those stress words for less than 20 times.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:41:19.896597",
+        "action": {
+          "type": "get message",
+          "content": "In the small village of Ashwood, nestled in the heart of a dense forest, there lived a young apprentice named Eira. She was learning the art of healing from the village's respected elder, Thorne. Eira was a diligent student, but she often found herself struggling to understand the intricacies of Thorne's teachings.\n\nOne day, while gathering herbs in the forest, Eira stumbled upon a peculiar plant with a peculiar smell. She brought it back to Thorne, expecting him to identify it and explain its uses. However, Thorne simply nodded and said, \"Ah, you've found the **CRUCIAL** plant of the forest. It's not just a simple herb, but a key to unlocking the secrets of the forest's ecosystem.\"\n\nEira was **CONFUSED**. She didn't understand why Thorne was being so **VAGUE**. She asked him to explain, but Thorne simply smiled and said, \"The truth is not always **OBSERVABLE**. Sometimes, it requires **PATIENCE** and **INTUITION** to understand the deeper connections between things.\"\n\nEira was **FRUSTRATED**, but she decided to continue her studies. She spent many **LONG** hours observing the forest and its creatures, trying to grasp the **SUBTLETIES** of the natural world. And slowly but surely, she began to **UNDERSTAND** the **HIDDEN** truths that Thorne had been trying to teach her.\n\nOne day, a severe **DROUGHT** struck the land, and the villagers' crops began to wither and die. The villagers were **PANICKED**, but Eira remembered Thorne's words about the **CRUCIAL** plant. She realized that the plant was not just a simple herb, but a **KEY** to unlocking the secrets of the forest's ecosystem. She used her knowledge to create a **POTENT** remedy that helped to **RESTORE** the balance of the forest and bring life back to the parched earth.\n\nThe villagers were **GRATEFUL**, and Eira finally understood the **IMPORTANCE** of understanding the truths that are not **OBSERVABLE**. She realized that sometimes, the most **CRUCIAL** knowledge is not the one that is **OVERT**, but the one that requires **PATIENCE**, **INTUITION**, and a willingness to look beyond the **OBSERVABLE**.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:41:19.896666",
+        "action": {
+          "type": "target",
+          "content": {
+            "change_case:capital_word_frequency": {
+              "capital_relation": "less than",
+              "capital_frequency": 20
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T11:41:19.899562",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

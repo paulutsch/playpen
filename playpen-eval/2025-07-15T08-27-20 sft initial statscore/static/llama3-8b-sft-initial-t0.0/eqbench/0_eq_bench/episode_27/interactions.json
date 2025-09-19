@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "game_name": "eqbench",
+    "experiment_name": "eq_bench",
+    "game_id": 152,
+    "results_folder": "llama3-8b-sft-initial-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft-initial",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b-success1/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-sft-initial"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T09:10:12.176326",
+        "action": {
+          "type": "send message",
+          "content": "\nYour task is to predict the likely emotional responses of a character in this dialogue:\n\nDr. Rigby: You remind me of someone I used to know.\nEllie: Oh, yeah? Some loser you used to pity?\nDr. Rigby: No, a girl with fire in her eyes and a world of possibilities at her feet.\nEllie: Sounds like a fairy tale. No one's got a world of possibilities.\nDr. Rigby: Not with that attitude, no. But imagine, just for a moment, a different reality.\nEllie: I don't have time for your riddles, lady.\nDr. Rigby: It's not a riddle, it's a wormhole.\nEllie: A what?\nDr. Rigby: A wormhole. A shortcut through space and time. What if you could reach out and change your destiny?\nEllie: You're nuts.\nDr. Rigby: Perhaps. But what if I told you that the future is not set in stone? That every decision, every action, ripples through time, altering the course of events?\nEllie: And what? I'm supposed to believe that my shitty decisions matter?\nDr. Rigby: More than you can imagine. You have the power to shape your own future.\nEllie: And how would you know?\nDr. Rigby: Because I've seen it. I've lived it.\nEllie: You're full of shit.\nDr. Rigby: Maybe. But what if I'm not? What if you could build a future where you're not just surviving, but thriving?\nEllie: I don't need your pity or your cryptic bullshit.\nDr. Rigby: It's not pity, Ellie. It's hope.\nEllie: Keep it. I've got enough problems without adding your crazy to the mix.\nDr. Rigby: Ellie, please-\nEllie: No. I'm done here.\n[End dialogue]\n\nAt the end of this dialogue, Ellie would feel...\nRelieved\nIndifferent\nFrustrated\nIntrigued\n\nGive each of these possible emotions a score from 0-10 for the relative intensity that they are likely to be feeling each.\n\nYou must output in the following format, including headings (of course, you should give your own scores), with no additional commentary:\n\nRelieved: <score>\nIndifferent: <score>\nFrustrated: <score>\nIntrigued: <score>\n\n\n[End of answer]\n\nRemember: zero is a valid score, meaning they are likely not feeling that emotion. You must score at least one emotion > 0.\n\nYour answer:\n",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:10:14.340703",
+        "action": {
+          "type": "get message",
+          "content": "Relieved: 0\nIndifferent: 0\nFrustrated: 10\nIntrigued: 0\n\n[End of answer]",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:10:14.340789",
+        "action": {
+          "type": "parsed",
+          "content": "Relieved: 0\nIndifferent: 0\nFrustrated: 10\nIntrigued: 0"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:10:14.340806",
+        "action": {
+          "type": "target",
+          "content": "Relieved: 2\nIndifferent: 3\nFrustrated: 8\nIntrigued: 0"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:10:14.340817",
+        "action": {
+          "type": "not exact match",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Parsed Response": {
+    "Relieved": 0,
+    "Indifferent": 0,
+    "Frustrated": 10,
+    "Intrigued": 0
+  },
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

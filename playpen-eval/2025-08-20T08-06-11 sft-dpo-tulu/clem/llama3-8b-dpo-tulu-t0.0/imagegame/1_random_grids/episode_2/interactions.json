@@ -1,0 +1,698 @@
+{
+  "meta": {
+    "game_name": "imagegame",
+    "experiment_name": "random_grids",
+    "game_id": 8,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Instruction Giver",
+      "model_name": "llama3-8b-dpo-tulu"
+    },
+    "Player 2": {
+      "game_role": "Instruction Follower",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:01.173421",
+        "action": {
+          "type": "send message",
+          "content": "Let us do the following task. The goal is to fill an empty grid that looks like this:\n\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n\nA filled grid below is 5 by 5 and can look like this:\n\n▢ ▢ ▢ ▢ ▢\n▢ ▢ E ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\nX X X X X\n\nI want you to describe this grid to me, step by step. You don't need to describe the empty squares, which are denoted with \"▢\". Only describe the location of letters in the grid. Then you wait for me to say \"What is your next command?\", and then you continue with the next step. Take the size of the grid into consideration while giving commands. You can give only one command at each turn but it can refer to single or multiple cells, rows, columns or even the whole grid at once. When you have described everything, you say \"Command: DONE\". Only give the command and omit everything else.\n\nFor the filled grid above, here are the example steps.\n\nCommand: Put an E in second row third column\n\nWhat is your next command?\nCommand: Fill the last row with X\n\nWhat is your next command?\nCommand: DONE\n\nOk. Please do this for the following example, which is a 5 by 5 grid.\nY Y ▢ ▢ ▢\n▢ ▢ Y Y ▢\nY Y ▢ Y ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ Y Y ▢\nWhat is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:01.958391",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in first row first column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:01.958478",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in first row first column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:01.958518",
+        "action": {
+          "type": "send message",
+          "content": "Let us draw something together. There is an empty grid with a size 5 by 5, like so:\n\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n\nI will give you commands like \"put an X in the top left\", and you return the grid by applying the given command, like so:\n\nCommand: put an X in the top left\n\nX ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n\nNow create an empty grid with a size 5 by 5 and execute the following commands at each step. Once you execute the command, return only the grid and exclude all other text from the output.",
+          "label": "initial prompt"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:01.958534",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in first row first column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:05.524749",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:05.524834",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:05.524886",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:06.308719",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in second row first column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:06.308797",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in second row first column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:06.308834",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in second row first column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:09.810865",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:09.810942",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:09.810991",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:10.596000",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in third row first column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:10.596077",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in third row first column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:10.596117",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in third row first column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:14.055975",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:14.056053",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:14.056100",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:14.845941",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in fourth row first column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:14.846018",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in fourth row first column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:14.846058",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in fourth row first column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:18.251603",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:18.251688",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\n▢ ▢ ▢ ▢ ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:18.251738",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:19.049455",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in fifth row first column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:19.049531",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in fifth row first column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:19.049569",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in fifth row first column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:22.396116",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:22.396192",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:22.396238",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:23.193411",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in second row fifth column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:23.193487",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in second row fifth column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:23.193524",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in second row fifth column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:26.656262",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:26.656340",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:26.656386",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:27.458074",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in fourth row third column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:27.458155",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in fourth row third column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:27.458196",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in fourth row third column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:30.713263",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ Y ▢ ▢\nY ▢ ▢ ▢ ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:30.713340",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ Y ▢ ▢\nY ▢ ▢ ▢ ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:30.713388",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:31.517970",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in fifth row third column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:31.518058",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in fifth row third column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:31.518096",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in fifth row third column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:34.703302",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ Y ▢ ▢\nY ▢ Y ▢ ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:34.703380",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ Y ▢ ▢\nY ▢ Y ▢ ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:34.703428",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:35.505830",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in fifth row second column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:35.505907",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in fifth row second column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:35.505947",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in fifth row second column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:38.654245",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ Y ▢ ▢\nY Y Y ▢ ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:38.654320",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ Y ▢ ▢\nY Y Y ▢ ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:38.654368",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:39.489701",
+        "action": {
+          "type": "get message",
+          "content": "Command: Put a Y in fifth row fourth column",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:39.489781",
+        "action": {
+          "type": "found instruction",
+          "content": "Command: Put a Y in fifth row fourth column"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:33:39.489824",
+        "action": {
+          "type": "send message",
+          "content": "Command: Put a Y in fifth row fourth column",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:42.582821",
+        "action": {
+          "type": "get message",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ Y ▢ ▢\nY Y Y Y ▢",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:42.582900",
+        "action": {
+          "type": "found grid",
+          "content": "Y ▢ ▢ ▢ ▢\nY ▢ ▢ ▢ Y\nY ▢ ▢ ▢ ▢\nY ▢ Y ▢ ▢\nY Y Y Y ▢"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:33:42.582946",
+        "action": {
+          "type": "send message",
+          "content": "What is your next command?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:42.951056",
+        "action": {
+          "type": "get message",
+          "content": "Command: DONE",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:33:42.951128",
+        "action": {
+          "type": "found terminate pattern",
+          "content": "Command: DONE"
+        }
+      }
+    ]
+  ]
+}

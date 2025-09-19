@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 54,
+    "results_folder": "llama3-8b-sft-initial-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft-initial",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b-success1/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-sft-initial"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T09:13:10.279113",
+        "action": {
+          "type": "send message",
+          "content": "Take the text below as a starting point, and make it a complete article: \"You may have to meet with a helper to work out a parenting plan. The first would be to estimate how many time you have everyday for parenting, and is that enough....\"\nAvoid using the following keywords: sleep, cook, feed\nMention the keyword 'schedule' for more than 5 times.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:13:40.278386",
+        "action": {
+          "type": "get message",
+          "content": "You may have to meet with a helper to work out a parenting plan. The first would be to estimate how many time you have everyday for parenting, and is that enough to meet the needs of your child? A parenting plan is a schedule that outlines how you and your helper will share responsibilities for your child's care. It's a good idea to make a schedule that includes time for both of you to spend with your child, as well as time for your helper to have some time to themselves.\n\nTo make a schedule, you'll need to consider your child's needs and your own availability. You may want to start by making a list of all the activities your child needs to do each day, such as eating, bathing, and playing. Then, you can estimate how much time each activity will take and schedule them into your day. For example, if your child needs to eat three meals a day, you may want to schedule time for breakfast, lunch, and dinner.\n\nIt's also important to consider your helper's schedule and availability. You may want to schedule time for your helper to have some time to themselves, such as a few hours in the morning or afternoon. This will give them a chance to rest and recharge, and will also give you a break from caring for your child.\n\nIn addition to scheduling time for your child's needs, you may also want to schedule time for activities that are important for your child's development, such as reading, playing, and learning. These activities can help your child develop important skills and can also be fun for them.\n\nRemember, a parenting plan is a schedule that outlines how you and your helper will share responsibilities for your child's care. It's a good idea to make a schedule that includes time for both of you to spend with your child, as well as time for your helper to have some time to themselves. By making a schedule, you can ensure that your child's needs are met and that you and your helper have a chance to rest and recharge.\n\nIn conclusion, making a parenting plan is an important step in ensuring that your child's needs are met and that you and your helper have a chance to rest and recharge. By making a schedule that includes time for your child's needs, as well as time for your helper to have some time to themselves, you can create a plan that works for everyone.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:13:40.278446",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:forbidden_words": {
+              "forbidden_words": [
+                "sleep",
+                "cook",
+                "feed"
+              ]
+            },
+            "keywords:frequency": {
+              "relation": "at least",
+              "keyword": "schedule",
+              "frequency": 6
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T09:13:40.278730",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

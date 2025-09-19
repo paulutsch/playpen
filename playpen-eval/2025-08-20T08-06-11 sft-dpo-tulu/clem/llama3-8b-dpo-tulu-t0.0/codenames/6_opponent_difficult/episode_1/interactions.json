@@ -1,0 +1,880 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "opponent_difficult",
+    "game_id": 9,
+    "results_folder": "llama3-8b-dpo-tulu-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo-tulu",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b-sft/checkpoint-1844",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-dpo-tulu"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-dpo-tulu"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:58.812201",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "smuggler",
+                "battery",
+                "chest",
+                "hand",
+                "america",
+                "piano",
+                "england",
+                "sound",
+                "brush"
+              ],
+              "innocent": [
+                "australia",
+                "iron",
+                "trunk",
+                "code",
+                "ray",
+                "board",
+                "compound"
+              ],
+              "opponent": [
+                "thumb",
+                "atlantis",
+                "shadow",
+                "tick",
+                "tap",
+                "king",
+                "soul",
+                "car"
+              ],
+              "assassin": [
+                "teacher"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:23:58.812280",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: smuggler, battery, chest, hand, america, piano, england, sound, brush.\nYour opponent's team words are: thumb, atlantis, shadow, tick, tap, king, soul, car.\nDistractor words are: australia, iron, trunk, code, ray, board, compound.\nThe kill words are: teacher.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:59.766198",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Music\nTARGETS: piano, sound, america",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:59.766534",
+        "action": {
+          "type": "clue",
+          "content": "music"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:59.766569",
+        "action": {
+          "type": "targets",
+          "content": [
+            "piano",
+            "sound",
+            "america"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:59.766593",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "piano",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:59.766613",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "sound",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:23:59.766631",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "america",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:23:59.766859",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 3 words from the following list that best relate or are most closely associated with the word 'music'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nbattery, king, thumb, sound, atlantis, england, hand, piano, brush, smuggler, soul, shadow, chest, iron, compound, tap, car, australia, teacher, code, ray, trunk, america, board, tick",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416023",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: sound, piano, soul",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416141",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "sound",
+            "piano",
+            "soul"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416181",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "sound",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416203",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "sound",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416225",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "piano",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416242",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "piano",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416261",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "soul",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416278",
+        "action": {
+          "type": "turn end after",
+          "content": "soul"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416495",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "shadow",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416536",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "car",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:00.416570",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "smuggler",
+                "battery",
+                "chest",
+                "hand",
+                "america",
+                "england",
+                "brush"
+              ],
+              "innocent": [
+                "australia",
+                "iron",
+                "trunk",
+                "code",
+                "ray",
+                "board",
+                "compound"
+              ],
+              "opponent": [
+                "thumb",
+                "atlantis",
+                "tick",
+                "tap",
+                "king"
+              ],
+              "assassin": [
+                "teacher"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "sound",
+                  "piano"
+                ],
+                "innocent": [],
+                "opponent": [
+                  "soul"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "shadow",
+                  "car"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:24:00.416642",
+        "action": {
+          "type": "send message",
+          "content": "The words sound, piano were guessed correctly. The word soul was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: smuggler, battery, chest, hand, america, england, brush.\nRemaining words for your opponent are: thumb, atlantis, shadow, tick, tap, king, car.\nRemaining distractor words are: australia, iron, trunk, code, ray, board, compound.\nRemaining kill words are: teacher.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:01.518309",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Explorer\nTARGETS: smuggler, america, england",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:01.518564",
+        "action": {
+          "type": "clue",
+          "content": "explorer"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:01.518596",
+        "action": {
+          "type": "targets",
+          "content": [
+            "smuggler",
+            "america",
+            "england"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:01.518621",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "smuggler",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:01.518641",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "america",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:01.518659",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "england",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:24:01.518881",
+        "action": {
+          "type": "send message",
+          "content": "The words sound, piano were guessed correctly. The word soul was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'explorer'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nbattery, king, thumb, atlantis, england, hand, brush, smuggler, chest, iron, compound, tap, australia, teacher, code, ray, trunk, america, board, tick",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:02.324404",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: smuggler, atlantis, australia",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:02.324540",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "smuggler",
+            "atlantis",
+            "australia"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:02.324585",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "smuggler",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:02.324609",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "smuggler",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:02.324631",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "atlantis",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:02.324651",
+        "action": {
+          "type": "turn end after",
+          "content": "atlantis"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:02.324866",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "tap",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:02.324892",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "thumb",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:02.324924",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "battery",
+                "chest",
+                "hand",
+                "america",
+                "england",
+                "brush"
+              ],
+              "innocent": [
+                "australia",
+                "iron",
+                "trunk",
+                "code",
+                "ray",
+                "board",
+                "compound"
+              ],
+              "opponent": [
+                "tick",
+                "king"
+              ],
+              "assassin": [
+                "teacher"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [
+                  "sound",
+                  "piano",
+                  "smuggler"
+                ],
+                "innocent": [],
+                "opponent": [
+                  "soul",
+                  "atlantis"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "shadow",
+                  "car",
+                  "tap",
+                  "thumb"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-20T09:24:02.324995",
+        "action": {
+          "type": "send message",
+          "content": "The word smuggler was guessed correctly. The word atlantis was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: battery, chest, hand, america, england, brush.\nRemaining words for your opponent are: thumb, tick, tap, king.\nRemaining distractor words are: australia, iron, trunk, code, ray, board, compound.\nRemaining kill words are: teacher.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.363965",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: Art\nTARGETS: brush, england",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.364198",
+        "action": {
+          "type": "clue",
+          "content": "art"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.364229",
+        "action": {
+          "type": "targets",
+          "content": [
+            "brush",
+            "england"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.364253",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "brush",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.364271",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "england",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-08-20T09:24:03.364481",
+        "action": {
+          "type": "send message",
+          "content": "The word smuggler was guessed correctly. The word atlantis was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 2 words from the following list of words that best relate or are most closely associated with the word 'art'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nbattery, king, england, hand, brush, chest, iron, compound, australia, teacher, code, ray, trunk, america, board, tick",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.928339",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: brush, board",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.928453",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "brush",
+            "board"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.928490",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "brush",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.928512",
+        "action": {
+          "type": "target revealed",
+          "content": {
+            "word": "brush",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.928542",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "board",
+            "assignment": "innocent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.928560",
+        "action": {
+          "type": "turn end after",
+          "content": "board"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.928771",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "king",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.928798",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "tick",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-20T09:24:03.928820",
+        "action": {
+          "type": "game end",
+          "content": "opponent has won"
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "battery",
+        "chest",
+        "hand",
+        "america",
+        "england"
+      ],
+      "innocent": [
+        "australia",
+        "iron",
+        "trunk",
+        "code",
+        "ray",
+        "compound"
+      ],
+      "opponent": [],
+      "assassin": [
+        "teacher"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [
+          "sound",
+          "piano",
+          "smuggler",
+          "brush"
+        ],
+        "innocent": [
+          "board"
+        ],
+        "opponent": [
+          "soul",
+          "atlantis"
+        ],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "shadow",
+          "car",
+          "tap",
+          "thumb",
+          "king",
+          "tick"
+        ],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 4,
+  "Aborted": false,
+  "Lose": true,
+  "Game ended through assassin": false,
+  "Request Count": 6,
+  "Parsed Request Count": 6,
+  "Violated Request Count": 0,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

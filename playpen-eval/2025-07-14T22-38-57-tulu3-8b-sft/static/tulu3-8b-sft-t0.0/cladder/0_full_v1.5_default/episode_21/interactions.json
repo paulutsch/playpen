@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "game_name": "cladder",
+    "experiment_name": "full_v1.5_default",
+    "game_id": 1736,
+    "results_folder": "tulu3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-SFT",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "tulu3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:57:50.426362",
+        "action": {
+          "type": "send message",
+          "content": "You are an expert in causal inference. The following question is not a typical commonsense query, but rather a meticulously designed question created by a professor specializing in causal inference, intended to assess the students' mastery of the course content.\nImagine a self-contained, hypothetical world with only the following conditions, and without any unmentioned factors or causal relationships: Alice waking up has a direct effect on Alice arriving to school. Traffic has a direct effect on Alice arriving to school. The overall probability of waking up late is 5%. For days when Alice wakes up on time, the probability of arriving to school on time is 52%. For days when Alice wakes up late, the probability of arriving to school on time is 87%. Is arriving to school on time more likely than arriving to school late overall?\nStart your answer with 'Yes' or 'No', followed by additional reasoning or evidence to support your explanation.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:57:57.823313",
+        "action": {
+          "type": "get message",
+          "content": "No, arriving to school on time is not more likely than arriving to school late overall. This is because the overall probability of arriving to school on time is a weighted average of the probabilities of arriving on time given waking up on time and waking up late. The probability of waking up on time is 95% (100% - 5%), and the probability of arriving on time given waking up on time is 52%. Therefore, the overall probability of arriving on time is 0.95 * 0.52 = 0.494 or 49.4%. The probability of waking up late is 5%, and the probability of arriving on time given waking up late is 87%. Therefore, the overall probability of arriving on time is 0.05 * 0.87 = 0.0435 or 4.35%. The overall probability of arriving on time is 49.4% + 4.35% = 53.75%. The overall probability of arriving late is 100% - 53.75% = 46.25%. Therefore, arriving to school late is more likely than arriving to school on time overall.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:57:57.823388",
+        "action": {
+          "type": "parsed",
+          "content": "No"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:57:57.823403",
+        "action": {
+          "type": "target",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:57:57.823414",
+        "action": {
+          "type": "wrong label",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

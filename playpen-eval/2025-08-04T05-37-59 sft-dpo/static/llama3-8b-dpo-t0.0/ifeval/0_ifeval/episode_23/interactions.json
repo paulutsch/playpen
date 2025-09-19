@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 185,
+    "results_folder": "llama3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/dpo+lora/llama3-8b/checkpoint-1860",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-dpo"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-08-04T08:53:59.660776",
+        "action": {
+          "type": "send message",
+          "content": "Write a story from a perspective of a man. Include some conversation in the story. Avoid using the letter i more than twice.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-08-04T08:54:37.835861",
+        "action": {
+          "type": "get message",
+          "content": "The sun was setting over the small town, casting a warm orange glow over the streets. I stood outside the local diner, sipping on a cold beer. The smell of burgers and fries wafted out, making my stomach growl with hunger.\n\nI pushed open the door and stepped inside. The bell above the door rang out, and the waitress, a friendly woman with a warm smile, looked up from her notepad. \"Hey, hon, what can I get for you?\"\n\n\"Just a burger and fries, please,\" I replied, taking a seat at the counter.\n\nThe waitress nodded and headed back to the kitchen. I took a sip of my beer and looked around the diner. It was a small, cozy place, with a few booths and a long counter. A couple in the corner booth caught my eye, laughing and chatting like they'd known each other for years.\n\nThe waitress returned with my food and set it down in front of me. \"Here you go, hon. Enjoy!\"\n\nI dug in, savoring the taste of the burger and the crispy fries. As I ate, I couldn't help but notice the couple in the corner. They seemed so happy, so carefree. I wondered what their story was, how they'd met and fallen in love.\n\nJust then, the couple got up and walked over to me. \"Mind if we join you?\" the man asked, nodding towards the empty stool next to me.\n\n\"Not at all,\" I replied, smiling. \"Please, have a seat.\"\n\nThe woman sat down and introduced herself and her boyfriend. We chatted for a bit, exchanging stories and getting to know each other. As we talked, I found myself feeling more and more at ease.\n\n\"So, what brings you two to this neck of the woods?\" I asked, curiosity getting the better of me.\n\nThe woman smiled. \"We're just passing through. We're on a road trip, seeing the country.\"\n\nI nodded, impressed. \"That sounds like a great adventure. What made you decide to do it?\"\n\nThe man leaned in, a faraway look in his eyes. \"We just wanted to see what was out there, you know? We'd been stuck in the same old routine for too long, and we needed a change of pace.\"\n\nI nodded, understanding. \"I know what you mean. Sometimes you just need to shake things up and see what happens.\"\n\nThe couple nodded in agreement, and we continued to chat and laugh together. As the night wore on, I felt a sense of connection with them, like we were all in this together.\n\nAs they finished up and prepared to leave, the woman turned to me and said, \"Thanks for the chat, hon. It was great meeting you.\"\n\nI smiled and nodded, feeling grateful for the unexpected encounter. \"Likewise,\" I replied. \"Safe travels, and I hope you find what you're looking for.\"\n\nThey smiled and headed out into the night, leaving me to finish my meal and enjoy the peaceful atmosphere of the diner.",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T08:54:37.835941",
+        "action": {
+          "type": "target",
+          "content": {
+            "keywords:letter_frequency": {
+              "let_relation": "less than",
+              "letter": "i",
+              "let_frequency": 3
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-08-04T08:54:37.836132",
+        "action": {
+          "type": "followed not all instructions",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

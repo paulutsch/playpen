@@ -1,0 +1,513 @@
+{
+  "meta": {
+    "game_name": "codenames",
+    "experiment_name": "frequency_high",
+    "game_id": 3,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "2.5.1"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-1848",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "ClueGiver",
+      "model_name": "llama3-8b-sft"
+    },
+    "Player 2": {
+      "game_role": "Guesser",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:30.409479",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "president",
+                "month",
+                "apartment",
+                "husband",
+                "honey",
+                "fool",
+                "person",
+                "attention",
+                "street"
+              ],
+              "innocent": [
+                "colonel",
+                "officer",
+                "pleasure",
+                "face",
+                "plan",
+                "bag",
+                "woman"
+              ],
+              "opponent": [
+                "baby",
+                "mouth",
+                "darling",
+                "town",
+                "daddy",
+                "key",
+                "shot",
+                "choice"
+              ],
+              "assassin": [
+                "son"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:10:30.409551",
+        "action": {
+          "type": "send message",
+          "content": "Provide one single-word clue that relates to some of your team's words from the list below. You can choose to how many and to which words your clue relates to.\nThe goal is to have your partner guess all of your team's words based on the clues you give them, before the other team has uncovered all of theirs. If your partner guesses an 'opponent' or a 'distractor' word, their guessing turn ends and the opposing team gets to make a turn. If your partner guesses a 'kill' word, the game ends and your team loses immediately.\nThe more words your clue relates to, the quicker you can win the game, but the harder the associations may be to guess for your partner, so choose your clue word wisely. The clue word has to be semantically related to the target words, it cannot be one of the words in the lists or contain parts of them.\n\nAlways give your single-word clue and your comma-separated list of related target words in the following format and make your answers as short as possible, never include any other text than is required in this form:\n\nCLUE: <WORD>\nTARGETS: <TARGETS>\n\nYour team words are: president, month, apartment, husband, honey, fool, person, attention, street.\nYour opponent's team words are: baby, mouth, darling, town, daddy, key, shot, choice.\nDistractor words are: colonel, officer, pleasure, face, plan, bag, woman.\nThe kill words are: son.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.295302",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: family\nTARGETS: president, husband, person",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.295598",
+        "action": {
+          "type": "clue",
+          "content": "family"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.295630",
+        "action": {
+          "type": "targets",
+          "content": [
+            "president",
+            "husband",
+            "person"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.295653",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "president",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.295673",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "husband",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.295691",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "person",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:10:31.295911",
+        "action": {
+          "type": "send message",
+          "content": "Provide a comma-separated list of up to 3 words from the following list that best relate or are most closely associated with the word 'family'. Always start your list of guess(es) with 'GUESS: ' and do not include any other text in your answer.\n\nchoice, son, attention, darling, baby, pleasure, apartment, person, plan, woman, officer, street, fool, colonel, honey, month, mouth, shot, daddy, town, face, president, husband, key, bag",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.929454",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: baby, darling, daddy",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.929561",
+        "action": {
+          "type": "guesses",
+          "content": [
+            "baby",
+            "darling",
+            "daddy"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.929601",
+        "action": {
+          "type": "team revealed",
+          "content": {
+            "word": "baby",
+            "assignment": "opponent"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.929624",
+        "action": {
+          "type": "turn end after",
+          "content": "baby"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.929844",
+        "action": {
+          "type": "opponent revealed",
+          "content": {
+            "word": "town",
+            "assignment": "opponent"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:31.929877",
+        "action": {
+          "type": "board status",
+          "content": {
+            "hidden": {
+              "team": [
+                "president",
+                "month",
+                "apartment",
+                "husband",
+                "honey",
+                "fool",
+                "person",
+                "attention",
+                "street"
+              ],
+              "innocent": [
+                "colonel",
+                "officer",
+                "pleasure",
+                "face",
+                "plan",
+                "bag",
+                "woman"
+              ],
+              "opponent": [
+                "mouth",
+                "darling",
+                "daddy",
+                "key",
+                "shot",
+                "choice"
+              ],
+              "assassin": [
+                "son"
+              ]
+            },
+            "revealed": {
+              "team": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "baby"
+                ],
+                "assassin": []
+              },
+              "opponent": {
+                "team": [],
+                "innocent": [],
+                "opponent": [
+                  "town"
+                ],
+                "assassin": []
+              }
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-08T08:10:31.929943",
+        "action": {
+          "type": "send message",
+          "content": "The word baby was guessed but is an opponent word. Your teammate's turn ended there.\nNow provide another clue relating to some of your remaining team words and a list of the related target words. Remember to start your clue with 'CLUE: ', put a new line, and start your comma-separated list of target words with 'TARGETS: '. Notice: some words have been removed from the lists compared to previous requests.\n\nYour remaining team words are: president, month, apartment, husband, honey, fool, person, attention, street.\nRemaining words for your opponent are: mouth, darling, town, daddy, key, shot, choice.\nRemaining distractor words are: colonel, officer, pleasure, face, plan, bag, woman.\nRemaining kill words are: son.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:32.832514",
+        "action": {
+          "type": "get message",
+          "content": "CLUE: home\nTARGETS: apartment, honey, fool",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:32.832754",
+        "action": {
+          "type": "clue",
+          "content": "home"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:32.832785",
+        "action": {
+          "type": "targets",
+          "content": [
+            "apartment",
+            "honey",
+            "fool"
+          ]
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:32.832810",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "apartment",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:32.832829",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "honey",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:32.832847",
+        "action": {
+          "type": "word targeted",
+          "content": {
+            "word": "fool",
+            "assignment": "team"
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-08T08:10:32.833072",
+        "action": {
+          "type": "send message",
+          "content": "The word baby was guessed but is an opponent word. Your turn ended there.\nNow provide another comma-separated list of at least 1 and up to 3 words from the following list of words that best relate or are most closely associated with the word 'home'. Remember to start your answer with 'GUESS: '. Notice: some words have been removed from the list compared to previous requests.\n\nchoice, son, attention, darling, pleasure, apartment, person, plan, woman, officer, street, fool, colonel, honey, month, mouth, shot, daddy, face, president, husband, key, bag",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:33.465730",
+        "action": {
+          "type": "get message",
+          "content": "GUESS: apartment, home, key",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-08T08:10:33.465851",
+        "action": {
+          "type": "validation error",
+          "content": {
+            "player": "Guesser",
+            "type": "guess is clue word",
+            "utterance": "apartment, home, key",
+            "message": "Guessed word 'home' is the same word as the provided clue word, you should only select words from the provided list.",
+            "guess": "home",
+            "clue": "home"
+          }
+        }
+      }
+    ]
+  ],
+  "board end status": {
+    "hidden": {
+      "team": [
+        "president",
+        "month",
+        "apartment",
+        "husband",
+        "honey",
+        "fool",
+        "person",
+        "attention",
+        "street"
+      ],
+      "innocent": [
+        "colonel",
+        "officer",
+        "pleasure",
+        "face",
+        "plan",
+        "bag",
+        "woman"
+      ],
+      "opponent": [
+        "mouth",
+        "darling",
+        "daddy",
+        "key",
+        "shot",
+        "choice"
+      ],
+      "assassin": [
+        "son"
+      ]
+    },
+    "revealed": {
+      "team": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "baby"
+        ],
+        "assassin": []
+      },
+      "opponent": {
+        "team": [],
+        "innocent": [],
+        "opponent": [
+          "town"
+        ],
+        "assassin": []
+      }
+    }
+  },
+  "Number of turns": 3,
+  "Aborted": true,
+  "Lose": false,
+  "Game ended through assassin": false,
+  "Request Count": 4,
+  "Parsed Request Count": 3,
+  "Violated Request Count": 1,
+  "Cluegiver engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  },
+  "Guesser engaged flags": {
+    "IGNORE RAMBLING": 0,
+    "IGNORE FALSE TARGETS OR GUESSES": 0,
+    "REPROMPT ON ERROR": 0,
+    "STRIP WORDS": 0,
+    "IGNORE NUMBER OF TARGETS": 0
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "game_name": "ifeval",
+    "experiment_name": "ifeval",
+    "game_id": 64,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "InstructionFollower",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T08:08:54.878428",
+        "action": {
+          "type": "send message",
+          "content": "Write a funny article about why the dinosaurs went extinct and put double quotations marks around your whole response. Include exactly 8 bullet points in your response. The bullet points should be in the form of:\n* This is bullet 1\n* This is bullet 2\n...",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:09:24.579555",
+        "action": {
+          "type": "get message",
+          "content": "\"“The Great Dino-Mite: A Hilarious Explanation for the Dinosaurs’ Demise”\"\n\n* \"It was a typical Tuesday afternoon when the dinosaurs decided to have a massive party. They invited all their friends, including the triceratops, the velociraptors, and even the occasional pterodactyl. The music was blasting, the snacks were flowing, and the dancing was in full swing.\"\n* \"But little did they know, their party was about to get crashed by a group of pesky asteroids. It was like the dinosaurs had invited the wrong guests to the party – the kind that bring a wrecking ball instead of a gift.\"\n* \"The dinosaurs were so caught up in their fun that they didn't even notice the asteroids coming. It was like they were in a dino-mite-induced coma, completely oblivious to the impending doom.\"\n* \"When the asteroids finally hit, it was like a giant game of whack-a-mole. The dinosaurs were running around, trying to avoid the falling rocks, but it was like they were playing a game of musical chairs – except instead of chairs, it was asteroids.\"\n* \"The triceratops tried to use its frill to deflect the asteroids, but it was like trying to stop a speeding bullet with a feather boa. The velociraptors tried to use their sharp claws to climb up the asteroids, but it was like trying to climb a greased pole.\"\n* \"The pterodactyls tried to fly away, but it was like trying to outrun a tornado. They were like, 'Oh no, we're going to be extinct!' And the dinosaurs were all, 'Dude, we're already extinct – we just don't know it yet.'\"\n* \"In the end, it was like the dinosaurs were in a giant game of Jenga. They were all, 'I'm not going to be the one to make the dinosaurs go extinct!' But in the end, it was like, 'Oh wait, I'm the one who made the dinosaurs go extinct!'\"\n* \"And so, the dinosaurs went extinct, but not before they left behind a legacy of laughter and good times. They were like the dinosaurs of comedy – they went out with a bang, but not before they made us all laugh.\"",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:09:24.579619",
+        "action": {
+          "type": "target",
+          "content": {
+            "startend:quotation": {},
+            "detectable_format:number_bullet_lists": {
+              "num_bullets": 8
+            }
+          }
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:09:24.579706",
+        "action": {
+          "type": "followed all instructions",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

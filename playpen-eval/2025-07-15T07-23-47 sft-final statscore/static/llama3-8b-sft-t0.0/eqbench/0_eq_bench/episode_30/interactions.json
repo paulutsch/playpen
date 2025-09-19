@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "game_name": "eqbench",
+    "experiment_name": "eq_bench",
+    "game_id": 156,
+    "results_folder": "llama3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "peft_model": "models/sft+lora/llama3-8b/checkpoint-3690",
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "llama3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-15T08:04:54.619264",
+        "action": {
+          "type": "send message",
+          "content": "\nYour task is to predict the likely emotional responses of a character in this dialogue:\n\nEilis: Remy, you're late.\nRemy: And you're as punctual as ever, Eilis. Still chasing shadows, are we?\nEilis: Better shadows than illusions of grandeur, Remy.\nRemy: Ah, the sting of your wit. I've missed that. \nEilis: And I've missed your incessant need to prove something.\nRemy: Is that so? Well, I suppose we're both here for the same reason then.\nEilis: Don't flatter yourself, Remy. Our reasons couldn't be more different.\n[End dialogue]\n\nAt the end of this dialogue, Remy would feel...\nDismissed\nAmused\nIntimidated\nIndifferent\n\nGive each of these possible emotions a score from 0-10 for the relative intensity that they are likely to be feeling each.\n\nYou must output in the following format, including headings (of course, you should give your own scores), with no additional commentary:\n\nDismissed: <score>\nAmused: <score>\nIntimidated: <score>\nIndifferent: <score>\n\n\n[End of answer]\n\nRemember: zero is a valid score, meaning they are likely not feeling that emotion. You must score at least one emotion > 0.\n\nYour answer:\n",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:04:56.198558",
+        "action": {
+          "type": "get message",
+          "content": "Amused: 8\nDismissed: 0\nIntimidated: 0\nIndifferent: 0",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:04:56.198656",
+        "action": {
+          "type": "parsed",
+          "content": "Amused: 8\nDismissed: 0\nIntimidated: 0\nIndifferent: 0"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:04:56.198673",
+        "action": {
+          "type": "target",
+          "content": "Dismissed: 7\nAmused: 6\nIntimidated: 0\nIndifferent: 3"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-15T08:04:56.198685",
+        "action": {
+          "type": "not exact match",
+          "content": "game_result = LOSE"
+        }
+      }
+    ]
+  ],
+  "Parsed Response": {
+    "Amused": 8,
+    "Dismissed": 0,
+    "Intimidated": 0,
+    "Indifferent": 0
+  },
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}

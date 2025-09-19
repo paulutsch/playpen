@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+
+.game-round {
+  padding: 20px 0 20px 0;
+  background-color: #f0f8ff; /* light background for content */
+  position: relative; /* Important to position the badge */
+  border-radius: 10px;
+  margin: 10px 0 10px 0;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge in top-right corner */
+.game-round::before {
+  content: "Round " attr(data-round);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #c4c3c3;
+  padding: 0px 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for mmlu_pro_health, episode 284 with llama3-8b-dpo-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+<div class="game-round" data-round="0">
+    <div speaker="GM (Game Master) to Player 1 (Answerer)" class="msg gm-a" style="">
+        <p>The following are multiple choice questions (with answers) about health. Answer only with &quot;The answer is (X)&quot; where X is the correct letter choice.<br/><br/>Question:<br/>Which of the following is the body cavity that contains the pituitary gland?<br/>Options:<br/>A. Ventral<br/>B. Dorsal<br/>C. Buccal<br/>D. Thoracic<br/>E. Pericardial<br/>F. Abdominal<br/>G. Spinal<br/>H. Pelvic<br/>I. Pleural<br/>J. Cranial<br/>The answer is (J)<br/><br/>Question:<br/>What is the embryological origin of the hyoid bone?<br/>Options:<br/>A. The third and fourth pharyngeal arches<br/>B. The fourth pharyngeal arch<br/>C. The third pharyngeal arch<br/>D. The second pharyngeal arch<br/>E. The second, third and fourth pharyngeal arches<br/>F. The first pharyngeal arch<br/>G. The second and third pharyngeal arches<br/>H. The first and third pharyngeal arches<br/>I. The first, second and third pharyngeal arches<br/>J. The first and second pharyngeal arches<br/>The answer is (G)<br/><br/>Question:<br/>What is the difference between a male and a female catheter?<br/>Options:<br/>A. Female catheters are used more frequently than male catheters.<br/>B. Male catheters are bigger than female catheters.<br/>C. Male catheters are more flexible than female catheters.<br/>D. Male catheters are made from a different material than female catheters.<br/>E. Female catheters are longer than male catheters.<br/>F. Male catheters are longer than female catheters.<br/>G. Female catheters are bigger than male catheters.<br/>H. Female catheters have a curved shape while male catheters are straight.<br/>I. Male and female catheters are different colours.<br/>J. Male catheters have a smaller diameter than female catheters.<br/>The answer is (F)<br/><br/>Question:<br/>How many attempts should you make to cannulate a patient before passing the job on to a senior colleague, according to the medical knowledge of 2020?<br/>Options:<br/>A. 1<br/>B. Unlimited attempts<br/>C. 5<br/>D. 0, always pass on to a senior colleague<br/>E. 7<br/>F. 2<br/>G. 4<br/>H. 6<br/>I. 3<br/>J. 8<br/>The answer is (F)<br/><br/>Question:<br/>Why are parvoviruses a highly impactful parasite?<br/>Options:<br/>A. They are able to alter the host&#x27;s DNA<br/>B. Because they have no nucleic acid<br/>C. They can survive in extreme temperatures<br/>D. Only replicate in dividing cells<br/>E. They can infect multiple species<br/>F. They don&#x27;t require a host to survive<br/>G. Can integrate into host chromosomes<br/>H. N/A<br/>I. N/A<br/>J. N/A<br/>The answer is (B)<br/><br/>Question:<br/>Which of the following could very well be a cohort difference rather than a change that occurs with age?<br/>Options:<br/>A. Loss of muscle mass<br/>B. Shrinkage of the thymus gland<br/>C. Differences in weight<br/>D. Changes in metabolism rate<br/>E. Changes in eyesight<br/>F. Enlargement of the heart<br/>G. Increase in wrinkles<br/>H. Loss of hair color<br/>I. Decreasing bone density<br/>J. Increasing size of nose and ears<br/></p>
+    </div>
+
+    <div speaker="Player 1 (Answerer) to GM (Game Master)" class="msg a-gm" style="">
+        <p>The answer is (J)<br/><br/>The answer is (D)<br/><br/>The answer is (F)<br/><br/>The answer is (J)</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm" style="">
+        <p>ParseError: Response contains more than a one answer, but the expected format is to only give one.</p>
+    </div>
+
+    <div speaker="Game Master: invalid format" class="msg gm-gm" style="">
+        <p>game_result = ABORT</p>
+    </div>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,608 @@
+{
+  "meta": {
+    "game_name": "privateshared",
+    "experiment_name": "restaurant",
+    "game_id": 2,
+    "results_folder": "tulu3-8b-dpo-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-dpo",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-DPO",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "tulu3-8b-dpo"
+    },
+    "Player 2": {
+      "game_role": "Questioner",
+      "model_name": "programmatic"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:32.676195",
+        "action": {
+          "type": "send message",
+          "content": "You are a customer in a restaurant. Here is a description of what you'd like to order:\n\nWHAT: Restaurant\nAPPETIZER: Bread\nDRINK: Wine\nMAIN-DISH: Biryani\nDESSERT: Pie\nSALAD: Lettuce\n\nThe waiter does not know about it yet. \n\nQuestions from the waiter will start with WAITER. Please reply in the form: ANSWER: <one sentence>\n\nI will also ask you questions. These questions will start with ME: . Please answer these questions with: ASIDE: <one sentence>\n\nImportant: Give short, direct answers!\n\nLet us start.",
+          "label": "pseudo"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:32.676217",
+        "action": {
+          "type": "get message",
+          "content": "Ok.",
+          "label": "pseudo"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:32.676257",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you told the waiter what you want as appetizers? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:33.181318",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No, I haven't told the waiter yet.<|end_of_text|>",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:33.181371",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:33.181393",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for APPETIZER valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:33.181405",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:33.181428",
+        "action": {
+          "type": "send message",
+          "content": "ME:  If I asked the waiter what you want to drink, would he know the answer? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:33.413656",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes.<|end_of_text|>",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:33.413706",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:33.413726",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for DRINK valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:33.413737",
+        "action": {
+          "type": "check",
+          "content": "Answer is incorrect."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:33.413759",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Is the waiter aware of your choice for the main dish? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:34.130215",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No, the waiter is not aware of my choice for the main dish yet.<|end_of_text|>",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:34.130270",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:34.130293",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for MAIN-DISH valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:34.130305",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:34.130328",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Have you ordered dessert? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:34.529686",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: Yes, I have ordered dessert.<|end_of_text|>",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:34.529735",
+        "action": {
+          "type": "parse",
+          "content": "yes"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:34.529755",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for DESSERT valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:34.529766",
+        "action": {
+          "type": "check",
+          "content": "Answer is incorrect."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:34.529788",
+        "action": {
+          "type": "send message",
+          "content": "ME:  Is the waiter aware of your preference for salad? Answer this question with yes or no and then stop.",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:35.166727",
+        "action": {
+          "type": "get message",
+          "content": "ASIDE: No, the waiter is not aware of my preference for salad yet.<|end_of_text|>",
+          "label": "forget"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:35.166779",
+        "action": {
+          "type": "parse",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:35.166800",
+        "action": {
+          "type": "metadata",
+          "content": "Answer for SALAD valid after 1 tries."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:35.166812",
+        "action": {
+          "type": "check",
+          "content": "Answer is correct."
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T18:32:35.166847",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:35.166881",
+        "action": {
+          "type": "get message",
+          "content": "Would you like anything for dessert?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:35.166935",
+        "action": {
+          "type": "send message",
+          "content": "WAITER: Would you like anything for dessert?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:36.210673",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes, I would like a piece of pie.\n\nASIDE: I'm in the mood for something sweet after the main dish.<|end_of_text|>",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T18:32:36.210916",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:36.210951",
+        "action": {
+          "type": "get message",
+          "content": "May I bring you anything to drink?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:36.210997",
+        "action": {
+          "type": "send message",
+          "content": "WAITER: May I bring you anything to drink?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:37.355049",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes, I'll have a glass of red wine, please.\n\nASIDE: A glass of wine would pair nicely with the biryani.<|end_of_text|>",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T18:32:37.355348",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:37.355391",
+        "action": {
+          "type": "get message",
+          "content": "Which salad may I bring you?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:37.355439",
+        "action": {
+          "type": "send message",
+          "content": "WAITER: Which salad may I bring you?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:38.255955",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: I'll have the lettuce salad, please.\n\nASIDE: A simple salad will complement the main dish well.<|end_of_text|>",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T18:32:38.256157",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:38.256194",
+        "action": {
+          "type": "get message",
+          "content": "Have you chosen your appetizers?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:38.256239",
+        "action": {
+          "type": "send message",
+          "content": "WAITER: Have you chosen your appetizers?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:39.274732",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: Yes, I'll have some bread, please.\n\nASIDE: Bread is a classic and comforting choice for an appetizer.<|end_of_text|>",
+          "label": "response"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 2",
+        "timestamp": "2025-07-14T18:32:39.274977",
+        "action": {
+          "type": "send message",
+          "content": "What is the next request?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 2",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:39.275014",
+        "action": {
+          "type": "get message",
+          "content": "What do you prefer as main dish?",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T18:32:39.275059",
+        "action": {
+          "type": "send message",
+          "content": "WAITER: What do you prefer as main dish?",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:40.264336",
+        "action": {
+          "type": "get message",
+          "content": "ANSWER: I'll have the biryani, please.\n\nASIDE: I'm in the mood for something flavorful and aromatic.<|end_of_text|>",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T18:32:40.264506",
+        "action": {
+          "type": "end",
+          "content": "Game finished."
+        }
+      }
+    ]
+  ],
+  "probes": [
+    [
+      {
+        "target": "APPETIZER",
+        "question": "ME: Have you told the waiter what you want as appetizers? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No, I haven't told the waiter yet.<|end_of_text|>",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "DRINK",
+        "question": "ME: If I asked the waiter what you want to drink, would he know the answer? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: Yes.<|end_of_text|>",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "MAIN-DISH",
+        "question": "ME: Is the waiter aware of your choice for the main dish? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No, the waiter is not aware of my choice for the main dish yet.<|end_of_text|>",
+        "value": 0,
+        "tries": 1
+      },
+      {
+        "target": "DESSERT",
+        "question": "ME: Have you ordered dessert? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: Yes, I have ordered dessert.<|end_of_text|>",
+        "value": 1,
+        "tries": 1
+      },
+      {
+        "target": "SALAD",
+        "question": "ME: Is the waiter aware of your preference for salad? Answer this question with yes or no and then stop.",
+        "gt": 0,
+        "answer": "ASIDE: No, the waiter is not aware of my preference for salad yet.<|end_of_text|>",
+        "value": 0,
+        "tries": 1
+      }
+    ]
+  ],
+  "realised_slots": {
+    "dessert": 0,
+    "drink": 1,
+    "salad": 2,
+    "appetizer": 3,
+    "main-dish": 4
+  },
+  "Request Count": [
+    5,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "Parsed Request Count": [
+    5,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "Violated Request Count": [
+    0,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "Filled Slots": [],
+  "Aborted": false,
+  "Played Probe Rounds": 1
+}

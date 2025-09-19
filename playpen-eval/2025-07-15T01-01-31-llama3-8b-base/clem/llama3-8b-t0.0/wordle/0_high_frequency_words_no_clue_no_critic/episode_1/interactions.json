@@ -1,0 +1,277 @@
+{
+  "meta": {
+    "game_name": "wordle",
+    "experiment_name": "high_frequency_words_no_clue_no_critic",
+    "game_id": 8,
+    "results_folder": "llama3-8b-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "llama3-8b",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "WordGuesser",
+      "model_name": "llama3-8b"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:36:35.252012",
+        "action": {
+          "type": "send message",
+          "content": "You are a language wizard who likes to guess words by using the given rules.\n\nWelcome to Wordle! You have six attempts to guess the target word, a valid English word of five lowercase letters (a-z). Please use the tags \"explanation:\" and \"guess:\" to provide a concise explanation for each guess.\n\nFor instance, if your guess is \"apple\", your response should be\nexplanation: this is a common five-letter English word, and I am starting my guess with this word.\nguess: apple\n\nAfter each guess, your answer will be validated, and you will receive feedback indicating which letters are correct (green), which letters are correct but in the wrong position (yellow), and which letters are incorrect (red). This feedback can be useful in determining which letters to include or exclude in your next guess.\n\nFor example, the feedback for \"apple\" might be:\nguess_feedback: a<yellow> p<yellow> p<green> l<yellow> e<red>\n\nThe explanation should contain details about how the guess_feedback is used to arrive at a new guess.\n\nDo not generate any other text.\n\nLet's begin with your first guess.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:36.040898",
+        "action": {
+          "type": "get message",
+          "content": "explanation: I'm starting with a common five-letter English word that is often used in everyday conversations.\nguess: house",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:36.041147",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 1\ntarget_word = staff\nguess = house\nguess_feedback = h<red> o<red> u<red> s<yellow> e<red>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:36:36.041194",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: h<red> o<red> u<red> s<yellow> e<red>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:37.579755",
+        "action": {
+          "type": "get message",
+          "content": "explanation: Since \"s\" is the only yellow letter, it means the word contains \"s\" but not in the correct position. I will try to find a word that has \"s\" in a different position.\nguess: bless",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:37.579899",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 2\ntarget_word = staff\nguess = bless\nguess_feedback = b<red> l<red> e<red> s<yellow> s<red>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:36:37.579944",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: b<red> l<red> e<red> s<yellow> s<red>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:39.417259",
+        "action": {
+          "type": "get message",
+          "content": "explanation: The word still contains \"s\" but not in the correct position, and the letter \"s\" appears twice in the word. I will try to find a word that has \"s\" in a different position and consider the possibility of double letters.\nguess: messy",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:39.417577",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 3\ntarget_word = staff\nguess = messy\nguess_feedback = m<red> e<red> s<yellow> s<red> y<red>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:36:39.417622",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: m<red> e<red> s<yellow> s<red> y<red>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:41.226500",
+        "action": {
+          "type": "get message",
+          "content": "explanation: The word still contains \"s\" but not in the correct position, and the letter \"s\" appears twice in the word. I will try to find a word that has \"s\" in a different position and consider the possibility of double letters.\nguess: dress",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:41.226699",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 4\ntarget_word = staff\nguess = dress\nguess_feedback = d<red> r<red> e<red> s<yellow> s<red>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:36:41.226745",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: d<red> r<red> e<red> s<yellow> s<red>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:43.076277",
+        "action": {
+          "type": "get message",
+          "content": "explanation: The word still contains \"s\" but not in the correct position, and the letter \"s\" appears twice in the word. I will try to find a word that has \"s\" in a different position and consider the possibility of double letters.\nguess: fossa",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:43.076504",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 5\ntarget_word = staff\nguess = fossa\nguess_feedback = f<yellow> o<red> s<yellow> s<red> a<yellow>"
+        }
+      }
+    ],
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T22:36:43.076560",
+        "action": {
+          "type": "send message",
+          "content": "guess_feedback: f<yellow> o<red> s<yellow> s<red> a<yellow>\n\nProvide your response only in this format.\nexplanation: details\nguess: word",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:45.027168",
+        "action": {
+          "type": "get message",
+          "content": "explanation: The word contains \"f\", \"s\" (twice), and \"a\" in the correct positions, and \"o\" is in the word but not in the correct position. I will try to find a word that has these letters in the correct positions.\nguess: fossa",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:45.027395",
+        "action": {
+          "type": "metadata",
+          "content": "attempts = 6\ntarget_word = staff\nguess = fossa\nguess_feedback = f<yellow> o<red> s<yellow> s<red> a<yellow>"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T22:36:45.027411",
+        "action": {
+          "type": "max rounds played",
+          "content": "game_result = LOSS"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 1,
+  "Success": 0,
+  "Request Count": 6,
+  "Parsed Request Count": 6,
+  "Violated Request Count": 0,
+  "Guesser Guesses": [
+    "house",
+    "bless",
+    "messy",
+    "dress",
+    "fossa",
+    "fossa"
+  ],
+  "Guesser Feedbacks": [
+    "h<red> o<red> u<red> s<yellow> e<red>",
+    "b<red> l<red> e<red> s<yellow> s<red>",
+    "m<red> e<red> s<yellow> s<red> y<red>",
+    "d<red> r<red> e<red> s<yellow> s<red>",
+    "f<yellow> o<red> s<yellow> s<red> a<yellow>",
+    "f<yellow> o<red> s<yellow> s<red> a<yellow>"
+  ],
+  "Guesser Explanations": [
+    "I'm starting with a common five-letter English word that is often used in everyday conversations.",
+    "Since \"s\" is the only yellow letter, it means the word contains \"s\" but not in the correct position. I will try to find a word that has \"s\" in a different position.",
+    "The word still contains \"s\" but not in the correct position, and the letter \"s\" appears twice in the word. I will try to find a word that has \"s\" in a different position and consider the possibility of double letters.",
+    "The word still contains \"s\" but not in the correct position, and the letter \"s\" appears twice in the word. I will try to find a word that has \"s\" in a different position and consider the possibility of double letters.",
+    "The word still contains \"s\" but not in the correct position, and the letter \"s\" appears twice in the word. I will try to find a word that has \"s\" in a different position and consider the possibility of double letters.",
+    "The word contains \"f\", \"s\" (twice), and \"a\" in the correct positions, and \"o\" is in the word but not in the correct position. I will try to find a word that has these letters in the correct positions."
+  ]
+}

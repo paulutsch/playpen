@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "game_name": "cladder",
+    "experiment_name": "full_v1.5_default",
+    "game_id": 5203,
+    "results_folder": "tulu3-8b-sft-t0.0",
+    "clem_version": "3.2.0"
+  },
+  "player_models": {
+    "0": {
+      "model_name": "tulu3-8b-sft",
+      "backend": "huggingface_local",
+      "context_size": "128k",
+      "huggingface_id": "allenai/Llama-3.1-Tulu-3-8B-SFT",
+      "languages": [
+        "en",
+        "de",
+        "fr",
+        "it",
+        "pt",
+        "hi",
+        "es",
+        "th"
+      ],
+      "license": {
+        "name": "Meta",
+        "url": "https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/LICENSE"
+      },
+      "lookup_source": "/home/users/alueser/playpen/model_registry.json",
+      "model_config": {
+        "requires_api_key": true,
+        "premade_chat_template": true,
+        "eos_to_cull": "<\\|eot_id\\|>"
+      },
+      "open_weight": true,
+      "parameters": "8B",
+      "release_date": "2024-07-23"
+    }
+  },
+  "players": {
+    "GM": {
+      "game_role": "Game Master",
+      "model_name": "programmatic"
+    },
+    "Player 1": {
+      "game_role": "Answerer",
+      "model_name": "tulu3-8b-sft"
+    }
+  },
+  "turns": [
+    [
+      {
+        "from": "GM",
+        "to": "Player 1",
+        "timestamp": "2025-07-14T23:00:30.070588",
+        "action": {
+          "type": "send message",
+          "content": "You are an expert in causal inference. The following question is not a typical commonsense query, but rather a meticulously designed question created by a professor specializing in causal inference, intended to assess the students' mastery of the course content.\nImagine a self-contained, hypothetical world with only the following conditions, and without any unmentioned factors or causal relationships: Encouragement level has a direct effect on studying habit and brown eyes. Studying habit has a direct effect on brown eyes. The overall probability of encouragement is 91%. The probability of discouragement and brown eyes is 7%. The probability of encouragement and brown eyes is 58%. Is the chance of brown eyes larger when observing encouragement?\nStart your answer with 'Yes' or 'No', followed by additional reasoning or evidence to support your explanation.",
+          "label": "context"
+        }
+      },
+      {
+        "from": "Player 1",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:00:39.472296",
+        "action": {
+          "type": "get message",
+          "content": "No, the chance of brown eyes is not larger when observing encouragement. \n\nTo determine this, we can use the law of total probability. Let's define the following events:\n\n- E: Encouragement\n- D: Discouragement\n- B: Brown eyes\n- S: Studying habit\n\nWe are given the following probabilities:\n\n- P(E) = 0.91\n- P(D) = 0.07\n- P(B|E) = 0.58\n- P(B|D) = 0.07\n\nWe need to find P(B|E), the probability of brown eyes given encouragement. Using the law of total probability, we can express P(B) as follows:\n\nP(B) = P(B|E)P(E) + P(B|D)P(D)\n\nSubstituting the given probabilities, we get:\n\nP(B) = (0.58 * 0.91) + (0.07 * 0.07)\nP(B) = 0.5278 + 0.0049\nP(B) = 0.5327\n\nNow, we can find P(B|E) by dividing P(B) by P(E):\n\nP(B|E) = P(B) / P(E)\nP(B|E) = 0.5327 / 0.91\nP(B|E) = 0.585\n\nSo, the probability of brown eyes given encouragement is 0",
+          "label": "response"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:00:39.472425",
+        "action": {
+          "type": "parsed",
+          "content": "No"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:00:39.472441",
+        "action": {
+          "type": "target",
+          "content": "no"
+        }
+      },
+      {
+        "from": "GM",
+        "to": "GM",
+        "timestamp": "2025-07-14T23:00:39.472452",
+        "action": {
+          "type": "correct label",
+          "content": "game_result = WIN"
+        }
+      }
+    ]
+  ],
+  "Aborted": 0,
+  "Lose": 0,
+  "Success": 1,
+  "Request Count": 1,
+  "Parsed Request Count": 1,
+  "Violated Request Count": 0
+}
